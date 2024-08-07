@@ -1,0 +1,75 @@
+.cardContainer {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr); /* Максимум 5 карточек в строке */
+	gap: 20px; /* Отступ между карточками */
+	padding: 20px; /* Отступы для контейнера */
+}
+
+.card {
+	cursor: pointer;
+	height: 206px; /* Высота карточки */
+	position: relative; /* Для позиционирования текста */
+	overflow: hidden; /* Скрытие лишнего содержимого */
+	border-radius: 8px; /* Радиус углов карточки */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Тень карточки */
+	transition: transform 0.3s; /* Плавный переход при наведении */
+}
+
+.card:hover {
+	transform: scale(1.05); /* Увеличение карточки при наведении */
+}
+
+.cardImage {
+	width: 100%;
+	height: 100%;
+	background-size: cover; /* Обложка для заполнения карточки */
+	background-position: center; /* Центрирование изображения */
+}
+
+.cardText {
+	position: absolute; /* Абсолютное позиционирование текста */
+	bottom: 20px; /* Отступ от нижней грани карточки */
+	left: 0;
+	right: 0;
+	text-align: center; /* Центрирование текста */
+	color: white; /* Белый текст */
+	text-shadow: 0 0 30px rgba(0, 0, 0, 0.7); /* Тень текста */
+	padding: 5px; /* Отступы для текста */
+	background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон для текста */
+	border-radius: 4px; /* Радиус углов фона текста */
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 1024px) {
+	.cardContainer {
+		padding-top: 1px;
+		grid-template-columns: repeat(
+			4,
+			1fr
+		); /* Максимум 4 карточки в строке для планшетов */
+	}
+}
+
+@media (max-width: 768px) {
+	.cardContainer {
+		grid-template-columns: repeat(
+			3,
+			1fr
+		); /* Максимум 3 карточки в строке для мобильных */
+	}
+}
+
+@media (max-width: 480px) {
+	.cardContainer {
+		grid-template-columns: repeat(
+			2,
+			1fr
+		); /* Максимум 2 карточки в строке для маленьких мобильных */
+	}
+}
+
+@media (max-width: 320px) {
+	.cardContainer {
+		grid-template-columns: 1fr; /* Одна карточка в строке для очень маленьких экранов */
+	}
+}

@@ -1,0 +1,91 @@
+/* HomeEvents.module.css */
+.container {
+	position: relative;
+	width: 75%;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.image {
+	margin-top: 30px;
+	width: 100%;
+	height: auto;
+}
+
+.text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: white;
+	font-size: 35px !important; /* Основной размер шрифта */
+	font-weight: bold !important;
+	text-align: center;
+	z-index: 1;
+}
+
+/* Медиа-запросы для адаптивности текста */
+@media (max-width: 1200px) {
+	.text {
+		font-size: 33px !important; /* Уменьшенный размер шрифта для экранов меньше 1200px */
+	}
+}
+
+@media (max-width: 992px) {
+	.container {
+		width: 100%;
+	}
+	.image {
+		margin-top: 25px;
+	}
+	.text {
+		font-size: 28px !important; /* Уменьшенный размер шрифта для экранов меньше 992px */
+	}
+}
+@media (max-width: 768px) {
+	.image {
+		margin-top: 20px;
+	}
+	.container {
+		width: 100%;
+	}
+	.text {
+		font-size: 23px !important; /* Уменьшенный размер шрифта для экранов меньше 768px */
+	}
+}
+@media (max-width: 610px) {
+	.image {
+		margin-top: 15px;
+	}
+	.container {
+		width: 100%;
+	}
+	.text {
+		font-size: 17px !important; /* Уменьшенный размер шрифта для экранов меньше 1200px */
+		font-weight: 400;
+	}
+}
+
+.iconButton:focus {
+	outline: none;
+}
+.dotContainer {
+	display: flex;
+	justify-content: center;
+	position: absolute; /* Изменение на absolute */
+	bottom: 20px; /* Расположение точек на 20px от нижней части изображения */
+	left: 50%;
+	transform: translateX(-50%); /* Центрирование по горизонтали */
+	z-index: 2; /* Убедитесь, что точки выше изображения */
+	margin: 0; /* Убедитесь, что нет отступов */
+}
+
+.dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin: 0 5px;
+	cursor: pointer;
+}

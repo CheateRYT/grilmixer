@@ -1,0 +1,45 @@
+.map {
+	max-width: 50%;
+	margin: 0 auto; /* Центрируем контейнер */
+	display: flex; /* Используем Flexbox для центрирования */
+	justify-content: center; /* Центрируем по горизонтали */
+	align-items: center; /* Центрируем по вертикали */
+}
+
+/* Стили для iframe */
+.map iframe {
+	width: 100%; /* Занимает 100% ширины родительского контейнера */
+	height: 400px; /* Высота по умолчанию */
+	border: none; /* Убираем рамку */
+}
+
+/* Медиазапросы для адаптации */
+@media (max-width: 1200px) {
+	.map {
+		max-width: 70%;
+	}
+	/* Для ПК (до 1200px) */
+	.map iframe {
+		height: 400px; /* Высота для ПК */
+	}
+}
+
+@media (max-width: 768px) {
+	.map {
+		max-width: 80%;
+	}
+	/* Для планшетов (до 768px) */
+	.map iframe {
+		height: 400px; /* Высота для планшетов */
+	}
+}
+
+@media (max-width: 480px) {
+	.map {
+		max-width: 90%;
+	}
+	/* Для мобильных устройств (до 480px) */
+	.map iframe {
+		height: 300px; /* Высота для мобильных */
+	}
+}

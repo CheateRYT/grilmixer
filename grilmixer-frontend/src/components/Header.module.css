@@ -1,0 +1,149 @@
+.logo {
+	min-height: 3vh;
+	font-size: 4cap; /* Адаптивный размер шрифта */
+	color: #b20522;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.1em; /* Адаптивный интервал между буквами */
+}
+
+.header {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 1.4vh 0; /* Адаптивный отступ сверху и снизу */
+	position: relative;
+}
+
+.header::after {
+	content: '';
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 2px; /* Адаптивная толщина линии */
+	background-color: #b20522;
+}
+
+.categoryRow {
+	width: 60%;
+	max-width: 70rem; /* Адаптивная ширина */
+	align-items: center;
+	text-align: center;
+	gap: 1vh; /* Адаптивный отступ между элементами */
+	font-size: 1.5rem; /* Увеличенный размер текста */
+	padding: 1vh 2rem; /* Адаптивные отступы */
+	display: flex;
+	overflow-x: auto;
+	white-space: nowrap;
+	margin-left: 2rem; /* Отступ слева */
+
+	/* Изменения для скроллбара */
+	scrollbar-width: thin;
+	scrollbar-color: #b20522 transparent;
+}
+
+.categoryRow::-webkit-scrollbar {
+	width: 1px; /* Уменьшенная ширина скроллбара */
+}
+
+.categoryRow::-webkit-scrollbar-thumb {
+	background-color: white;
+	border-radius: 1vh;
+}
+
+.categoryRow p {
+	display: inline-block;
+	padding: 0.5vh 1vh; /* Уменьшенные отступы */
+	margin: 0 0.5rem;
+	color: white;
+	border: 0.05rem solid #ccc;
+	border-radius: 0.5rem;
+	font-size: 1.6rem; /* Уменьшенный размер текста */
+}
+
+.categoryRow p:hover {
+	cursor: pointer;
+	background-color: #b20522;
+}
+.afterHeader {
+	display: flex;
+	justify-content: space-around;
+}
+
+.cartBtn {
+	background-color: #b20522;
+	padding-top: 10px;
+
+	color: white;
+	padding-left: 0.8rem /* 8px */;
+	padding-right: 0.8rem /* 8px */;
+	padding-top: 0.5rem /* 4px */;
+	border-radius: 0.5rem /* 4px */;
+	padding-bottom: 0.5rem /* 4px */;
+}
+.cartIcon {
+	width: 2.5rem;
+	height: 2.5rem;
+}
+.cartHeader {
+	display: flex;
+	gap: 10rem;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.trashIcon {
+	height: 4rem;
+	width: 4rem;
+}
+@media screen and (max-width: 48rem) {
+	.logo {
+		font-size: 4vh; /* Адаптивный размер шрифта */
+	}
+	.cartIcon {
+		width: 2rem;
+		height: 2rem;
+	}
+	.cartBtn {
+		padding: 0.4rem 0.6rem; /* Уменьшаем отступы для меньших устройств */
+	}
+	.header {
+		padding: 1vh;
+	}
+
+	.categoryRow {
+		gap: 0.1vh;
+		margin-left: 1rem;
+		font-size: 1.25rem; /* Возврат к базовому размеру текста */
+	}
+
+	.categoryRow p {
+		font-size: 1.4rem; /* Уменьшенный размер текста */
+		padding: 0.3vh 0.5vh; /* Уменьшенные отступы */
+	}
+}
+
+@media screen and (max-width: 30rem) {
+	.logo {
+		font-size: 3.5vh; /* Адаптивный размер шрифта */
+	}
+	.cartIcon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+	.cartBtn {
+		padding: 0.3rem 0.6rem; /* Еще больше уменьшаем отступы для маленьких устройств */
+	}
+	.categoryRow {
+		gap: 0.01vh;
+		font-size: 1rem;
+		margin-left: 0.5rem; /* Отступ слева */
+		/* Уменьшенный размер текста */
+	}
+
+	.categoryRow p {
+		font-size: 1.1rem; /* Еще более уменьшенный размер текста */
+		padding: 0.2vh 0.3vh; /* Еще более уменьшенные отступы */
+	}
+}

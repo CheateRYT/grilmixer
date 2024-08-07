@@ -1,0 +1,171 @@
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
+import { OrderDto } from 'src/dto/order.dto'
+import { GatewayService } from 'src/gateway.module.ts/gateway.service'
+import { PrismaService } from 'src/prisma.service'
+import * as YooKassa from 'yookassa'
+
+export const yookassa = new YooKassa({
+	shopId: process.env['SHOP_ID'],
+	secretKey: process.env['YOOKASSA_TOKEN']
+})
+
+@Injectable()
+export class OrderService {
+	constructor(
+		private prisma: PrismaService,
+		private gatewayService: GatewayService
+	) {}
+
+	async createOrder(orderData: OrderDto) {
+		try {
+			const products = await this.prisma.product.findMany({
+				where: {
+					id: {
+						in: orderData.products
+					}
+				}
+			})
+
+			const unavailableProducts = products.filter(
+				product => !product.isAvailable || product.isStopList
+			)
+			if (unavailableProducts.length > 0) {
+				throw new HttpException(
+					'Один или несколько товаров не доступны для заказа',
+					HttpStatus.BAD_REQUEST
+				)
+			}
+
+			const deliveryPrice = 300
+			let totalAmount = deliveryPrice
+			const receiptItems = []
+
+			// Обрабатываем все продукты в заказе
+			for (let i = 0; i < orderData.products.length; i++) {
+				const product = products[i]
+				const productCount = orderData.productsCount[i]
+
+				// Инициализируем стоимость дополнительных ингредиентов
+				let extraIngredientsCost = 0
+
+				// Проверяем наличие дополнительных ингредиентов
+				const extraIngredientsOrder = orderData.extraIngredientsOrder?.find(
+					item => item.productId === product.id
+				)
+
+				if (extraIngredientsOrder) {
+					const extraIngredientIds = extraIngredientsOrder.extraIngredients
+						.split(',')
+						.map(id => parseInt(id))
+					const extraIngredients = await this.prisma.extraIngredient.findMany({
+						where: {
+							id: {
+								in: extraIngredientIds
+							}
+						}
+					})
+
+					// Рассчитываем стоимость дополнительных ингредиентов с учетом количества
+					extraIngredientsCost = extraIngredients.reduce(
+						(sum, ingredient) =>
+							sum +
+							Number(ingredient.price) * extraIngredientsOrder.productCount, // Умножаем на количество дополнительных ингредиентов
+						0
+					)
+				}
+
+				// Рассчитываем общую стоимость для текущего продукта с учетом дополнительных ингредиентов
+				const productTotalPrice =
+					(Number(product.price) - Number(product.discount)) * productCount +
+					extraIngredientsCost
+
+				// Добавляем информацию о продукте в чек
+				receiptItems.push({
+					description: product.name,
+					quantity: productCount,
+					payment_subject: 'commodity',
+					amount: { value: productTotalPrice.toFixed(2), currency: 'RUB' },
+					vat_code: 1, // Налоговый код (1 - без НДС)
+					measure: 'piece'
+				})
+
+				// Добавляем стоимость текущего продукта к общей сумме
+				totalAmount += productTotalPrice
+
+				// Сохраняем дополнительные ингредиенты, если они есть
+				if (extraIngredientsOrder) {
+					await this.prisma.extraIngredientOrder.create({
+						data: {
+							productId: product.id,
+							extraIngredients: extraIngredientsOrder.extraIngredients,
+							productCount: extraIngredientsOrder.productCount
+						}
+					})
+				}
+			}
+
+			const newOrder = await this.prisma.order.create({
+				data: {
+					shopId: orderData.shopId,
+					amount: totalAmount.toFixed(2).toString(),
+					phoneNumber: orderData.phoneNumber,
+					deliveryAddress: orderData.deliveryAddress,
+					email: orderData.email,
+					clientName: orderData.clientName,
+					productsCount: orderData.productsCount.join(','),
+					products: {
+						connect: products.map(product => ({ id: product.id }))
+					},
+					extraIngredientsOrder: {
+						create: orderData.extraIngredientsOrder?.map(
+							extraIngredientOrder => ({
+								productId: extraIngredientOrder.productId,
+								extraIngredients: extraIngredientOrder.extraIngredients,
+								productCount: extraIngredientOrder.productCount
+							})
+						)
+					}
+				},
+				include: {
+					products: true,
+					extraIngredientsOrder: true
+				}
+			})
+
+			await this.prisma.notification.create({
+				data: {
+					shopId: newOrder.shopId,
+					orderId: newOrder.id
+				}
+			})
+
+			this.gatewayService.sendOrderCreatedEvent(newOrder.id)
+
+			const payment = await yookassa.createPayment({
+				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
+				confirmation: {
+					type: 'redirect',
+					locale: 'ru_RU',
+					return_url: 'https://merchant-website.com/return_url'
+				},
+				description: `Магазин ${orderData.shopName}. Заказ №` + newOrder.id,
+				metadata: {
+					order_id: newOrder.id
+				},
+				receipt: {
+					customer: {
+						email: orderData.email
+					},
+					items: receiptItems
+				}
+			})
+
+			return [newOrder, payment]
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка создания заказа: ' + error,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+}

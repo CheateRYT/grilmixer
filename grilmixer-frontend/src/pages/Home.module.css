@@ -1,0 +1,146 @@
+/* Default styles */
+.containerHome {
+	height: 100vh;
+	max-width: 100%;
+	align-items: center;
+	text-align: center;
+	overflow-x: hidden;
+	background-color: #111010;
+}
+.main {
+	padding-top: 50px;
+	max-width: 4000px;
+	align-items: center;
+	text-align: center;
+}
+.header {
+	text-align: center;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+	gap: 67px;
+}
+.header__logo {
+	color: #b20522;
+	font-size: 80px;
+	font-weight: bold;
+	z-index: 1;
+}
+.about {
+	padding-right: 15px;
+	color: white;
+	font-size: 36px;
+	font-weight: bold;
+}
+.about__address {
+}
+.about__phone {
+}
+.buttons {
+	margin-top: 70px;
+	padding-left: 100px;
+	display: flex;
+	gap: 65px;
+	flex-direction: column;
+	align-items: center;
+}
+.button {
+	text-align: center;
+	align-items: center;
+	font-size: 40px;
+	min-width: 25%;
+	font-weight: bold;
+	color: white;
+	padding: 30px 40px;
+	margin-bottom: 10px;
+	border-radius: 50px;
+}
+.button {
+	display: inline-block;
+	padding: 2vh 3vh; /* Уменьшенные отступы */
+	margin: 0 0.5rem;
+	color: white;
+	border: 0.2rem solid #b20522;
+	border-radius: 0.5rem;
+	font-size: 1rem; /* Уменьшенный размер текста */
+	text-shadow: 0 0 30px #b20522, 0 0 80px #b20522, 0 0 90px #fefefe;
+	min-width: 40%;
+	font-size: 28px;
+	padding: 40px 50px;
+	border-radius: 30px;
+}
+.button:hover {
+	cursor: pointer;
+}
+.loader {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+/* Media query for phones */
+@media only screen and (max-width: 1000px) {
+	.main {
+		padding-top: 40px;
+	}
+	.header__logo {
+		font-size: 50px;
+	}
+	.about {
+		font-size: 20px;
+	}
+	.buttons {
+		margin-top: 60px;
+		padding-left: 30px;
+	}
+	.button {
+		text-shadow: 0 0 20px #b20522, 0 0 60px #b20522, 0 0 70px #fefefe;
+		min-width: 40%;
+		font-size: 28px;
+		padding: 20px 30px;
+		border-radius: 30px;
+	}
+}
+/* Media query for phones */
+@media only screen and (max-width: 600px) {
+	.main {
+		padding-top: 30px;
+	}
+	.header__logo {
+		font-size: 40px;
+	}
+	.about {
+		font-size: 15px;
+	}
+	.buttons {
+		margin-top: 50px;
+		padding-left: 20px;
+	}
+	.button {
+		text-shadow: 0 0 20px #b20522, 0 0 60px #b20522, 0 0 70px #fefefe;
+		min-width: 30%;
+		font-size: 24px;
+		padding: 15px 25px;
+		border-radius: 20px;
+	}
+
+	/* Additional media queries for different screen sizes */
+	@media only screen and (max-width: 400px) {
+		.header__logo {
+			font-size: 30px;
+		}
+		.about {
+			font-size: 12px;
+		}
+	}
+
+	@media only screen and (max-width: 300px) {
+		.header__logo {
+			font-size: 20px;
+		}
+		.about {
+			font-size: 10px;
+		}
+	}
+}

@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  password String
+  token    String
+}
+
+model Product {
+  id          Int     @id @default(autoincrement())
+  shopId      Int
+  category    String
+  name        String
+  ingredients String
+  weight      String
+  price       String
+  discount    String? @default("0")
+  imagePath   String
+  isStopList  Boolean @default(false)
+  isAvailable Boolean @default(true)
+  orders      Order[] @relation("OrderToProduct")
+}
+
+model Order {
+  id                    Int                    @id @default(autoincrement())
+  shopId                Int
+  amount                String
+  phoneNumber           String
+  deliveryAddress       String
+  email                 String
+  clientName            String
+  createdTime           DateTime               @default(now())
+  completedTime         DateTime?
+  status                String                 @default("Новый")
+  productsCount         String
+  extraIngredientsOrder ExtraIngredientOrder[] @relation("ExtraIngredientOrderToOrder")
+  products              Product[]              @relation("OrderToProduct")
+}
+
+model Event {
+  id        Int    @id @default(autoincrement())
+  text      String
+  shopId    Int
+  imagePath String
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  shopId    Int
+  orderId   Int
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id        Int    @id @default(autoincrement())
+  shopId    Int
+  name      String
+  tag       String
+  imagePath String
+}
+
+model ExtraIngredient {
+  id          Int     @id @default(autoincrement())
+  shopId      Int
+  name        String
+  price       String
+  isAvailable Boolean @default(true)
+  categoryTag String
+}
+
+model ExtraIngredientOrder {
+  id               Int     @id @default(autoincrement())
+  productId        Int
+  productCount     Int     @default(1)
+  extraIngredients String
+  order            Order[] @relation("ExtraIngredientOrderToOrder")
+}
