@@ -95,6 +95,7 @@ const AdminPaymentOrders = () => {
 							<TableCell>Номера продуктов</TableCell>
 							<TableCell>Названия продуктов</TableCell>
 							<TableCell>Количество продуктов</TableCell>
+							<TableCell>Доп.Ингредиенты</TableCell>
 							<TableCell>Действие</TableCell>
 						</TableRow>
 					</TableHead>
@@ -118,6 +119,14 @@ const AdminPaymentOrders = () => {
 									{order.products.map(product => product.name).join(',')}
 								</TableCell>
 								<TableCell>{order.productsCount}</TableCell>
+								<TableCell>
+									{order.extraIngredientsOrder
+										.map(
+											extra =>
+												`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
+										)
+										.join('; ')}
+								</TableCell>
 								<TableCell>
 									<Button
 										variant='contained'

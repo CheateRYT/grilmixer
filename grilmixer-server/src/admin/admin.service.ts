@@ -64,6 +64,13 @@ export class AdminService {
 						id: true,
 						name: true
 					}
+				},
+				extraIngredientsOrder: {
+					select: {
+						productId: true,
+						productCount: true,
+						extraIngredients: true
+					}
 				}
 			}
 		})

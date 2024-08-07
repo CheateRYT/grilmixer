@@ -11,4 +11,9 @@ export interface Order {
 	status: string
 	productsCount: string
 	products: { id: number; name: string }[]
+	extraIngredientsOrder: {
+		productId: number
+		productCount: number
+		extraIngredients: string
+	}[]
 }
