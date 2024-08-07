@@ -31,6 +31,7 @@ model Product {
 
 model Order {
   id                    Int                    @id @default(autoincrement())
+  ip                    String
   shopId                Int
   amount                String
   phoneNumber           String

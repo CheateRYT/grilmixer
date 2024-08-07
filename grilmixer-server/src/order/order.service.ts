@@ -106,6 +106,7 @@ export class OrderService {
 
 			const newOrder = await this.prisma.order.create({
 				data: {
+					ip: orderData.ip,
 					shopId: orderData.shopId,
 					amount: totalAmount.toFixed(2).toString(),
 					phoneNumber: orderData.phoneNumber,
@@ -146,7 +147,7 @@ export class OrderService {
 				confirmation: {
 					type: 'redirect',
 					locale: 'ru_RU',
-					return_url: 'https://merchant-website.com/return_url'
+					return_url: `https://merchant-website.com/return_url/${newOrder.id}`
 				},
 				description: `Магазин ${orderData.shopName}. Заказ №` + newOrder.id,
 				metadata: {

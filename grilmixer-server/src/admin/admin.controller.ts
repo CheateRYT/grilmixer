@@ -103,6 +103,7 @@ export class AdminController {
 			)
 		}
 	}
+
 	@HttpCode(200)
 	@Get('getPaymentOrders')
 	async getPaymentOrders(
@@ -294,6 +295,28 @@ export class AdminController {
 		} catch (error) {
 			throw new HttpException(
 				'Ошибка при получении категорий',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Get('getOrderThanks/:orderId')
+	async getOrderThanks(
+		@Param('orderId') orderId: number,
+		@Headers('authorization') authorization: string
+	): Promise<{
+		id: number
+		status: string
+		createdTime: Date
+		completedTime: Date
+	}> {
+		try {
+			const ip: string = authorization.replace('Bearer ', '')
+			return await this.adminService.getOrderThanks(orderId, ip)
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении заказа',
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
 		}

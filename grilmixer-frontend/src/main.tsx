@@ -40,14 +40,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 			<Route path='/foodcourt/order' Component={FoodcourtOrder} />
 			<Route path='/foodcourt/about' Component={FoodcourtAbout} />
 			<Route path='/foodcourt/contacts' Component={FoodcourtContacts} />
-			<Route path='/foodcourt/thanks' Component={FoodcourtThanks} />
+			<Route path='/foodcourt/thanks/:orderId' Component={FoodcourtThanks} />
 			<Route path='/foodcourt/cart' Component={FoodcourtCart} />
 			<Route path='/cafe' Component={Cafe} />
 			<Route path='/cafe/category' Component={CafeCategory} />
 			<Route path='/cafe/order' Component={CafeOrder} />
 			<Route path='/cafe/about' Component={CafeAbout} />
 			<Route path='/cafe/contacts' Component={CafeContacts} />
-			<Route path='/cafe/thanks' Component={CafeThanks} />
+			<Route path='/cafe/thanks/:orderId' Component={CafeThanks} />
 			<Route path='/cafe/cart' Component={CafeCart} />
 			<Route path='/banquet' Component={Banquet} />
 			<Route path='/pominki' Component={Pominki} />

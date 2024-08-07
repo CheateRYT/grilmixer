@@ -91,7 +91,20 @@ export class AdminService {
 			}
 		})
 	}
-
+	async getOrderThanks(orderId: number, ip: string) {
+		return this.prisma.order.findFirst({
+			where: {
+				id: Number(orderId),
+				ip
+			},
+			select: {
+				id: true,
+				status: true,
+				createdTime: true,
+				completedTime: true
+			}
+		})
+	}
 	async createProduct(dto: ProductDto) {
 		try {
 			const productData: Prisma.ProductCreateInput = {

@@ -31,6 +31,10 @@ export class OrderDto {
 
 	@IsOptional()
 	@IsString()
+	ip: string
+
+	@IsOptional()
+	@IsString()
 	shopName: string
 
 	@IsOptional()
