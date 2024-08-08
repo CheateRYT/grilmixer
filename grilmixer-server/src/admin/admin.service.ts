@@ -99,6 +99,8 @@ export class AdminService {
 			},
 			select: {
 				id: true,
+				type: true,
+				paymentType: true,
 				status: true,
 				createdTime: true,
 				completedTime: true

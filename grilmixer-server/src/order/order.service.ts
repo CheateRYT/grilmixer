@@ -15,7 +15,6 @@ export class OrderService {
 		private prisma: PrismaService,
 		private gatewayService: GatewayService
 	) {}
-
 	async createOrder(orderData: OrderDto) {
 		try {
 			const products = await this.prisma.product.findMany({
@@ -25,7 +24,6 @@ export class OrderService {
 					}
 				}
 			})
-
 			const unavailableProducts = products.filter(
 				product => !product.isAvailable || product.isStopList
 			)
@@ -36,15 +34,13 @@ export class OrderService {
 				)
 			}
 
-			const deliveryPrice = 300
-			let totalAmount = deliveryPrice
+			let totalAmount = 0 // Общая сумма заказа
 			const receiptItems = []
 
 			// Обрабатываем все продукты в заказе
 			for (let i = 0; i < orderData.products.length; i++) {
 				const product = products[i]
 				const productCount = orderData.productsCount[i]
-
 				// Инициализируем стоимость дополнительных ингредиентов
 				let extraIngredientsCost = 0
 
@@ -52,7 +48,6 @@ export class OrderService {
 				const extraIngredientsOrder = orderData.extraIngredientsOrder?.find(
 					item => item.productId === product.id
 				)
-
 				if (extraIngredientsOrder) {
 					const extraIngredientIds = extraIngredientsOrder.extraIngredients
 						.split(',')
@@ -64,12 +59,11 @@ export class OrderService {
 							}
 						}
 					})
-
 					// Рассчитываем стоимость дополнительных ингредиентов с учетом количества
 					extraIngredientsCost = extraIngredients.reduce(
 						(sum, ingredient) =>
 							sum +
-							Number(ingredient.price) * extraIngredientsOrder.productCount, // Умножаем на количество дополнительных ингредиентов
+							Number(ingredient.price) * extraIngredientsOrder.productCount,
 						0
 					)
 				}
@@ -85,7 +79,7 @@ export class OrderService {
 					quantity: productCount,
 					payment_subject: 'commodity',
 					amount: { value: productTotalPrice.toFixed(2), currency: 'RUB' },
-					vat_code: 1, // Налоговый код (1 - без НДС)
+					vat_code: 1,
 					measure: 'piece'
 				})
 
@@ -104,14 +98,22 @@ export class OrderService {
 				}
 			}
 
+			// Учитываем стоимость доставки только если тип заказа "Доставка"
+			if (orderData.type === 'Доставка') {
+				const deliveryPrice = 300
+				totalAmount += deliveryPrice
+			}
+
 			const newOrder = await this.prisma.order.create({
 				data: {
 					ip: orderData.ip,
+					type: orderData.type,
+					paymentType: orderData.paymentType,
 					shopId: orderData.shopId,
 					amount: totalAmount.toFixed(2).toString(),
+					deliveryAddress: orderData.deliveryAddress || '',
 					phoneNumber: orderData.phoneNumber,
-					deliveryAddress: orderData.deliveryAddress,
-					email: orderData.email,
+					email: orderData.email || '',
 					clientName: orderData.clientName,
 					productsCount: orderData.productsCount.join(','),
 					products: {
@@ -142,6 +144,16 @@ export class OrderService {
 
 			this.gatewayService.sendOrderCreatedEvent(newOrder.id)
 
+			// Проверяем тип заказа и тип оплаты
+			if (
+				orderData.type === 'Самовывоз' &&
+				orderData.paymentType === 'Наличные'
+			) {
+				// Если Самовывоз и Наличные, не создаем платеж через YooKassa
+				return newOrder // Возвращаем заказ без создания платежа
+			}
+
+			// Создаем платеж через YooKassa для других случаев
 			const payment = await yookassa.createPayment({
 				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
 				confirmation: {

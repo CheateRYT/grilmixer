@@ -23,11 +23,18 @@ class ExtraIngredientOrderDto {
 	@IsString()
 	extraIngredients: string // строка с ID дополнительных ингредиентов через запятую
 }
-
 export class OrderDto {
 	@IsOptional()
 	@IsNumber()
 	id: number
+
+	@IsOptional()
+	@IsString()
+	type: string
+
+	@IsOptional()
+	@IsString()
+	paymentType: string
 
 	@IsOptional()
 	@IsString()
@@ -51,11 +58,11 @@ export class OrderDto {
 
 	@IsOptional()
 	@IsString()
-	deliveryAddress: string
+	deliveryAddress?: string
 
 	@IsOptional()
 	@IsEmail()
-	email: string
+	email?: string
 
 	@IsOptional()
 	@IsString()

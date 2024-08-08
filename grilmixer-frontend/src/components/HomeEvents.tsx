@@ -15,6 +15,7 @@ const HomeEvents = ({ shopId }: { shopId: number }) => {
 	const [loading, setLoading] = useState(true) // Состояние загрузки
 
 	useEffect(() => {
+		setLoading(true) // У
 		const fetchEvents = async () => {
 			setLoading(true) // Устанавливаем состояние загрузки в true перед запросом
 			try {

@@ -60,7 +60,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 			</header>
 			<div className={styles.afterHeader}>
 				<div className={styles.categoryRow}>
-					{loading || !categories ? (
+					{loading || !categories.length ? (
 						<Skeleton
 							variant='rounded'
 							sx={{
@@ -68,7 +68,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 								width: '100%',
 								height: 30,
 							}}
-							animation='wave'
+							animation='pulse'
 						/>
 					) : (
 						categories.map((category, index) => (

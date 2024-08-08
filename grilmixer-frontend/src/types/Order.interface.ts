@@ -8,6 +8,8 @@ export interface Order {
 	clientName: string
 	createdTime: string
 	completedTime: string | null
+	type: string
+	paymentType: string
 	status: string
 	productsCount: string
 	products: { id: number; name: string }[]

@@ -31,12 +31,14 @@ model Product {
 
 model Order {
   id                    Int                    @id @default(autoincrement())
+  type                  String //Доставка || Самовывоз
+  paymentType           String //Безналичная оплата || Наличные
   ip                    String
   shopId                Int
   amount                String
   phoneNumber           String
-  deliveryAddress       String
-  email                 String
+  deliveryAddress       String?
+  email                 String?
   clientName            String
   createdTime           DateTime               @default(now())
   completedTime         DateTime?

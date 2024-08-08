@@ -85,6 +85,7 @@ const AdminPaymentOrders = () => {
 							<TableCell>Номер</TableCell>
 							<TableCell>Номер магазина</TableCell>
 							<TableCell>Стоимость</TableCell>
+							<TableCell>Тип</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
 							<TableCell>Почта</TableCell>
@@ -105,6 +106,7 @@ const AdminPaymentOrders = () => {
 								<TableCell>{order.id}</TableCell>
 								<TableCell>{order.shopId}</TableCell>
 								<TableCell>{order.amount}</TableCell>
+								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 								<TableCell>{order.phoneNumber}</TableCell>
 								<TableCell>{order.deliveryAddress}</TableCell>
 								<TableCell>{order.email}</TableCell>

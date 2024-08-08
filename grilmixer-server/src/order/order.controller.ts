@@ -12,7 +12,7 @@ export class OrderController {
 			const newOrder = await this.orderService.createOrder(orderData)
 			return { message: 'Заказ успешно создан', order: newOrder }
 		} catch (error) {
-			return { error: 'Ошибка при создании заказа', details: error.message }
+			return { error }
 		}
 	}
 }

@@ -24,6 +24,8 @@ CREATE TABLE "Product" (
 -- CreateTable
 CREATE TABLE "Order" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "type" TEXT NOT NULL,
+    "paymentType" TEXT NOT NULL,
     "ip" TEXT NOT NULL,
     "shopId" INTEGER NOT NULL,
     "amount" TEXT NOT NULL,
