@@ -17,6 +17,7 @@ import CafeAbout from './pages/CafeAbout'
 import CafeCart from './pages/CafeCart'
 import CafeCategory from './pages/CafeCategory'
 import CafeContacts from './pages/CafeContacts'
+import CafeDeliveryRules from './pages/CafeDeliveryRules'
 import CafeOrder from './pages/CafeOrder'
 import CafeThanks from './pages/CafeThanks'
 import FoodCourt from './pages/FoodCourt'
@@ -24,6 +25,7 @@ import FoodcourtAbout from './pages/FoodcourtAbout'
 import FoodcourtCart from './pages/FoodcourtCart'
 import FoodcourtCategory from './pages/FoodcourtCategory'
 import FoodcourtContacts from './pages/FoodcourtContacts'
+import FoodcourtDeliveryRules from './pages/FoodcourtDeliveryRules'
 import FoodcourtOrder from './pages/FoodcourtOrder'
 import FoodcourtThanks from './pages/FoodcourtThanks'
 import Home from './pages/Home'
@@ -38,11 +40,16 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 			<Route path='/foodcourt' Component={FoodCourt} />
 			<Route path='/foodcourt/category/:name' Component={FoodcourtCategory} />
 			<Route path='/foodcourt/order' Component={FoodcourtOrder} />
+			<Route
+				path='/foodcourt/deliveryRules'
+				Component={FoodcourtDeliveryRules}
+			/>
 			<Route path='/foodcourt/about' Component={FoodcourtAbout} />
 			<Route path='/foodcourt/contacts' Component={FoodcourtContacts} />
 			<Route path='/foodcourt/thanks/:orderId' Component={FoodcourtThanks} />
 			<Route path='/foodcourt/cart' Component={FoodcourtCart} />
 			<Route path='/cafe' Component={Cafe} />
+			<Route path='/cafe/deliveryRules' Component={CafeDeliveryRules} />
 			<Route path='/cafe/category' Component={CafeCategory} />
 			<Route path='/cafe/order' Component={CafeOrder} />
 			<Route path='/cafe/about' Component={CafeAbout} />

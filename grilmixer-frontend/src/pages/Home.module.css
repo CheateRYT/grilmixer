@@ -1,6 +1,7 @@
 /* Default styles */
 .containerHome {
 	height: 100vh;
+	margin-bottom: 30px;
 	max-width: 100%;
 	align-items: center;
 	text-align: center;

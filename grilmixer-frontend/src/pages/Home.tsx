@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
+import CookieNotification from '../components/CookieNotification'
 import styles from './Home.module.css'
 
 const Home = () => {
@@ -56,6 +57,7 @@ const Home = () => {
 							Поминки
 						</p>
 					</div>
+					<CookieNotification />
 				</main>
 			)}
 		</div>

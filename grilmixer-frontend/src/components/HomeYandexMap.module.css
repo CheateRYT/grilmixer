@@ -1,5 +1,5 @@
 .map {
-	max-width: 50%;
+	max-width: 45%;
 	margin: 0 auto; /* Центрируем контейнер */
 	display: flex; /* Используем Flexbox для центрирования */
 	justify-content: center; /* Центрируем по горизонтали */
@@ -14,7 +14,7 @@
 }
 
 /* Медиазапросы для адаптации */
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
 	.map {
 		max-width: 70%;
 	}

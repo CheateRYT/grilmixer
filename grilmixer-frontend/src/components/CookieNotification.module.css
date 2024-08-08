@@ -1,25 +1,23 @@
-/* CookieNotification.module.css */
 .notification {
-	background-color: #171717; /* Черный фон для уведомления */
-	color: #b20522; /* Красный цвет текста */
-	width: 500px;
-	font-size: 16px;
-	font-weight: bold;
-	position: fixed; /* Фиксированное положение */
-	margin: 0 auto;
 	display: flex;
 	align-items: center;
-	left: -60%;
-	bottom: -100%; /* Устанавливаем внизу страницы */
-	z-index: 1000; /* Устанавливаем z-index для отображения поверх других элементов */
+	padding: 16px;
+	margin: 0 auto;
+	width: 50%;
+	font-size: 16px;
+	background-color: #242424; /* Цвет фона */
+	color: #b20522; /* Цвет текста */
+	font-weight: bold;
+	bottom: 0px;
+
+	border-radius: 8px; /* Закругленные углы */
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Тень */
 }
+
 @media (max-width: 600px) {
-	.snackbar {
+	.notification {
 		display: none;
 	}
 }
 @media (max-width: 900px) {
-	.notification {
-		left: -40%;
-	}
 }

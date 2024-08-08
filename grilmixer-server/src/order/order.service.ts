@@ -152,14 +152,15 @@ export class OrderService {
 				// Если Самовывоз и Наличные, не создаем платеж через YooKassa
 				return newOrder // Возвращаем заказ без создания платежа
 			}
-
-			// Создаем платеж через YooKassa для других случаев
+			const shopTag =
+				orderData.shopName === 'Гриль-МикСер' ? 'foodcourt' : 'cafe'
+			const returnUrl = `https://merchant-website.com/${shopTag}/${newOrder.id}`
 			const payment = await yookassa.createPayment({
 				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
 				confirmation: {
 					type: 'redirect',
 					locale: 'ru_RU',
-					return_url: `https://merchant-website.com/return_url/${newOrder.id}`
+					return_url: returnUrl
 				},
 				description: `Магазин ${orderData.shopName}. Заказ №` + newOrder.id,
 				metadata: {

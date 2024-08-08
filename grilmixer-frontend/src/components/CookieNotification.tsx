@@ -1,5 +1,4 @@
 import CloseIcon from '@mui/icons-material/Close' // Импортируем иконку закрытия
-import { Snackbar } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import React from 'react'
 import styles from './CookieNotification.module.css' // Импортируем стили
@@ -12,29 +11,26 @@ const CookieNotification: React.FC = () => {
 	}
 
 	return (
-		<div className={styles.snackbar}>
-			<Snackbar
-				open={open} // Устанавливаем состояние для контроля видимости
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-				message={
-					<div className={styles.notification}>
+		<>
+			{open && (
+				<div className={styles.notification}>
+					<span>
 						Мы используем Cookies, сервисы Google Analytics и Яндекс.Метрика.
 						Продолжая пользоваться сайтом, Вы принимаете условия обработки
 						персональных данных.
-						<IconButton
-							size='small'
-							aria-label='close'
-							color='inherit'
-							onClick={handleClose} // Обработчик закрытия
-							style={{ marginLeft: 'auto' }} // Сдвигаем кнопку вправо
-						>
-							<CloseIcon fontSize='small' style={{ color: 'white' }} />{' '}
-							{/* Иконка закрытия */}
-						</IconButton>
-					</div>
-				}
-			/>
-		</div>
+					</span>
+					<IconButton
+						size='small'
+						aria-label='close'
+						color='inherit'
+						onClick={handleClose} // Обработчик закрытия
+						style={{ marginLeft: 'auto', color: 'white' }} // Сдвигаем кнопку вправо
+					>
+						<CloseIcon fontSize='small' />
+					</IconButton>
+				</div>
+			)}
+		</>
 	)
 }
 
