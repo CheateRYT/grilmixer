@@ -14,8 +14,8 @@
 	z-index: 1000; /* Устанавливаем z-index для отображения поверх других элементов */
 }
 @media (max-width: 600px) {
-	.notification {
-		display: none; /* Скрываем, если ширина экрана больше 1200px */
+	.snackbar {
+		display: none;
 	}
 }
 @media (max-width: 900px) {

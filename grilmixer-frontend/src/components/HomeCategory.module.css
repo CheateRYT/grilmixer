@@ -30,6 +30,7 @@
 	position: absolute; /* Абсолютное позиционирование текста */
 	bottom: 20px; /* Отступ от нижней грани карточки */
 	left: 0;
+	font-size: 20px;
 	right: 0;
 	text-align: center; /* Центрирование текста */
 	color: white; /* Белый текст */
@@ -59,7 +60,7 @@
 	}
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
 	.cardContainer {
 		grid-template-columns: repeat(
 			2,
@@ -68,7 +69,7 @@
 	}
 }
 
-@media (max-width: 320px) {
+@media (max-width: 350px) {
 	.cardContainer {
 		grid-template-columns: 1fr; /* Одна карточка в строке для очень маленьких экранов */
 	}

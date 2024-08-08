@@ -12,33 +12,29 @@ const CookieNotification: React.FC = () => {
 	}
 
 	return (
-		<Snackbar
-			open={open} // Устанавливаем состояние для контроля видимости
-			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-			message={
-				<div className={styles.notification}>
-					Мы используем Cookies, сервисы Google Analytics и Яндекс.Метрика.
-					Продолжая пользоваться сайтом, Вы принимаете условия обработки
-					персональных данных.
-					<IconButton
-						size='small'
-						aria-label='close'
-						color='inherit'
-						onClick={handleClose} // Обработчик закрытия
-						style={{ marginLeft: 'auto' }} // Сдвигаем кнопку вправо
-					>
-						<CloseIcon fontSize='small' style={{ color: 'white' }} />{' '}
-						{/* Иконка закрытия */}
-					</IconButton>
-				</div>
-			}
-			ContentProps={{
-				style: {
-					backgroundColor: 'transparent', // Убираем фон, так как мы используем CSS для стилей
-					color: 'red', // Цвет текста, если нужно
-				},
-			}}
-		/>
+		<div className={styles.snackbar}>
+			<Snackbar
+				open={open} // Устанавливаем состояние для контроля видимости
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+				message={
+					<div className={styles.notification}>
+						Мы используем Cookies, сервисы Google Analytics и Яндекс.Метрика.
+						Продолжая пользоваться сайтом, Вы принимаете условия обработки
+						персональных данных.
+						<IconButton
+							size='small'
+							aria-label='close'
+							color='inherit'
+							onClick={handleClose} // Обработчик закрытия
+							style={{ marginLeft: 'auto' }} // Сдвигаем кнопку вправо
+						>
+							<CloseIcon fontSize='small' style={{ color: 'white' }} />{' '}
+							{/* Иконка закрытия */}
+						</IconButton>
+					</div>
+				}
+			/>
+		</div>
 	)
 }
 
