@@ -58,7 +58,7 @@ const HomeEvents = ({ shopId }: { shopId: number }) => {
 					variant='rounded'
 					width={1800}
 				/>
-			) : events.length === 0 ? ( // Проверяем, есть ли события
+			) : !loading && events.length === 0 ? ( // Проверяем, есть ли события
 				<Typography className={styles.noEvents}></Typography>
 			) : (
 				<>

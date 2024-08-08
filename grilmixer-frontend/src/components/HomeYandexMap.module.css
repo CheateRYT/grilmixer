@@ -4,6 +4,7 @@
 	display: flex; /* Используем Flexbox для центрирования */
 	justify-content: center; /* Центрируем по горизонтали */
 	align-items: center; /* Центрируем по вертикали */
+	margin-bottom: 20px;
 }
 
 /* Стили для iframe */
