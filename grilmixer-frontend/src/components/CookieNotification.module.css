@@ -1,0 +1,25 @@
+/* CookieNotification.module.css */
+.notification {
+	background-color: #171717; /* Черный фон для уведомления */
+	color: #b20522; /* Красный цвет текста */
+	width: 500px;
+	font-size: 16px;
+	font-weight: bold;
+	position: fixed; /* Фиксированное положение */
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	left: -60%;
+	bottom: -100%; /* Устанавливаем внизу страницы */
+	z-index: 1000; /* Устанавливаем z-index для отображения поверх других элементов */
+}
+@media (max-width: 600px) {
+	.notification {
+		display: none; /* Скрываем, если ширина экрана больше 1200px */
+	}
+}
+@media (max-width: 900px) {
+	.notification {
+		left: -40%;
+	}
+}

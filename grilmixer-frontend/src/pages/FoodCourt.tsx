@@ -1,8 +1,10 @@
+import CookieNotification from '../components/CookieNotification'
 import Header from '../components/Header'
 import HomeCategory from '../components/HomeCategory'
 import HomeEvents from '../components/HomeEvents'
 import HomeYandexMap from '../components/HomeYandexMap'
 import styles from './Foodcourt.module.css'
+
 const FoodCourt = () => {
 	return (
 		<div className={styles.foodcourt}>
@@ -10,6 +12,7 @@ const FoodCourt = () => {
 			<HomeEvents shopId={1} />
 			<HomeCategory shopId={1} />
 			<HomeYandexMap link='https://yandex.ru/map-widget/v1/org/gril_mikser/5282682587/?ll=38.884448%2C47.223400&z=17' />
+			<CookieNotification />
 		</div>
 	)
 }
