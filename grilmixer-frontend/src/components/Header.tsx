@@ -1,9 +1,11 @@
-import { ShoppingCartIcon, TrashIcon } from '@heroicons/react/20/solid'
+// Header.tsx
+import { ShoppingCartIcon } from '@heroicons/react/20/solid'
 import { Skeleton } from '@mui/material' // Импортируем Skeleton из Material-UI
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { backendApiUrl } from '../utils/BackendUrl'
+import CartModal from './CartModal' // Импортируем новый компонент
 import styles from './Header.module.css'
 
 interface HeaderProps {
@@ -22,8 +24,10 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	const [categories, setCategories] = useState<Category[]>([])
 	const [showModal, setShowModal] = useState(false)
 	const [loading, setLoading] = useState(true) // Состояние загрузки
-
+	const [amount, setAmountState] = useState(0 || localStorage.getItem('amount'))
 	useEffect(() => {
+		const localAmount: string = localStorage.getItem('amount')
+		setAmountState(Number(localAmount))
 		axios
 			.get(`${backendApiUrl}admin/getCategories/${shopId}`)
 			.then(response => {
@@ -38,21 +42,28 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	const handleClickCategory = (categoryTag: string) => {
 		navigate(`/foodcourt/category/${categoryTag}`)
 	}
+
 	const handleNavigateMain = () => {
 		navigate('/')
 	}
-	const handleShowModal = (e: Event) => {
-		if (window.innerWidth >= 768) {
+	const setAmount = (amount: number) => {
+		setAmountState(amount)
+		localStorage.setItem('amount', amount)
+	}
+	const handleShowModal = () => {
+		if (window.innerWidth > 1000) {
 			setShowModal(true)
-		} else {
-			if (e.type === 'mousedown') {
-				navigate('cart')
-			}
 		}
 	}
-
+	const handleMobileCart = () => {
+		if (window.innerWidth < 1000) {
+			navigate('cart')
+		}
+	}
 	const handleHideModal = () => {
-		setShowModal(false)
+		if (window.innerWidth > 1000) {
+			setShowModal(false)
+		}
 	}
 
 	return (
@@ -87,22 +98,18 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 						))
 					)}
 				</div>
-				<div
-					className='flex space-x-2 cursor-pointer relative'
-					onMouseEnter={e => handleShowModal(e)}
-					onMouseDown={e => handleShowModal(e)}
-					onMouseLeave={e => handleHideModal(e)}
-				>
-					<button className={styles.cartBtn}>
+				<div className='flex space-x-2 cursor-pointer relative'>
+					<button
+						className={styles.cartBtn}
+						onMouseEnter={handleShowModal}
+						onClick={handleMobileCart}
+					>
 						<ShoppingCartIcon className={styles.cartIcon} />
-						0Р
+						{amount} ₽
 					</button>
-					<div className={`cartModal ${showModal ? 'block' : 'hidden'}`}>
-						<div className={styles.cartHeader}>
-							<h3 className='cartHeaderTitle'>Товаров в корзине</h3>
-							<TrashIcon className={styles.trashIcon} />
-						</div>
-					</div>
+					{showModal && (
+						<CartModal setClose={handleHideModal} setAmount={setAmount} />
+					)}
 				</div>
 			</div>
 		</div>

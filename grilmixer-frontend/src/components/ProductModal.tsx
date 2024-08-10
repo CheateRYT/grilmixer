@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../store/store' // Импортируйте действия
 import { ExtraIngredient } from '../types/ExtraIngredient.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import styles from './ProductModal.module.css' // Импортируем стили
@@ -7,6 +9,7 @@ import styles from './ProductModal.module.css' // Импортируем сти�
 interface ProductModalProps {
 	productId: number
 	shopId: string
+	price: string
 	categoryTag: string
 	onClose: () => void
 	product: {
@@ -22,14 +25,17 @@ const ProductModal: React.FC<ProductModalProps> = ({
 	productId,
 	shopId,
 	categoryTag,
+	price,
 	onClose,
 	product,
 }) => {
+	const dispatch = useDispatch()
 	const [additionalIngredients, setAdditionalIngredients] = useState<
 		ExtraIngredient[]
-	>([]) // Хранит дополнительные ингредиенты
+	>([])
 	const [loading, setLoading] = useState(true)
-	const [quantity, setQuantity] = useState(1) // Хранит количество товара
+	const [quantity, setQuantity] = useState(1)
+	const [selectedIngredients, setSelectedIngredients] = useState<number[]>([]) // Хранение выбранных ингредиентов
 
 	useEffect(() => {
 		const fetchAdditionalIngredients = async () => {
@@ -64,6 +70,57 @@ const ProductModal: React.FC<ProductModalProps> = ({
 		}
 	}
 
+	const handleAddToCart = () => {
+		const extraIngredients = selectedIngredients
+			.map(id => {
+				const ingredient = additionalIngredients.find(ing => ing.id === id)
+				return ingredient
+					? {
+							id: ingredient.id,
+							name: ingredient.name,
+							price: ingredient.price,
+					  }
+					: null
+			})
+			.filter(Boolean)
+
+		const totalExtraIngredientsPrice = extraIngredients.reduce(
+			(total, ingredient) => {
+				return total + Number(ingredient.price)
+			},
+			0
+		)
+
+		const totalPrice = Number(price) + totalExtraIngredientsPrice
+
+		dispatch(
+			addToCart({
+				productId,
+				quantity,
+				name: product.name || 'Неизвестный продукт',
+				price: totalPrice.toString(),
+				extraIngredients: JSON.stringify(extraIngredients), // Сохраняем как JSON строку
+			})
+		)
+		onClose() // Закрываем модальное окно после добавления в корзину
+	}
+
+	const handleIngredientChange = (id: number) => {
+		setSelectedIngredients(prev =>
+			prev.includes(id)
+				? prev.filter(ingredientId => ingredientId !== id)
+				: [...prev, id]
+		)
+	}
+
+	// Рассчитываем общую стоимость дополнительных ингредиентов
+	const totalExtraIngredientsPrice = selectedIngredients.reduce((total, id) => {
+		const ingredient = additionalIngredients.find(ing => ing.id === id)
+		return total + (ingredient ? Number(ingredient.price) : 0)
+	}, 0)
+
+	const totalPrice = (Number(price) + totalExtraIngredientsPrice) * quantity
+
 	return (
 		<div className={styles.modalOverlay}>
 			<div className={styles.modal}>
@@ -91,12 +148,18 @@ const ProductModal: React.FC<ProductModalProps> = ({
 					<h3>Дополнительные ингредиенты</h3>
 					{additionalIngredients.map(ingredient => (
 						<label key={ingredient.id}>
-							<input type='checkbox' value={ingredient.id} />
+							<input
+								type='checkbox'
+								value={ingredient.id}
+								checked={selectedIngredients.includes(ingredient.id)}
+								onChange={() => handleIngredientChange(ingredient.id)}
+							/>
 							{ingredient.name} (+{ingredient.price} ₽)
 						</label>
 					))}
 				</div>
 				<div className={styles.quantityContainer}>
+					<p className={styles.productName}>{totalPrice} ₽</p>
 					<button className={styles.quantityButton} onClick={decreaseQuantity}>
 						-
 					</button>
@@ -105,7 +168,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
 						+
 					</button>
 				</div>
-				<button className={styles.addToCartButton}>В корзину</button>
+				<button className={styles.addToCartButton} onClick={handleAddToCart}>
+					В корзину
+				</button>
 			</div>
 		</div>
 	)

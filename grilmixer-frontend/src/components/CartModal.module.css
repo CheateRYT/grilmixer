@@ -1,0 +1,66 @@
+.cartModal {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	z-index: 10;
+	background-color: #242424;
+	border: 1px solid #ccc;
+	border-radius: 0.5rem;
+	padding: 1rem;
+	width: 500px; /* Ширина модального окна */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cartTitle {
+	font-size: 24px; /* Увеличенный размер шрифта для названия */
+	margin: 0; /* Убираем отступы */
+}
+
+.cartHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.cartItems {
+	max-height: 300px; /* Максимальная высота для прокрутки */
+	overflow-y: auto; /* Прокрутка при переполнении */
+}
+
+.cartItem {
+	display: flex;
+	justify-content: space-between; /* Разделяем название и количество */
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.itemName {
+	font-size: 18px; /* Увеличенный размер шрифта для названия блюда */
+	display: block; /* Делаем элемент блочным для переноса */
+}
+
+.extraIngredientsList {
+	list-style-type: none; /* Убираем маркеры списка */
+	padding-left: 0; /* Убираем отступ слева */
+	align-items: center;
+	margin: 5px 0 0 0; /* Отступ сверху для списка */
+	font-size: 14px; /* Размер шрифта для дополнительных ингредиентов */
+}
+
+.quantityControls {
+	display: flex;
+	align-items: center; /* Выравнивание по центру */
+}
+
+.orderButton {
+	background-color: #b20522; /* Цвет кнопки */
+	color: white; /* Цвет текста кнопки */
+	border: none; /* Убираем границу */
+	padding: 10px 15px; /* Отступы для кнопки */
+	border-radius: 5px; /* Радиус углов кнопки */
+	cursor: pointer; /* Курсор при наведении */
+	margin-top: 20px; /* Отступ сверху */
+}
+.orderButton:hover {
+	scale: 1.05;
+}

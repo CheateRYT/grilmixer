@@ -71,7 +71,42 @@
 	display: flex;
 	justify-content: space-around;
 }
+.cartItems {
+	max-height: 300px; /* Максимальная высота для прокрутки */
+	overflow-y: auto; /* Прокрутка при переполнении */
+}
 
+.cartItem {
+	display: flex;
+	justify-content: space-between; /* Разделяем название и количество */
+	align-items: center;
+	margin: 10px 0; /* Отступы между товарами */
+}
+
+.quantityControls {
+	display: flex;
+	align-items: center; /* Выравнивание по центру */
+}
+
+.quantityControls button {
+	background-color: #b20522; /* Цвет кнопки */
+	color: white; /* Цвет текста кнопки */
+	border: none; /* Убираем границу */
+	padding: 5px; /* Отступы для кнопки */
+	border-radius: 5px; /* Радиус углов кнопки */
+	cursor: pointer; /* Курсор при наведении */
+	margin: 0 5px; /* Отступы между кнопками */
+}
+
+.orderButton {
+	background-color: #b20522; /* Цвет кнопки */
+	color: white; /* Цвет текста кнопки */
+	border: none; /* Убираем границу */
+	padding: 10px 15px; /* Отступы для кнопки */
+	border-radius: 5px; /* Радиус углов кнопки */
+	cursor: pointer; /* Курсор при наведении */
+	margin-top: 20px; /* Отступ сверху */
+}
 .cartBtn {
 	background-color: #b20522;
 	padding-top: 10px;
@@ -94,10 +129,6 @@
 	align-items: center;
 }
 
-.trashIcon {
-	height: 4rem;
-	width: 4rem;
-}
 @media screen and (max-width: 48rem) {
 	.logo {
 		font-size: 4vh; /* Адаптивный размер шрифта */

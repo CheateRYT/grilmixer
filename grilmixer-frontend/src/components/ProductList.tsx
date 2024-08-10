@@ -1,3 +1,4 @@
+// ProductList.tsx
 import { Skeleton } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -67,7 +68,12 @@ const ProductList = ({
 									{product.ingredients}
 								</p>
 								<div className={styles.priceContainer}>
-									<span>{product.price} ₽</span>
+									<span>
+										{(
+											Number(product.price) - Number(product.discount)
+										).toString()}{' '}
+										₽
+									</span>
 									<button
 										className={styles.addToCartButton}
 										onClick={() => handleAddToCart(product)}
@@ -84,6 +90,9 @@ const ProductList = ({
 					shopId={shopId}
 					categoryTag={categoryTag}
 					onClose={closeModal}
+					price={(
+						Number(selectedProduct.price) - Number(selectedProduct.discount)
+					).toString()}
 					product={selectedProduct} // Передаем данные о продукте
 				/>
 			)}
