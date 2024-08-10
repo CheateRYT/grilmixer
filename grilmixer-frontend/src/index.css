@@ -21,6 +21,15 @@
 		opacity: 1;
 	}
 }
+.foodcourt {
+	background-color: #131313;
+	height: 100%;
+	width: 100%;
+	align-items: center;
+
+	text-align: center;
+}
+
 .cartModal {
 	position: absolute;
 	top: 100%;

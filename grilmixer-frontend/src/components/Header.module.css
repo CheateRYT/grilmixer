@@ -2,6 +2,7 @@
 	min-height: 3vh;
 	font-size: 4cap; /* Адаптивный размер шрифта */
 	color: #b20522;
+	cursor: pointer;
 	font-weight: bold;
 	text-transform: uppercase;
 	letter-spacing: 0.1em; /* Адаптивный интервал между буквами */

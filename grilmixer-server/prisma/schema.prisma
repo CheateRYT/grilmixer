@@ -21,6 +21,7 @@ model Product {
   name        String
   ingredients String
   weight      String
+  bzu         String  @default("")
   price       String
   discount    String? @default("0")
   imagePath   String

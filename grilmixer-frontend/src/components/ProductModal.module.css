@@ -1,0 +1,106 @@
+.modalOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.7); /* Полупрозрачный фон */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000; /* Убедитесь, что модальное окно поверх остальных элементов */
+}
+
+.modal {
+	background-color: #242424; /* Цвет фона модального окна */
+	border-radius: 8px;
+	padding: 20px;
+	width: 70%; /* Увеличиваем ширину модального окна */
+	max-width: 800px; /* Максимальная ширина */
+	max-height: 90%; /* Максимальная высота */
+	overflow-y: auto; /* Прокрутка при переполнении */
+	color: #fff; /* Цвет текста */
+	display: flex;
+	flex-direction: column;
+}
+
+.productInfo {
+	display: flex;
+	margin-bottom: 20px;
+}
+
+.productImage {
+	width: 50%; /* Ширина изображения */
+	height: 250px; /* Увеличиваем высоту изображения */
+	background-size: cover;
+	background-position: center;
+	border-radius: 8px;
+	margin-right: 20px;
+}
+
+.productDetails {
+	flex: 1; /* Занимает оставшееся пространство */
+}
+
+.productName {
+	font-weight: bold;
+	font-size: 1.5em;
+}
+
+.closeButton {
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 1.5em;
+	cursor: pointer;
+	align-self: flex-end; /* Выравнивание кнопки закрытия */
+}
+
+.additionalIngredients {
+	margin-top: 20px;
+}
+
+.additionalIngredients label {
+	display: block; /* Каждый чекбокс на новой строке */
+	margin: 5px 0; /* Отступы между чекбоксами */
+}
+
+.quantityContainer {
+	display: flex;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.quantityButton {
+	background-color: #b20522; /* Цвет кнопки */
+	color: white; /* Цвет текста кнопки */
+	border: none; /* Убираем границу */
+	padding: 10px; /* Отступы для кнопки */
+	border-radius: 5px; /* Радиус углов кнопки */
+	cursor: pointer; /* Курсор при наведении */
+	margin: 0 10px; /* Отступы между кнопками */
+}
+
+.quantity {
+	font-size: 1.2em; /* Размер текста для количества */
+}
+
+.addToCartButton {
+	background-color: #b20522; /* Цвет кнопки */
+	color: white; /* Цвет текста кнопки */
+	border: none; /* Убираем границу */
+	padding: 10px 15px; /* Отступы для кнопки */
+	border-radius: 5px; /* Радиус углов кнопки */
+	cursor: pointer; /* Курсор при наведении */
+	margin-top: 20px; /* Отступ сверху */
+}
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 600px) {
+	.modal {
+		width: 90%; /* Увеличиваем ширину для мобильных */
+	}
+	.productImage {
+		height: 200px; /* Уменьшаем высоту изображения для мобильных */
+	}
+}

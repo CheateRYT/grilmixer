@@ -1,20 +1,9 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
+import { Product } from '../types/Product.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
-interface Product {
-	id: number
-	category: string
-	name: string
-	ingredients: string
-	weight: string
-	price: string
-	discount: string | null
-	imagePath: string
-	isStopList: boolean
-	isAvailable: boolean
-}
 const AdminProducts: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [selectedShopId, setSelectedShopId] = useState<number>(1) // Default shopId
@@ -33,6 +22,7 @@ const AdminProducts: React.FC = () => {
 		weight: '',
 		price: '',
 		discout: '0',
+		bzu: '',
 		imagePath: '',
 		isStopList: false,
 		isAvailable: true,
@@ -167,6 +157,9 @@ const AdminProducts: React.FC = () => {
 								Ингредиенты
 							</th>
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
+								Бжу
+							</th>
+							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Вес
 							</th>
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
@@ -211,6 +204,11 @@ const AdminProducts: React.FC = () => {
 									{' '}
 									{/* Уменьшаем высоту столбцов */}
 									{product.ingredients}
+								</td>
+								<td className='px-6 py-2'>
+									{' '}
+									{/* Уменьшаем высоту столбцов */}
+									{product.bzu}
 								</td>
 								<td className='px-6 py-2'>
 									{' '}
@@ -328,6 +326,16 @@ const AdminProducts: React.FC = () => {
 								value={
 									updatedProductData.ingredients || selectedProduct.ingredients
 								}
+								onChange={handleModalInputChange}
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							/>
+						</label>
+						<label>
+							Бжу:
+							<input
+								type='text'
+								name='bzu'
+								value={updatedProductData.bzu || selectedProduct.bzu}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>

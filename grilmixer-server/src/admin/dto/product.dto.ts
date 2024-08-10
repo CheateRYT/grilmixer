@@ -11,7 +11,9 @@ export class ProductDto {
 	@IsOptional()
 	@IsString()
 	category: string
-
+	@IsOptional()
+	@IsString()
+	bzu: string
 	@IsOptional()
 	@IsString()
 	name: string

@@ -112,6 +112,7 @@ export class AdminService {
 			const productData: Prisma.ProductCreateInput = {
 				shopId: dto.shopId,
 				category: dto.category,
+				bzu: dto.bzu,
 				name: dto.name,
 				ingredients: dto.ingredients,
 				weight: dto.weight,
@@ -136,6 +137,7 @@ export class AdminService {
 			const data: Prisma.ProductUpdateInput = {}
 			if (dto.shopId) data.shopId = dto.shopId
 			if (dto.category) data.category = dto.category
+			if (dto.bzu) data.bzu = dto.bzu
 			if (dto.name) data.name = dto.name
 			if (dto.ingredients) data.ingredients = dto.ingredients
 			if (dto.weight) data.weight = dto.weight
@@ -236,7 +238,7 @@ export class AdminService {
 		return this.prisma.product.findMany({
 			where: {
 				category,
-				shopId
+				shopId: Number(shopId)
 			}
 		})
 	}

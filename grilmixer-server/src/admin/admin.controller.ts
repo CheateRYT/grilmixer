@@ -151,7 +151,7 @@ export class AdminController {
 		}
 	}
 	@HttpCode(200)
-	@Get('getProducts/:shopId/:category')
+	@Get('getProductsByCategory/:shopId/:category')
 	async getProductsByCategory(
 		@Param('shopId') shopId: number,
 		@Param('category') category: string
@@ -160,7 +160,7 @@ export class AdminController {
 			return await this.adminService.getProductsByCategory(shopId, category)
 		} catch (error) {
 			throw new HttpException(
-				'Ошибка при получении продуктов по категории',
+				'Ошибка при получении продуктов по категории' + error,
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
 		}

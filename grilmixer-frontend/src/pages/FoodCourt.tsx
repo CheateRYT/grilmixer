@@ -3,11 +3,10 @@ import Header from '../components/Header'
 import HomeCategory from '../components/HomeCategory'
 import HomeEvents from '../components/HomeEvents'
 import HomeYandexMap from '../components/HomeYandexMap'
-import styles from './Foodcourt.module.css'
 
 const FoodCourt = () => {
 	return (
-		<div className={styles.foodcourt}>
+		<div className='foodcourt'>
 			<Header logo={'Гриль-Миксер'} shopId={'1'} />
 			<HomeEvents shopId={1} />
 			<HomeCategory shopId={1} />

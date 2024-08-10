@@ -36,9 +36,11 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	}, [shopId])
 
 	const handleClickCategory = (categoryTag: string) => {
-		navigate(`category/${categoryTag}`)
+		navigate(`/foodcourt/category/${categoryTag}`)
 	}
-
+	const handleNavigateMain = () => {
+		navigate('/')
+	}
 	const handleShowModal = (e: Event) => {
 		if (window.innerWidth >= 768) {
 			setShowModal(true)
@@ -56,7 +58,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	return (
 		<div>
 			<header className={styles.header}>
-				<h1 className={styles.logo}>{logo}</h1>
+				<h1 onClick={handleNavigateMain} className={styles.logo}>
+					{logo}
+				</h1>
 			</header>
 			<div className={styles.afterHeader}>
 				<div className={styles.categoryRow}>
