@@ -1,27 +1,23 @@
 .cartModal {
+	margin-top: 20px;
 	color: white;
 	text-decoration: none;
-	position: absolute;
-	top: 100%;
-	right: 0;
-	z-index: 10;
 	background-color: #242424;
 	border: 1px solid #ccc;
 	border-radius: 0.5rem;
 	padding: 1rem;
-	width: 600px; /* Ширина модального окна */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.orderAmount {
-	font-weight: bold;
-	font-size: 18px;
-}
+
 .cartTitle {
 	font-size: 28px; /* Увеличенный размер шрифта для названия */
 	margin: 0; /* Убираем отступы */
 	margin-bottom: 20px;
 }
-
+.cartAmount {
+	font-weight: bold;
+	font-size: 20px;
+}
 .cartHeader {
 	display: flex;
 	justify-content: space-between;

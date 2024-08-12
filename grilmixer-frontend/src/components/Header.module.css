@@ -65,7 +65,7 @@
 
 .categoryRow p:hover {
 	cursor: pointer;
-	background-color: #b20522;
+	scale: 1.1;
 }
 .afterHeader {
 	display: flex;
@@ -83,30 +83,6 @@
 	margin: 10px 0; /* Отступы между товарами */
 }
 
-.quantityControls {
-	display: flex;
-	align-items: center; /* Выравнивание по центру */
-}
-
-.quantityControls button {
-	background-color: #b20522; /* Цвет кнопки */
-	color: white; /* Цвет текста кнопки */
-	border: none; /* Убираем границу */
-	padding: 5px; /* Отступы для кнопки */
-	border-radius: 5px; /* Радиус углов кнопки */
-	cursor: pointer; /* Курсор при наведении */
-	margin: 0 5px; /* Отступы между кнопками */
-}
-
-.orderButton {
-	background-color: #b20522; /* Цвет кнопки */
-	color: white; /* Цвет текста кнопки */
-	border: none; /* Убираем границу */
-	padding: 10px 15px; /* Отступы для кнопки */
-	border-radius: 5px; /* Радиус углов кнопки */
-	cursor: pointer; /* Курсор при наведении */
-	margin-top: 20px; /* Отступ сверху */
-}
 .cartBtn {
 	background-color: #b20522;
 	padding-top: 10px;

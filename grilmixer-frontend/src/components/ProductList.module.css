@@ -8,6 +8,8 @@
 }
 
 .card {
+	color: white;
+	text-decoration: none;
 	cursor: pointer;
 	height: 100%; /* Высота карточки будет динамической */
 	position: relative; /* Для позиционирования текста */

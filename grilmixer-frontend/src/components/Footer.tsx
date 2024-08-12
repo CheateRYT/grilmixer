@@ -9,7 +9,7 @@ const Footer = ({ reviewLink }: { reviewLink: string }) => {
 	}
 
 	return (
-		<div className={styles.footer}>
+		<footer className={styles.footer}>
 			<div>
 				<div className={styles.linkContainer}>
 					<span
@@ -69,7 +69,7 @@ const Footer = ({ reviewLink }: { reviewLink: string }) => {
 					</svg>
 				</a>
 			</div>
-		</div>
+		</footer>
 	)
 }
 

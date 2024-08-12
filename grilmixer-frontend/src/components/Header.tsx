@@ -11,6 +11,7 @@ import styles from './Header.module.css'
 interface HeaderProps {
 	logo: string
 	shopId: string
+	shopTag: string
 }
 
 interface Category {
@@ -19,15 +20,13 @@ interface Category {
 	imagePath: string
 }
 
-export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
+export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 	const navigate = useNavigate()
 	const [categories, setCategories] = useState<Category[]>([])
 	const [showModal, setShowModal] = useState(false)
 	const [loading, setLoading] = useState(true) // Состояние загрузки
-	const [amount, setAmountState] = useState(0 || localStorage.getItem('amount'))
+
 	useEffect(() => {
-		const localAmount: string = localStorage.getItem('amount')
-		setAmountState(Number(localAmount))
 		axios
 			.get(`${backendApiUrl}admin/getCategories/${shopId}`)
 			.then(response => {
@@ -46,10 +45,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	const handleNavigateMain = () => {
 		navigate('/')
 	}
-	const setAmount = (amount: number) => {
-		setAmountState(amount)
-		localStorage.setItem('amount', amount)
-	}
+
 	const handleShowModal = () => {
 		if (window.innerWidth > 1000) {
 			setShowModal(true)
@@ -57,7 +53,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 	}
 	const handleMobileCart = () => {
 		if (window.innerWidth < 1000) {
-			navigate('cart')
+			navigate(`/${shopTag}/cart`)
 		}
 	}
 	const handleHideModal = () => {
@@ -105,11 +101,8 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId }) => {
 						onClick={handleMobileCart}
 					>
 						<ShoppingCartIcon className={styles.cartIcon} />
-						{amount} ₽
 					</button>
-					{showModal && (
-						<CartModal setClose={handleHideModal} setAmount={setAmount} />
-					)}
+					{showModal && <CartModal setClose={handleHideModal} />}
 				</div>
 			</div>
 		</div>

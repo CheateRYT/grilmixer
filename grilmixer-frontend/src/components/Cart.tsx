@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState, minusValue, plusValue } from '../store/store'
-import styles from './CartModal.module.css'
+import styles from './Cart.module.css'
 
-const CartModal = ({ setClose }: { setClose: () => void }) => {
+const Cart = () => {
 	const dispatch = useDispatch()
 	const cartItems = useSelector((state: RootState) => state.cart.items)
 	const [totalAmount, setTotalAmount] = useState<number>(0)
@@ -25,9 +25,10 @@ const CartModal = ({ setClose }: { setClose: () => void }) => {
 
 	return (
 		<div className={styles.cartModal}>
+			<h1>Корзина</h1>
 			<div className={styles.cartHeader}>
 				<h2 className={styles.cartTitle}>Товаров в корзине</h2>
-				<p onClick={setClose}>Закрыть</p>
+				<h2 className={styles.cartAmount}>Стоимость: {totalAmount} ₽</h2>
 			</div>
 			<div className={styles.cartItems}>
 				{cartItems.length === 0 ? (
@@ -78,15 +79,12 @@ const CartModal = ({ setClose }: { setClose: () => void }) => {
 				)}
 			</div>
 			{cartItems.length > 0 && (
-				<div>
-					<h3 className={styles.orderAmount}>Стоимость: {totalAmount} ₽</h3>
-					<button className={styles.orderButton} onClick={handleOrder}>
-						Заказать
-					</button>
-				</div>
+				<button className={styles.orderButton} onClick={handleOrder}>
+					Заказать
+				</button>
 			)}
 		</div>
 	)
 }
 
-export default CartModal
+export default Cart
