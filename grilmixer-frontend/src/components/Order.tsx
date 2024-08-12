@@ -92,14 +92,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 			alert('Выберите способ оплаты')
 			return
 		}
-		if (
-			deliveryMethod === 'Самовывоз' &&
-			paymentMethod === 'Наличные' &&
-			!changeAmount
-		) {
-			alert('Не заполнено обязательное поле - Нужна сдача с ')
-			return
-		}
+
 		if (!name) {
 			newErrors.name = true
 			alert('Не заполнено обязательное поле - Имя')
@@ -108,10 +101,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 			newErrors.phone = true
 			alert('Не заполнено обязательное поле - Телефон')
 		}
-		if (!email) {
-			newErrors.email = true
-			alert('Не заполнено обязательное поле - Почта')
-		}
+
 		if (!street) {
 			newErrors.street = true
 			alert('Не заполнено обязательное поле - Улица')
@@ -194,8 +184,12 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 				'http://87.117.25.141:4200/api/order/createOrder',
 				orderData
 			)
-
-			console.log('Order submitted:', response)
+			console.log(response)
+			if (response.data.order.paymentType === 'Наличные') {
+				console.log('Наличка')
+			} else {
+				window.open(response.data.order[1].confirmation.confirmation_url)
+			}
 		} catch (error) {
 			console.error('Error submitting order:', error)
 		}
@@ -252,17 +246,14 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 						}}
 					/>
 					<label className={styles.label}>
-						Эл. Почта <span className={styles.mustHave}>*</span>
+						Эл. Почта для чека <span className={styles.mustHave}>*</span>
 					</label>
 					<input
 						placeholder='example@gmail.com'
-						className={`${styles.input} ${errors.email ? 'error' : ''}`}
+						className={styles.input}
 						type='email'
 						value={email}
-						onChange={e => {
-							setEmail(e.target.value)
-							setErrors(prev => ({ ...prev, email: false }))
-						}}
+						onChange={e => setEmail(e.target.value)}
 					/>
 				</div>
 				<div className={styles.row}>
@@ -432,9 +423,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 				{/* Поле для сдачи, если выбраны наличные */}
 				{changeNeeded && paymentMethod === 'Наличные' && (
 					<div className={styles.row}>
-						<label className={styles.label}>
-							Нужна сдача с <span className={styles.mustHave}>*</span>
-						</label>
+						<label className={styles.label}>Нужна сдача с</label>
 						<input
 							className={styles.input}
 							type='number'
