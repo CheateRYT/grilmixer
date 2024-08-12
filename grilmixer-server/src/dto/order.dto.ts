@@ -51,7 +51,16 @@ export class OrderDto {
 	@IsOptional()
 	@IsString()
 	amount: string
+	@IsOptional()
+	@IsNumber()
+	personCount: number
 
+	@IsOptional()
+	@IsString()
+	changeFrom: string
+	@IsOptional()
+	@IsDate()
+	createdTime: Date
 	@IsOptional()
 	@IsPhoneNumber()
 	phoneNumber: string

@@ -15,12 +15,13 @@ model Admin {
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   shopId      Int
   category    String
   name        String
   ingredients String
   weight      String
+
   bzu         String  @default("")
   price       String
   discount    String? @default("0")
@@ -37,7 +38,9 @@ model Order {
   ip                    String
   shopId                Int
   amount                String
+  personCount           Int                    @default(1)
   phoneNumber           String
+  changeFrom            String?
   deliveryAddress       String?
   email                 String?
   clientName            String

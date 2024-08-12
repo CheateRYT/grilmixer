@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { RingLoader } from 'react-spinners'
 import { addToCart } from '../store/store' // Импортируйте действия
 import { ExtraIngredient } from '../types/ExtraIngredient.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
@@ -57,7 +58,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
 	}, [shopId, categoryTag])
 
 	if (loading) {
-		return <div>Загрузка...</div> // Можно добавить лоадер
+		return (
+			<div className='ringloader'>
+				<RingLoader color='#FF0000' loading={loading} size={150} />
+			</div>
+		)
 	}
 
 	const increaseQuantity = () => {

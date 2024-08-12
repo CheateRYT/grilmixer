@@ -10,7 +10,9 @@ export interface Order {
 	completedTime: string | null
 	type: string
 	paymentType: string
+	personCount: number
 	status: string
+	changeFrom: string
 	productsCount: string
 	products: { id: number; name: string }[]
 	extraIngredientsOrder: {

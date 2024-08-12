@@ -11,6 +11,7 @@
 	color: white;
 	text-decoration: none;
 	cursor: pointer;
+	background-color: #1a1a1a;
 	height: 100%; /* Высота карточки будет динамической */
 	position: relative; /* Для позиционирования текста */
 	overflow: hidden; /* Скрытие лишнего содержимого */

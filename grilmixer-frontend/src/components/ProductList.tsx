@@ -93,7 +93,7 @@ const ProductList = ({
 					price={(
 						Number(selectedProduct.price) - Number(selectedProduct.discount)
 					).toString()}
-					product={selectedProduct} // Передаем данные о продукте
+					product={selectedProduct}
 				/>
 			)}
 		</div>

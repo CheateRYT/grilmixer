@@ -29,7 +29,12 @@
 
 	text-align: center;
 }
-
+body {
+	display: flex;
+	flex-direction: column;
+	margin: 0 auto;
+	height: 100%;
+}
 .cartModal {
 	position: absolute;
 	top: 100%;
@@ -73,6 +78,7 @@ html {
 	width: 100%;
 	position: relative;
 	height: auto;
+
 	min-height: 100%;
 }
 

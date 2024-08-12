@@ -102,7 +102,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 					>
 						<ShoppingCartIcon className={styles.cartIcon} />
 					</button>
-					{showModal && <CartModal setClose={handleHideModal} />}
+					{showModal && (
+						<CartModal setClose={handleHideModal} shopTag={shopTag} />
+					)}
 				</div>
 			</div>
 		</div>

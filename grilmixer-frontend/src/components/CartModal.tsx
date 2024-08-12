@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { RootState, minusValue, plusValue } from '../store/store'
 import styles from './CartModal.module.css'
 
-const CartModal = ({ setClose }: { setClose: () => void }) => {
+const CartModal = ({
+	setClose,
+	shopTag,
+}: {
+	setClose: () => void
+	shopTag: string
+}) => {
 	const dispatch = useDispatch()
 	const cartItems = useSelector((state: RootState) => state.cart.items)
 	const [totalAmount, setTotalAmount] = useState<number>(0)
+	const navigate = useNavigate()
 	const handleOrder = () => {
-		console.log('Заказ сделан')
+		navigate(`/${shopTag}/cart`)
 	}
 
 	// Функция для подсчета общей стоимости
@@ -27,7 +35,7 @@ const CartModal = ({ setClose }: { setClose: () => void }) => {
 		<div className={styles.cartModal}>
 			<div className={styles.cartHeader}>
 				<h2 className={styles.cartTitle}>Товаров в корзине</h2>
-				<p onClick={setClose}>Закрыть</p>
+				<button onClick={setClose}>Закрыть</button>
 			</div>
 			<div className={styles.cartItems}>
 				{cartItems.length === 0 ? (
@@ -81,7 +89,7 @@ const CartModal = ({ setClose }: { setClose: () => void }) => {
 				<div>
 					<h3 className={styles.orderAmount}>Стоимость: {totalAmount} ₽</h3>
 					<button className={styles.orderButton} onClick={handleOrder}>
-						Заказать
+						В корзину
 					</button>
 				</div>
 			)}

@@ -1,0 +1,99 @@
+.order {
+	display: flex;
+	flex-direction: column;
+	max-width: 1000px;
+	margin: 0 auto;
+	color: white;
+	padding: 20px;
+}
+.orderForm {
+	margin-top: 20px;
+}
+.orderTitle {
+	color: #b20522;
+	font-weight: bold;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.labelRow {
+	color: #b20522;
+	font-weight: bold;
+	font-size: 20px;
+}
+.mustHave {
+	color: #b20522;
+}
+.row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 15px;
+}
+
+.label {
+	color: white;
+	margin-right: 10px;
+	flex: 1; /* Занимает равное пространство */
+}
+
+.input {
+	border: 1px solid #a1a1a1;
+	border-radius: 8px;
+	padding: 10px;
+	margin-left: 10px;
+	background-color: transparent;
+	color: white;
+	font-size: 16px;
+	flex: 2; /* Занимает больше пространства */
+}
+
+.input:focus {
+	outline: none;
+	border-color: #b20522;
+}
+
+.deliveryOptions,
+.paymentOptions {
+	display: flex;
+	flex-direction: column;
+}
+
+.button {
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+	background-color: transparent;
+	border: 2px solid #a1a1a1;
+	border-radius: 8px;
+	padding: 10px 20px;
+	margin: 5px 0;
+	color: white;
+	transition: background-color 0.3s, border-color 0.3s;
+}
+
+.button input {
+	display: none; /* Скрыть стандартную радиокнопку */
+}
+
+.button:hover {
+	background-color: #a1a1a1;
+}
+
+.selected {
+	border-color: #b20522; /* Цвет границы для выбранного способа */
+}
+
+.submitButton {
+	background-color: #b20522;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 20px;
+	cursor: pointer;
+	font-size: 16px;
+	margin-top: 20px; /* Отступ сверху для кнопки */
+}
+
+.submitButton:hover {
+	background-color: #a1a1a1;
+}

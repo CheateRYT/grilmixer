@@ -109,12 +109,14 @@ const AdminOrders: React.FC = () => {
 							<TableCell>Номер</TableCell>
 							<TableCell>Номер магазина</TableCell>
 							<TableCell>Стоимость</TableCell>
+							<TableCell>Сдача с</TableCell>
 							<TableCell>Тип</TableCell>
+							<TableCell>Персон</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
 							<TableCell>Почта</TableCell>
 							<TableCell>Имя клиента</TableCell>
-							<TableCell>Время создания</TableCell>
+							<TableCell>Время</TableCell>
 							<TableCell>Время окончания</TableCell>
 							<TableCell>Статус</TableCell>
 							<TableCell>Номера продуктов</TableCell>
@@ -130,7 +132,9 @@ const AdminOrders: React.FC = () => {
 								<TableCell>{order.id}</TableCell>
 								<TableCell>{order.shopId}</TableCell>
 								<TableCell>{order.amount}</TableCell>
+								<TableCell>{order.changeFrom}</TableCell>
 								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
+								<TableCell>{order.personCount}</TableCell>
 								<TableCell>{order.phoneNumber}</TableCell>
 								<TableCell>{order.deliveryAddress}</TableCell>
 								<TableCell>{order.email}</TableCell>

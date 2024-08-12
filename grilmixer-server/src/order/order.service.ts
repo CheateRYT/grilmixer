@@ -108,6 +108,9 @@ export class OrderService {
 				data: {
 					ip: orderData.ip,
 					type: orderData.type,
+					personCount: orderData.personCount,
+					changeFrom: orderData.changeFrom || '',
+					createdTime: orderData.createdTime,
 					paymentType: orderData.paymentType,
 					shopId: orderData.shopId,
 					amount: totalAmount.toFixed(2).toString(),

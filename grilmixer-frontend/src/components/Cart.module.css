@@ -8,11 +8,23 @@
 	padding: 1rem;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
+.cartPrice {
+	display: flex;
+	flex-direction: column;
+}
 .cartTitle {
 	font-size: 28px; /* Увеличенный размер шрифта для названия */
 	margin: 0; /* Убираем отступы */
 	margin-bottom: 20px;
+}
+.cartItogo {
+	color: #b20522;
+	font-weight: bold;
+	font-size: 22px;
+}
+.cartDeliveryPrice {
+	font-weight: bold;
+	font-size: 18px;
 }
 .cartAmount {
 	font-weight: bold;
