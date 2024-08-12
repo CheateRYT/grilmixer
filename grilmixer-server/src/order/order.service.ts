@@ -15,6 +15,7 @@ export class OrderService {
 		private prisma: PrismaService,
 		private gatewayService: GatewayService
 	) {}
+
 	async createOrder(orderData: OrderDto) {
 		try {
 			const products = await this.prisma.product.findMany({
@@ -24,6 +25,7 @@ export class OrderService {
 					}
 				}
 			})
+
 			const unavailableProducts = products.filter(
 				product => !product.isAvailable || product.isStopList
 			)
@@ -37,21 +39,45 @@ export class OrderService {
 			let totalAmount = 0 // Общая сумма заказа
 			const receiptItems = []
 
-			// Обрабатываем все продукты в заказе
-			for (let i = 0; i < orderData.products.length; i++) {
-				const product = products[i]
-				const productCount = orderData.productsCount[i]
-				// Инициализируем стоимость дополнительных ингредиентов
+			// Группируем заказы по продуктам и их дополнительным ингредиентам
+			const groupedOrders = new Map<
+				string,
+				{ productId: number; productCount: number; extraIngredients: string }
+			>()
+
+			for (let i = 0; i < orderData.extraIngredientsOrder.length; i++) {
+				const extraIngredientsOrder = orderData.extraIngredientsOrder[i]
+				const productId = extraIngredientsOrder.productId
+				const productCount = extraIngredientsOrder.productCount
+				const extraIngredients = extraIngredientsOrder.extraIngredients
+
+				const key = `${productId}-${extraIngredients}` // Уникальный ключ для группировки
+
+				if (groupedOrders.has(key)) {
+					const existingOrder = groupedOrders.get(key)
+					existingOrder.productCount += productCount // Увеличиваем количество
+				} else {
+					groupedOrders.set(key, {
+						productId,
+						productCount,
+						extraIngredients
+					})
+				}
+			}
+
+			// Обрабатываем все сгруппированные продукты в заказе
+			for (const order of groupedOrders.values()) {
+				const product = products.find(p => p.id === order.productId)
+				const productCount = order.productCount
 				let extraIngredientsCost = 0
 
 				// Проверяем наличие дополнительных ингредиентов
-				const extraIngredientsOrder = orderData.extraIngredientsOrder?.find(
-					item => item.productId === product.id
-				)
-				if (extraIngredientsOrder) {
-					const extraIngredientIds = extraIngredientsOrder.extraIngredients
-						.split(',')
-						.map(id => parseInt(id))
+				const extraIngredientIds = order.extraIngredients
+					.split(',')
+					.map(id => parseInt(id))
+					.filter(id => !isNaN(id)) // Фильтруем нечисловые значения
+
+				if (extraIngredientIds.length > 0) {
 					const extraIngredients = await this.prisma.extraIngredient.findMany({
 						where: {
 							id: {
@@ -61,9 +87,7 @@ export class OrderService {
 					})
 					// Рассчитываем стоимость дополнительных ингредиентов с учетом количества
 					extraIngredientsCost = extraIngredients.reduce(
-						(sum, ingredient) =>
-							sum +
-							Number(ingredient.price) * extraIngredientsOrder.productCount,
+						(sum, ingredient) => sum + Number(ingredient.price) * productCount,
 						0
 					)
 				}
@@ -87,15 +111,13 @@ export class OrderService {
 				totalAmount += productTotalPrice
 
 				// Сохраняем дополнительные ингредиенты, если они есть
-				if (extraIngredientsOrder) {
-					await this.prisma.extraIngredientOrder.create({
-						data: {
-							productId: product.id,
-							extraIngredients: extraIngredientsOrder.extraIngredients,
-							productCount: extraIngredientsOrder.productCount
-						}
-					})
-				}
+				await this.prisma.extraIngredientOrder.create({
+					data: {
+						productId: product.id,
+						extraIngredients: order.extraIngredients,
+						productCount: order.productCount
+					}
+				})
 			}
 
 			// Учитываем стоимость доставки только если тип заказа "Доставка"
@@ -123,7 +145,7 @@ export class OrderService {
 						connect: products.map(product => ({ id: product.id }))
 					},
 					extraIngredientsOrder: {
-						create: orderData.extraIngredientsOrder?.map(
+						create: Array.from(groupedOrders.values()).map(
 							extraIngredientOrder => ({
 								productId: extraIngredientOrder.productId,
 								extraIngredients: extraIngredientOrder.extraIngredients,
@@ -155,6 +177,7 @@ export class OrderService {
 				// Если Самовывоз и Наличные, не создаем платеж через YooKassa
 				return newOrder // Возвращаем заказ без создания платежа
 			}
+
 			const shopTag =
 				orderData.shopName === 'Гриль-МикСер' ? 'foodcourt' : 'cafe'
 			const returnUrl = `https://merchant-website.com/${shopTag}/${newOrder.id}`

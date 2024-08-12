@@ -1,45 +1,201 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { RootState } from '../store/store'
 import Cart from './Cart'
 import styles from './Order.module.css'
 
 const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
+	const [errors, setErrors] = useState<{ [key: string]: boolean }>({})
 	const [name, setName] = useState('')
 	const [phone, setPhone] = useState('')
 	const [street, setStreet] = useState('')
 	const [house, setHouse] = useState('')
 	const [building, setBuilding] = useState('')
+	const [entrance, setEntrance] = useState('')
+	const [room, setRoom] = useState('')
 	const [comment, setComment] = useState('')
 	const [personCount, setPersonCount] = useState<number>(1)
 	const [email, setEmail] = useState('')
 	const [deliveryMethod, setDeliveryMethod] = useState('')
 	const [paymentMethod, setPaymentMethod] = useState('')
-	const [deliveryDate, setDeliveryDate] = useState('')
+	const [selectedTime, setSelectedTime] = useState('')
 	const [changeNeeded, setChangeNeeded] = useState(false)
 	const [changeAmount, setChangeAmount] = useState('')
+	const [ipAddress, setIpAddress] = useState('')
+	const cartItems = useSelector((state: RootState) => state.cart.items)
+
+	useEffect(() => {
+		// Получение IP-адреса
+		const fetchIpAddress = async () => {
+			try {
+				const response = await axios.get('https://api.ipify.org?format=json')
+				setIpAddress(response.data.ip)
+			} catch (error) {
+				console.error('Error fetching IP address:', error)
+			}
+		}
+		fetchIpAddress()
+	}, [])
+
+	const generateTimeOptions = () => {
+		const options = []
+		const now = new Date()
+
+		// Функция для округления времени
+		const roundToNearestHalfHour = date => {
+			const minutes = date.getMinutes()
+			const roundedMinutes = Math.round(minutes / 30) * 30
+			date.setMinutes(roundedMinutes)
+			date.setSeconds(0)
+			date.setMilliseconds(0)
+			return date
+		}
+
+		// Генерация времени на сегодня
+		for (let i = 0; i < 48; i++) {
+			const date = new Date(now)
+			date.setMinutes(now.getMinutes() + i * 30)
+			const roundedDate = roundToNearestHalfHour(date)
+			const day = String(roundedDate.getDate()).padStart(2, '0')
+			const month = String(roundedDate.getMonth() + 1).padStart(2, '0')
+			const hours = String(roundedDate.getHours()).padStart(2, '0')
+			const minutes = String(roundedDate.getMinutes()).padStart(2, '0')
+			options.push(`${day}.${month} - ${hours}:${minutes}`)
+		}
+
+		// Генерация времени на завтра
+		now.setDate(now.getDate() + 1)
+		for (let i = 0; i < 48; i++) {
+			const date = new Date(now)
+			date.setMinutes(now.getMinutes() + i * 30)
+			const roundedDate = roundToNearestHalfHour(date)
+			const day = String(roundedDate.getDate()).padStart(2, '0')
+			const month = String(roundedDate.getMonth() + 1).padStart(2, '0')
+			const hours = String(roundedDate.getHours()).padStart(2, '0')
+			const minutes = String(roundedDate.getMinutes()).padStart(2, '0')
+			options.push(`${day}.${month} - ${hours}:${minutes}`)
+		}
+
+		return options
+	}
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
+		const newErrors: { [key: string]: boolean } = {}
+		// Проверка обязательных полей
+		if (!deliveryMethod) {
+			alert('Выберите способ доставки')
+			return
+		}
+		if (deliveryMethod === 'Самовывоз' && !paymentMethod) {
+			alert('Выберите способ оплаты')
+			return
+		}
+		if (
+			deliveryMethod === 'Самовывоз' &&
+			paymentMethod === 'Наличные' &&
+			!changeAmount
+		) {
+			alert('Не заполнено обязательное поле - Нужна сдача с ')
+			return
+		}
+		if (!name) {
+			newErrors.name = true
+			alert('Не заполнено обязательное поле - Имя')
+		}
+		if (!phone) {
+			newErrors.phone = true
+			alert('Не заполнено обязательное поле - Телефон')
+		}
+		if (!email) {
+			newErrors.email = true
+			alert('Не заполнено обязательное поле - Почта')
+		}
+		if (!street) {
+			newErrors.street = true
+			alert('Не заполнено обязательное поле - Улица')
+		}
+		if (!house) {
+			newErrors.house = true
+			alert('Не заполнено обязательное поле - Дом')
+		}
+		if (Object.keys(newErrors).length > 0) {
+			setErrors(newErrors)
+			return // Прекращаем выполнение, если есть ошибки
+		}
+		let createdTime = ''
+		if (selectedTime === 'fastDelivery') {
+			createdTime = new Date().toISOString()
+		} else {
+			const [dayMonth, time] = selectedTime.split(' - ')
+			const [day, month] = dayMonth.split('.')
+			const [hours, minutes] = time.split(':')
+			const deliveryDate = new Date()
+			deliveryDate.setDate(
+				deliveryDate.getDate() + (new Date().getDate() > parseInt(day) ? 1 : 0)
+			)
+			deliveryDate.setHours(parseInt(hours), parseInt(minutes), 0, 0)
+			createdTime = deliveryDate.toISOString()
+		}
+		// Объект для хранения уникальных продуктов и их количества
+		const productMap: { [key: number]: number } = {}
+		const extraIngredientsOrder: {
+			productId: number
+			extraIngredients: string // Здесь будет строка
+			productCount: number
+		}[] = []
+		cartItems.forEach(item => {
+			const productId = item.productId
+			const extraIngredientsArray = JSON.parse(item.extraIngredients || '[]')
+			// Увеличиваем количество в productMap
+			if (productMap[productId]) {
+				productMap[productId] += item.quantity // Увеличиваем количество
+			} else {
+				productMap[productId] = item.quantity // Устанавливаем количество
+			}
+			// Добавляем в extraIngredientsOrder
+			const ingredientIds = extraIngredientsArray
+				.map(ingredient => ingredient.id)
+				.join(',') // Извлекаем ID и формируем строку
+			extraIngredientsOrder.push({
+				productId: productId,
+				extraIngredients: ingredientIds, // Здесь оставляем строку с ID
+				productCount: item.quantity,
+			})
+		})
+		// Преобразуем объект в массивы
+		const products = Object.keys(productMap).map(id => parseInt(id))
+		const productsCount = Object.values(productMap).map(count => count)
+		// Формирование данных заказа
 		const orderData = {
-			shopId,
-			shopTag,
-			name,
-			phone,
-			street,
-			house,
-			building,
-			comment,
-			personCount,
-			email,
-			deliveryMethod,
-			paymentMethod,
-			deliveryDate,
-			changeNeeded,
-			changeAmount,
+			phoneNumber: phone,
+			shopId: parseInt(shopId),
+			deliveryAddress: `ул ${street}, д ${house}, подьезд ${entrance}, строение ${building}, кв ${room}. Комментарий - ${comment}`,
+			type: deliveryMethod === 'Самовывоз' ? 'Самовывоз' : 'Доставка',
+			paymentType: paymentMethod,
+			email: email,
+			clientName: name,
+			products,
+			createdTime,
+			personCount: personCount,
+			changeFrom: changeAmount,
+			ip: ipAddress,
+			shopName: shopTag,
+			extraIngredientsOrder: extraIngredientsOrder.map(order => ({
+				productId: order.productId,
+				extraIngredients: order.extraIngredients, // Здесь оставляем строку с ID
+				productCount: order.productCount,
+			})),
+			productsCount,
 		}
 		try {
-			const response = await axios.post('/api/orders', orderData)
-			console.log('Order submitted:', response.data)
+			const response = await axios.post(
+				'http://87.117.25.141:4200/api/order/createOrder',
+				orderData
+			)
+
+			console.log('Order submitted:', response)
 		} catch (error) {
 			console.error('Error submitting order:', error)
 		}
@@ -47,8 +203,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 
 	const handleDeliveryChange = (value: string) => {
 		setDeliveryMethod(value)
-
-		if (value === 'courier') {
+		if (value === 'Доставка') {
 			setChangeNeeded(false)
 			setChangeAmount('')
 			setPaymentMethod('')
@@ -57,8 +212,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 
 	const handlePaymentChange = (value: string) => {
 		setPaymentMethod(value)
-		// Если выбраны наличные, то нужно сдачу
-		if (value === 'cash') {
+		if (value === 'Наличные') {
 			setChangeNeeded(true)
 		} else {
 			setChangeNeeded(false)
@@ -76,30 +230,39 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 						Имя <span className={styles.mustHave}>*</span>
 					</label>
 					<input
-						className={styles.input}
+						className={`${styles.input} ${errors.name ? 'error' : ''}`}
 						type='text'
 						value={name}
-						onChange={e => setName(e.target.value)}
+						onChange={e => {
+							setName(e.target.value)
+							setErrors(prev => ({ ...prev, name: false })) // Убираем ошибку при вводе
+						}}
 					/>
 					<label className={styles.label}>
 						Телефон <span className={styles.mustHave}>*</span>
 					</label>
 					<input
 						placeholder='+79999999999'
-						className={styles.input}
+						className={`${styles.input} ${errors.phone ? 'error' : ''}`}
 						type='text'
 						value={phone}
-						onChange={e => setPhone(e.target.value)}
+						onChange={e => {
+							setPhone(e.target.value)
+							setErrors(prev => ({ ...prev, phone: false }))
+						}}
 					/>
 					<label className={styles.label}>
 						Эл. Почта <span className={styles.mustHave}>*</span>
 					</label>
 					<input
 						placeholder='example@gmail.com'
-						className={styles.input}
+						className={`${styles.input} ${errors.email ? 'error' : ''}`}
 						type='email'
 						value={email}
-						onChange={e => setEmail(e.target.value)}
+						onChange={e => {
+							setEmail(e.target.value)
+							setErrors(prev => ({ ...prev, email: false }))
+						}}
 					/>
 				</div>
 				<div className={styles.row}>
@@ -107,19 +270,25 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 						Улица <span className={styles.mustHave}>*</span>
 					</label>
 					<input
-						className={styles.input}
+						className={`${styles.input} ${errors.street ? 'error' : ''}`}
 						type='text'
 						value={street}
-						onChange={e => setStreet(e.target.value)}
+						onChange={e => {
+							setStreet(e.target.value)
+							setErrors(prev => ({ ...prev, street: false }))
+						}}
 					/>
 					<label className={styles.label}>
 						Дом <span className={styles.mustHave}>*</span>
 					</label>
 					<input
-						className={styles.input}
+						className={`${styles.input} ${errors.house ? 'error' : ''}`}
 						type='text'
 						value={house}
-						onChange={e => setHouse(e.target.value)}
+						onChange={e => {
+							setHouse(e.target.value)
+							setErrors(prev => ({ ...prev, house: false }))
+						}}
 					/>
 					<label className={styles.label}>Строение/Корпус</label>
 					<input
@@ -127,6 +296,22 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 						type='text'
 						value={building}
 						onChange={e => setBuilding(e.target.value)}
+					/>
+				</div>
+				<div className={styles.row}>
+					<label className={styles.label}>Подьезд</label>
+					<input
+						className={styles.input}
+						type='text'
+						value={entrance}
+						onChange={e => setEntrance(e.target.value)}
+					/>
+					<label className={styles.label}>Квартира</label>
+					<input
+						className={styles.input}
+						type='text'
+						value={room}
+						onChange={e => setRoom(e.target.value)}
 					/>
 				</div>
 				<div className={styles.row}>
@@ -149,14 +334,30 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 				</div>
 				<div className={styles.row}>
 					<label className={styles.label}>
-						Дата и время доставки/самовывоза *
+						Дата и время доставки/самовывоза{' '}
+						<span className={styles.mustHave}>*</span>
 					</label>
-					<input
-						className={styles.input}
-						type='datetime-local'
-						value={deliveryDate}
-						onChange={e => setDeliveryDate(e.target.value)}
-					/>
+					<select
+						className={`${styles.input} ${styles.select}`}
+						value={selectedTime}
+						onChange={e => setSelectedTime(e.target.value)}
+					>
+						<option className={styles.selectedTimeOption} value='' disabled>
+							Выберите время
+						</option>
+						<option className={styles.selectedTimeOption} value='fastDelivery'>
+							Как можно скорее
+						</option>
+						{generateTimeOptions().map((time, index) => (
+							<option
+								className={styles.selectedTimeOption}
+								key={index}
+								value={time}
+							>
+								{time}
+							</option>
+						))}
+					</select>
 				</div>
 				{/* Способы доставки */}
 				<div className={styles.row}>
@@ -166,26 +367,26 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 					<div className={styles.deliveryOptions}>
 						<label
 							className={`${styles.button} ${
-								deliveryMethod === 'courier' ? styles.selected : ''
+								deliveryMethod === 'Доставка' ? styles.selected : ''
 							}`}
 						>
 							<input
 								type='radio'
-								value='courier'
-								checked={deliveryMethod === 'courier'}
+								value='Доставка'
+								checked={deliveryMethod === 'Доставка'}
 								onChange={e => handleDeliveryChange(e.target.value)}
 							/>
 							Курьером
 						</label>
 						<label
 							className={`${styles.button} ${
-								deliveryMethod === 'pickup' ? styles.selected : ''
+								deliveryMethod === 'Самовывоз' ? styles.selected : ''
 							}`}
 						>
 							<input
 								type='radio'
-								value='pickup'
-								checked={deliveryMethod === 'pickup'}
+								value='Самовывоз'
+								checked={deliveryMethod === 'Самовывоз'}
 								onChange={e => handleDeliveryChange(e.target.value)}
 							/>
 							Самовывоз
@@ -193,7 +394,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 					</div>
 				</div>
 				{/* Способ оплаты (появляется только при выборе самовывоза) */}
-				{deliveryMethod === 'pickup' && (
+				{deliveryMethod === 'Самовывоз' && (
 					<div className={styles.row}>
 						<label className={styles.label}>
 							Способ оплаты <span className={styles.mustHave}>*</span>{' '}
@@ -201,26 +402,26 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 						<div className={styles.paymentOptions}>
 							<label
 								className={`${styles.button} ${
-									paymentMethod === 'cash' ? styles.selected : ''
+									paymentMethod === 'Наличные' ? styles.selected : ''
 								}`}
 							>
 								<input
 									type='radio'
-									value='cash'
-									checked={paymentMethod === 'cash'}
+									value='Наличные'
+									checked={paymentMethod === 'Наличные'}
 									onChange={e => handlePaymentChange(e.target.value)}
 								/>
 								Наличные
 							</label>
 							<label
 								className={`${styles.button} ${
-									paymentMethod === 'non-cash' ? styles.selected : ''
+									paymentMethod === 'Безналичная' ? styles.selected : ''
 								}`}
 							>
 								<input
 									type='radio'
-									value='non-cash'
-									checked={paymentMethod === 'non-cash'}
+									value='Безналичная'
+									checked={paymentMethod === 'Безналичная'}
 									onChange={e => handlePaymentChange(e.target.value)}
 								/>
 								Безналичная
@@ -229,9 +430,11 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 					</div>
 				)}
 				{/* Поле для сдачи, если выбраны наличные */}
-				{changeNeeded && paymentMethod === 'cash' && (
+				{changeNeeded && paymentMethod === 'Наличные' && (
 					<div className={styles.row}>
-						<label className={styles.label}>Нужна сдача с</label>
+						<label className={styles.label}>
+							Нужна сдача с <span className={styles.mustHave}>*</span>
+						</label>
 						<input
 							className={styles.input}
 							type='number'

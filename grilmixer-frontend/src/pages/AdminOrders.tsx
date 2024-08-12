@@ -57,7 +57,16 @@ const AdminOrders: React.FC = () => {
 		setShowModal(false)
 		setUpdatedOrderData({})
 	}
+	const formatDate = (dateString: string) => {
+		const date = new Date(dateString)
+		const day = String(date.getDate()).padStart(2, '0') // Получаем день
+		const month = String(date.getMonth() + 1).padStart(2, '0') // Получаем месяц (месяцы начинаются с 0)
+		const year = date.getFullYear() // Получаем год
+		const hours = String(date.getHours()).padStart(2, '0') // Получаем часы
+		const minutes = String(date.getMinutes()).padStart(2, '0') // Получаем минуты
 
+		return `${day}.${month}.${year} ${hours}:${minutes}` // Форматируем строку
+	}
 	const handleUpdateOrder = async () => {
 		try {
 			const token = Cookies.get('admin-token')
@@ -139,8 +148,14 @@ const AdminOrders: React.FC = () => {
 								<TableCell>{order.deliveryAddress}</TableCell>
 								<TableCell>{order.email}</TableCell>
 								<TableCell>{order.clientName}</TableCell>
-								<TableCell>{order.createdTime}</TableCell>
-								<TableCell>{order.completedTime}</TableCell>
+								<TableCell>{formatDate(order.createdTime)}</TableCell>{' '}
+								{/* Форматируем дату создания */}
+								<TableCell>
+									{order.completedTime
+										? formatDate(order.completedTime)
+										: 'Не завершен'}
+								</TableCell>{' '}
+								{/* Форматируем дату завершения */}
 								<TableCell>{order.status}</TableCell>
 								<TableCell>
 									{order.products.map(product => product.id).join(',')}

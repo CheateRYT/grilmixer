@@ -98,7 +98,7 @@ const Cart = ({
 					))
 				)}
 			</div>
-			{cartItems.length > 0 && (
+			{cartItems.length > 0 && !isDeliveryPrice && (
 				<button className={styles.orderButton} onClick={handleOrder}>
 					Заказать
 				</button>
