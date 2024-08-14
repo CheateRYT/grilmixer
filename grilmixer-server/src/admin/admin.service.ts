@@ -99,11 +99,14 @@ export class AdminService {
 			},
 			select: {
 				id: true,
+				shopId: true,
 				type: true,
 				paymentType: true,
+				amount: true,
 				status: true,
 				createdTime: true,
-				completedTime: true
+				completedTime: true,
+				deliveryAddress: true
 			}
 		})
 	}

@@ -10,7 +10,10 @@ const FoodcourtCategory = () => {
 		<div className='foodcourt'>
 			<Header logo='Гриль-МикСер' shopId='1' shopTag={'foodcourt'} />
 			<ProductList categoryTag={name} shopId='1' />
-			<Footer reviewLink='https://yandex.ru/maps/org/gril_mikser/5282682587/reviews/?ll=38.884448%2C47.223400&z=17' />
+			<Footer
+				shopTag={'foodcourt'}
+				reviewLink='https://yandex.ru/maps/org/gril_mikser/5282682587/reviews/?ll=38.884448%2C47.223400&z=17'
+			/>
 		</div>
 	)
 }

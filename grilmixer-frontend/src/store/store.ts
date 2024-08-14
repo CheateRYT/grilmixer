@@ -67,6 +67,10 @@ const cartSlice = createSlice({
 			}
 			saveCartState(state)
 		},
+		clearCart(state) {
+			state.items = [] // Очищаем корзину
+			saveCartState(state) // Сохраняем пустую корзину в localStorage
+		},
 	},
 })
 
@@ -75,7 +79,7 @@ const saveCartState = (state: CartState) => {
 	localStorage.setItem('cart', JSON.stringify(state))
 }
 
-export const { addToCart, removeFromCart, plusValue, minusValue } =
+export const { addToCart, removeFromCart, plusValue, minusValue, clearCart } =
 	cartSlice.actions
 
 const store = configureStore({

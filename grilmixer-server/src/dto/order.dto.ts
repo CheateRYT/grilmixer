@@ -27,7 +27,9 @@ export class OrderDto {
 	@IsOptional()
 	@IsNumber()
 	id: number
-
+	@IsOptional()
+	@IsString()
+	shopTag: string
 	@IsOptional()
 	@IsString()
 	type: string

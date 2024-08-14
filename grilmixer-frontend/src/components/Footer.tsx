@@ -1,7 +1,13 @@
 import { useNavigate } from 'react-router-dom' // Импортируем useNavigate из react-router-dom
 import styles from './Footer.module.css'
 
-const Footer = ({ reviewLink }: { reviewLink: string }) => {
+const Footer = ({
+	reviewLink,
+	shopTag,
+}: {
+	reviewLink: string
+	shopTag: string
+}) => {
 	const navigate = useNavigate()
 
 	const handleNavigateReviewLink = () => {
@@ -13,7 +19,7 @@ const Footer = ({ reviewLink }: { reviewLink: string }) => {
 			<div>
 				<div className={styles.linkContainer}>
 					<span
-						onClick={() => navigate(`deliveryRules`)}
+						onClick={() => navigate(`/${shopTag}/deliveryRules`)}
 						className={styles.link}
 					>
 						Условия доставки
@@ -21,10 +27,16 @@ const Footer = ({ reviewLink }: { reviewLink: string }) => {
 					<span onClick={handleNavigateReviewLink} className={styles.link}>
 						Отзывы о нас
 					</span>
-					<span onClick={() => navigate('contacts')} className={styles.link}>
+					<span
+						onClick={() => navigate(`/${shopTag}/contacts`)}
+						className={styles.link}
+					>
 						Контакты
 					</span>
-					<span onClick={() => navigate('about')} className={styles.link}>
+					<span
+						onClick={() => navigate(`/${shopTag}/about`)}
+						className={styles.link}
+					>
 						О нас
 					</span>
 				</div>

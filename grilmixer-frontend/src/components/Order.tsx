@@ -1,7 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { RingLoader } from 'react-spinners'
+import { clearCart, RootState } from '../store/store'
 import Cart from './Cart'
 import styles from './Order.module.css'
 
@@ -24,6 +25,11 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 	const [changeAmount, setChangeAmount] = useState('')
 	const [ipAddress, setIpAddress] = useState('')
 	const cartItems = useSelector((state: RootState) => state.cart.items)
+	const [isLoading, setIsLoading] = useState(false) // Состояние загрузки
+
+	const [fastDelivery, setFastDelivery] = useState<string>('')
+
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		// Получение IP-адреса
@@ -82,6 +88,12 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
+
+		if (cartItems.length === 0) {
+			alert('Корзина пуста. Добавьте товары для заказа.')
+			return
+		}
+
 		const newErrors: { [key: string]: boolean } = {}
 		// Проверка обязательных полей
 		if (!deliveryMethod) {
@@ -161,30 +173,32 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 		const orderData = {
 			phoneNumber: phone,
 			shopId: parseInt(shopId),
-			deliveryAddress: `ул ${street}, д ${house}, подьезд ${entrance}, строение ${building}, кв ${room}. Комментарий - ${comment}`,
+			deliveryAddress: `ул ${street}, д ${house}, подьезд ${entrance}, строение ${building}, кв ${room}. Комментарий - ${fastDelivery} . ${comment}`,
 			type: deliveryMethod === 'Самовывоз' ? 'Самовывоз' : 'Доставка',
 			paymentType: paymentMethod,
 			email: email,
 			clientName: name,
 			products,
 			createdTime,
+			shopTag,
 			personCount: personCount,
 			changeFrom: changeAmount,
 			ip: ipAddress,
 			shopName: shopTag,
 			extraIngredientsOrder: extraIngredientsOrder.map(order => ({
 				productId: order.productId,
-				extraIngredients: order.extraIngredients, // Здесь оставляем строку с ID
+				extraIngredients: order.extraIngredients,
 				productCount: order.productCount,
 			})),
 			productsCount,
 		}
+		setIsLoading(true) // Устанавливаем состояние загрузки в true
 		try {
 			const response = await axios.post(
 				'http://87.117.25.141:4200/api/order/createOrder',
 				orderData
 			)
-			console.log(response)
+			dispatch(clearCart())
 			if (response.data.order.paymentType === 'Наличные') {
 				console.log('Наличка')
 			} else {
@@ -192,6 +206,8 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 			}
 		} catch (error) {
 			console.error('Error submitting order:', error)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -214,10 +230,22 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 		}
 	}
 
+	const setSelectedTimeCustom = (time: string) => {
+		if (time === 'fastDelivery') {
+			setFastDelivery('Как можно скорее')
+		}
+		setSelectedTime(time)
+	}
+
 	return (
 		<div className={styles.order}>
 			<h1 className={styles.orderTitle}>Создание заказа</h1>
 			<Cart isDeliveryPrice={true} shopTag={'foodcourt'} title='' />
+			{isLoading && (
+				<div className='ringloader'>
+					<RingLoader color='#FF0000' loading={isLoading} size={150} />
+				</div>
+			)}
 			<form className={styles.orderForm} onSubmit={handleSubmit}>
 				<div className={styles.row}>
 					<label className={styles.label}>
@@ -331,7 +359,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 					<select
 						className={`${styles.input} ${styles.select}`}
 						value={selectedTime}
-						onChange={e => setSelectedTime(e.target.value)}
+						onChange={e => setSelectedTimeCustom(e.target.value)}
 					>
 						<option className={styles.selectedTimeOption} value='' disabled>
 							Выберите время
