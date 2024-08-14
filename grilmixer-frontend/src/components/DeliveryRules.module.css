@@ -1,0 +1,65 @@
+.deliveryRulesContainer {
+	font-size: 20px;
+	background-color: #1a1a1a; /* Фон контейнера */
+	color: white; /* Цвет текста */
+	padding: 20px; /* Отступы внутри контейнера */
+	border-radius: 8px; /* Закругленные углы */
+	max-width: 800px; /* Максимальная ширина */
+	margin: 20px auto; /* Центрирование контейнера */
+}
+
+.title {
+	font-size: 28px; /* Размер шрифта заголовка */
+	margin-bottom: 15px; /* Отступ снизу */
+	color: #b20522; /* Цвет заголовка */
+}
+
+.subtitle {
+	font-size: 24px; /* Размер шрифта подзаголовка */
+	margin-bottom: 10px; /* Отступ снизу */
+}
+
+.workingHours {
+	font-size: 18px; /* Размер шрифта для часов работы */
+	margin-bottom: 15px; /* Отступ снизу */
+}
+
+.deliveryHeader {
+	font-size: 22px; /* Размер шрифта для заголовка доставки */
+	margin-top: 20px; /* Отступ сверху */
+	color: #b20522; /* Цвет заголовка */
+}
+
+.deliveryCost {
+	font-size: 18px; /* Размер шрифта для стоимости доставки */
+	margin-bottom: 15px; /* Отступ снизу */
+}
+
+.paymentHeader {
+	font-size: 22px; /* Размер шрифта для заголовка способов оплаты */
+	margin-top: 20px; /* Отступ сверху */
+	color: #b20522; /* Цвет заголовка */
+}
+.courier {
+	font-weight: bold;
+}
+.pickup {
+	font-weight: bold;
+}
+.deliveryMethods {
+	list-style-type: none; /* Убираем маркеры списка */
+	padding: 0; /* Убираем отступы */
+	color: #a1a1a1; /* Цвет текста списка */
+}
+
+.deliveryMethods li {
+	margin-bottom: 8px; /* Отступ между элементами списка */
+	color: white;
+}
+
+.pickupInfo {
+	font-size: 20px; /* Размер шрифта для информации о самовывозе */
+	font-weight: bold;
+	margin-top: 15px; /* Отступ сверху */
+	color: #b20522;
+}

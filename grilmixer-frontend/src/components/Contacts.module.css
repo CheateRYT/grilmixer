@@ -1,0 +1,66 @@
+.contactsContainer {
+	background-color: #1a1a1a; /* Фон контейнера */
+	color: white; /* Цвет текста */
+	padding: 20px; /* Отступы внутри контейнера */
+	border-radius: 8px; /* Закругленные углы */
+	font-size: 20px; /* Базовый размер шрифта */
+	max-width: 800px; /* Максимальная ширина */
+	margin: 20px auto; /* Центрирование контейнера */
+	text-align: left; /* Выравнивание текста влево */
+}
+
+.title {
+	font-size: 30px; /* Размер шрифта заголовка */
+	margin-bottom: 20px; /* Отступ снизу */
+	color: #b20522; /* Цвет заголовка */
+}
+
+.address,
+.phone,
+.orderHours,
+.email {
+	font-size: 22px; /* Размер шрифта для текста */
+	margin: 10px 0; /* Отступы сверху и снизу */
+	color: #a1a1a1; /* Цвет текста */
+}
+
+strong {
+	color: white; /* Цвет для выделенного текста */
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+	.contactsContainer {
+		padding: 15px; /* Уменьшаем отступы внутри контейнера */
+		font-size: 18px; /* Уменьшаем базовый размер шрифта */
+	}
+
+	.title {
+		font-size: 26px; /* Уменьшаем размер шрифта заголовка */
+	}
+
+	.address,
+	.phone,
+	.orderHours,
+	.email {
+		font-size: 20px; /* Уменьшаем размер шрифта для текста */
+	}
+}
+
+@media (max-width: 480px) {
+	.contactsContainer {
+		padding: 10px; /* Уменьшаем отступы внутри контейнера */
+		font-size: 16px; /* Уменьшаем базовый размер шрифта */
+	}
+
+	.title {
+		font-size: 24px; /* Уменьшаем размер шрифта заголовка */
+	}
+
+	.address,
+	.phone,
+	.orderHours,
+	.email {
+		font-size: 18px; /* Уменьшаем размер шрифта для текста */
+	}
+}

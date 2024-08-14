@@ -109,6 +109,10 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 			newErrors.name = true
 			alert('Не заполнено обязательное поле - Имя')
 		}
+		if (!selectedTime) {
+			newErrors.name = true
+			alert('Не заполнено обязательное поле - Дата и время доставки/самовывоза')
+		}
 		if (!phone) {
 			newErrors.phone = true
 			alert('Не заполнено обязательное поле - Телефон')
