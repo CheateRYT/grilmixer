@@ -135,19 +135,18 @@ const AdminEvents = () => {
 					<div className='fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75'>
 						<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
 							<h3 className='text-lg font-bold mb-2'>Создать Акцию</h3>
-							<input
-								type='number'
+							<select
 								name='shopId'
-								value={newEventData.shopId}
 								onChange={e =>
 									setNewEventData({
 										...newEventData,
 										shopId: Number(e.target.value),
 									})
 								}
-								placeholder='Номер магазина'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
-							/>
+							>
+								<option value='1'>Фудкорт 1</option>
+								<option value='2'>Кафе 2</option>
+							</select>
 							<input
 								type='text'
 								name='text'

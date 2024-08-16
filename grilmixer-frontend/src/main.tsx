@@ -53,7 +53,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route path='/foodcourt/cart' Component={FoodcourtCart} />
 				<Route path='/cafe' Component={Cafe} />
 				<Route path='/cafe/deliveryRules' Component={CafeDeliveryRules} />
-				<Route path='/cafe/category' Component={CafeCategory} />
+				<Route path='/cafe/category/:name' Component={CafeCategory} />
 				<Route path='/cafe/order' Component={CafeOrder} />
 				<Route path='/cafe/about' Component={CafeAbout} />
 				<Route path='/cafe/contacts' Component={CafeContacts} />

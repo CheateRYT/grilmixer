@@ -241,6 +241,8 @@ export class AdminService {
 		return this.prisma.product.findMany({
 			where: {
 				category,
+				isAvailable: true, // Продукты должны быть доступны
+				isStopList: false, // Продукты не должны быть в стоп-листе
 				shopId: Number(shopId)
 			}
 		})

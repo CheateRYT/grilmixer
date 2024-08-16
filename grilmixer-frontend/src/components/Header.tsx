@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 	}, [shopId])
 
 	const handleClickCategory = (categoryTag: string) => {
-		navigate(`/foodcourt/category/${categoryTag}`)
+		navigate(`/${shopTag}/category/${categoryTag}`)
 	}
 
 	const handleNavigateMain = () => {
@@ -103,7 +103,11 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 						<ShoppingCartIcon className={styles.cartIcon} />
 					</button>
 					{showModal && (
-						<CartModal setClose={handleHideModal} shopTag={shopTag} />
+						<CartModal
+							shopId={shopId}
+							setClose={handleHideModal}
+							shopTag={shopTag}
+						/>
 					)}
 				</div>
 			</div>

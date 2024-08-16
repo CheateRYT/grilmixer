@@ -6,13 +6,15 @@ import styles from './CartModal.module.css'
 
 const CartModal = ({
 	setClose,
+	shopId,
 	shopTag,
 }: {
 	setClose: () => void
+	shopId: string
 	shopTag: string
 }) => {
 	const dispatch = useDispatch()
-	const cartItems = useSelector((state: RootState) => state.cart.items)
+	const cartItems = useSelector((state: RootState) => state.cart.items[shopId])
 	const [totalAmount, setTotalAmount] = useState<number>(0)
 	const navigate = useNavigate()
 	const handleOrder = () => {
@@ -21,9 +23,11 @@ const CartModal = ({
 
 	// Функция для подсчета общей стоимости
 	const calculateTotalAmount = () => {
-		return cartItems.reduce((total, item) => {
-			return total + Number(item.price) * item.quantity
-		}, 0)
+		if (cartItems) {
+			return cartItems.reduce((total, item) => {
+				return total + Number(item.price) * item.quantity
+			}, 0)
+		}
 	}
 
 	// Используем useEffect для обновления общей стоимости при изменении cartItems
@@ -40,7 +44,7 @@ const CartModal = ({
 				</button>
 			</div>
 			<div className={styles.cartItems}>
-				{cartItems.length === 0 ? (
+				{!cartItems ? (
 					<p>Корзина пуста</p>
 				) : (
 					cartItems.map((item, index) => (
@@ -62,7 +66,9 @@ const CartModal = ({
 								<button
 									className={styles.quantityControl}
 									onClick={() =>
-										dispatch(minusValue({ productId: item.productId, index }))
+										dispatch(
+											minusValue({ shopId, productId: item.productId, index })
+										)
 									}
 								>
 									-
@@ -71,7 +77,9 @@ const CartModal = ({
 								<button
 									className={styles.quantityControl}
 									onClick={() =>
-										dispatch(plusValue({ productId: item.productId, index }))
+										dispatch(
+											plusValue({ shopId, productId: item.productId, index })
+										)
 									}
 								>
 									+
@@ -87,7 +95,7 @@ const CartModal = ({
 					))
 				)}
 			</div>
-			{cartItems.length > 0 && (
+			{cartItems && (
 				<div>
 					<h3 className={styles.orderAmount}>Стоимость: {totalAmount} ₽</h3>
 					<button className={styles.orderButton} onClick={handleOrder}>

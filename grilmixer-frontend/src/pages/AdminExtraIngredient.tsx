@@ -104,7 +104,7 @@ const AdminExtraIngredient = () => {
 					<option value={1}>ФудКорт 1</option>
 					<option value={2}>Кафе 1</option>
 				</select>
-				<p>Tag категории</p>
+				<p>Tag категории (Пример burgers, pizza)</p>
 				<input
 					className='mb-4 px-4 py-2 rounded border'
 					type='text'
@@ -210,7 +210,7 @@ const AdminExtraIngredient = () => {
 										categoryTag: e.target.value,
 									})
 								}
-								placeholder='Tag категории'
+								placeholder='Tag категории (Пример burgers,pizza)'
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
 							<input

@@ -21,7 +21,7 @@ const AdminProducts: React.FC = () => {
 		category: '',
 		weight: '',
 		price: '',
-		discout: '0',
+		discount: '',
 		bzu: '',
 		imagePath: '',
 		isStopList: false,
@@ -76,10 +76,11 @@ const AdminProducts: React.FC = () => {
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
 		const { name, value } = e.target
-		if (value === 'true') {
-			setUpdatedProductData(prevData => ({ ...prevData, [name]: true }))
-		} else if (value === 'false') {
-			setUpdatedProductData(prevData => ({ ...prevData, [name]: false }))
+		if (name === 'isStopList' || name === 'isAvailable') {
+			setUpdatedProductData(prevData => ({
+				...prevData,
+				[name]: value === 'true',
+			}))
 		} else {
 			setUpdatedProductData(prevData => ({ ...prevData, [name]: value }))
 		}
@@ -270,7 +271,11 @@ const AdminProducts: React.FC = () => {
 							<input
 								type='text'
 								name='name'
-								value={updatedProductData.name || selectedProduct.name}
+								value={
+									updatedProductData.name !== undefined
+										? updatedProductData.name
+										: selectedProduct.name
+								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
@@ -280,7 +285,11 @@ const AdminProducts: React.FC = () => {
 							<input
 								type='text'
 								name='price'
-								value={updatedProductData.price || selectedProduct.price}
+								value={
+									updatedProductData.price !== undefined
+										? updatedProductData.price
+										: selectedProduct.price
+								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
@@ -291,7 +300,11 @@ const AdminProducts: React.FC = () => {
 								type='text'
 								name='category'
 								placeholder='Tag категории'
-								value={updatedProductData.category || selectedProduct.category}
+								value={
+									updatedProductData.category !== undefined
+										? updatedProductData.category
+										: selectedProduct.category
+								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
@@ -302,7 +315,9 @@ const AdminProducts: React.FC = () => {
 								type='text'
 								name='discount'
 								value={
-									updatedProductData.discount || selectedProduct.discount || ''
+									updatedProductData.discount !== undefined
+										? updatedProductData.discount
+										: selectedProduct.discount || ''
 								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -313,7 +328,11 @@ const AdminProducts: React.FC = () => {
 							<input
 								type='text'
 								name='weight'
-								value={updatedProductData.weight || selectedProduct.weight}
+								value={
+									updatedProductData.weight !== undefined
+										? updatedProductData.weight
+										: selectedProduct.weight
+								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
@@ -324,7 +343,9 @@ const AdminProducts: React.FC = () => {
 								type='text'
 								name='ingredients'
 								value={
-									updatedProductData.ingredients || selectedProduct.ingredients
+									updatedProductData.ingredients !== undefined
+										? updatedProductData.ingredients
+										: selectedProduct.ingredients
 								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -335,7 +356,11 @@ const AdminProducts: React.FC = () => {
 							<input
 								type='text'
 								name='bzu'
-								value={updatedProductData.bzu || selectedProduct.bzu}
+								value={
+									updatedProductData.bzu !== undefined
+										? updatedProductData.bzu
+										: selectedProduct.bzu
+								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
@@ -345,7 +370,9 @@ const AdminProducts: React.FC = () => {
 							<select
 								name='isStopList'
 								value={
-									updatedProductData.isStopList || selectedProduct.isStopList
+									updatedProductData.isStopList !== undefined
+										? updatedProductData.isStopList
+										: selectedProduct.isStopList
 								}
 								onChange={e => handleModalInputChange(e)}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -355,11 +382,13 @@ const AdminProducts: React.FC = () => {
 							</select>
 						</label>
 						<label>
-							Наличие:
+							В наличии
 							<select
 								name='isAvailable'
 								value={
-									updatedProductData.isAvailable || selectedProduct.isAvailable
+									updatedProductData.isAvailable !== undefined
+										? updatedProductData.isAvailable
+										: selectedProduct.isAvailable
 								}
 								onChange={e => handleModalInputChange(e)}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -368,13 +397,16 @@ const AdminProducts: React.FC = () => {
 								<option value={false}>Нет</option>
 							</select>
 						</label>
+
 						<label>
 							Картинка:
 							<input
 								type='text'
 								name='imagePath'
 								value={
-									updatedProductData.imagePath || selectedProduct.imagePath
+									updatedProductData.imagePath !== undefined
+										? updatedProductData.imagePath
+										: selectedProduct.imagePath
 								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -399,19 +431,18 @@ const AdminProducts: React.FC = () => {
 				<div className='fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75'>
 					<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
 						<h3 className='text-lg font-bold mb-2'>Создать Товар</h3>
-						<input
-							type='number'
+						<select
 							name='shopId'
-							value={Number(newProductData.shopId)}
 							onChange={e =>
 								setNewProductData({
 									...newProductData,
 									shopId: Number(e.target.value),
 								})
 							}
-							placeholder='Номер магазина'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
-						/>
+						>
+							<option value='1'>Фудкорт 1</option>
+							<option value='2'>Кафе 2</option>
+						</select>
 						<input
 							type='text'
 							name='name'
@@ -435,7 +466,7 @@ const AdminProducts: React.FC = () => {
 									category: e.target.value,
 								})
 							}
-							placeholder='Tag категории'
+							placeholder='Tag категории (Пример burgers, pizza)'
 							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 						/>
 						<input
@@ -448,7 +479,20 @@ const AdminProducts: React.FC = () => {
 									ingredients: e.target.value,
 								})
 							}
-							placeholder='Ингридиенты, через запятую'
+							placeholder='Ингридиенты, через запятую без пробелов'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+						/>
+						<input
+							type='text'
+							name='bzu'
+							value={newProductData.bzu}
+							onChange={e =>
+								setNewProductData({
+									...newProductData,
+									bzu: e.target.value,
+								})
+							}
+							placeholder='КБЖУ, Калории, белки жиры углеводы через запятую без пробелов'
 							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 						/>
 						<input
@@ -480,11 +524,11 @@ const AdminProducts: React.FC = () => {
 						<input
 							type='text'
 							name='discount'
-							value={newProductData.discout}
+							value={newProductData.discount}
 							onChange={e =>
 								setNewProductData({
 									...newProductData,
-									discout: e.target.value,
+									discount: e.target.value,
 								})
 							}
 							placeholder='Скидка, пример: 150'

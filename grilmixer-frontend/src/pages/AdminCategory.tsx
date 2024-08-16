@@ -184,7 +184,7 @@ const AdminCategory = () => {
 										tag: e.target.value,
 									})
 								}
-								placeholder='Tag категории'
+								placeholder='Tag категории (Пример burgers,pizza)'
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 							/>
 							<input

@@ -35,7 +35,16 @@ const Thanks = ({ orderId }) => {
 		// Вызов функции для получения данных
 		fetchData()
 	}, [orderId]) // Добавляем orderId в зависимости
+	useEffect(() => {
+		// Вызов функции для получения данных
+		fetchData()
 
+		// Устанавливаем интервал для автообновления каждые 20 секунд
+		const intervalId = setInterval(fetchData, 20000)
+
+		// Очистка интервала при размонтировании компонента
+		return () => clearInterval(intervalId)
+	}, [orderId]) // Добавляем orderId в зависимости
 	return (
 		<div className={styles.thanksContainer}>
 			{isLoading ? ( // Проверяем состояние загрузки
@@ -75,9 +84,6 @@ const Thanks = ({ orderId }) => {
 								{orderData.paymentType || 'Безналичная'}
 							</p>
 						</div>
-						<button onClick={fetchData} className={styles.refreshButton}>
-							Обновить
-						</button>
 					</div>
 				)
 			)}

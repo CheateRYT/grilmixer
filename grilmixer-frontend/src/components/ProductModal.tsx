@@ -101,12 +101,14 @@ const ProductModal: React.FC<ProductModalProps> = ({
 		dispatch(
 			addToCart({
 				productId,
+				shopId, // Добавляем shopId
 				quantity,
 				name: product.name || 'Неизвестный продукт',
 				price: totalPrice.toString(),
 				extraIngredients: JSON.stringify(extraIngredients), // Сохраняем как JSON строку
 			})
 		)
+
 		onClose() // Закрываем модальное окно после добавления в корзину
 	}
 

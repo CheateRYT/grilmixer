@@ -6,7 +6,12 @@ const CafeCart = () => {
 	return (
 		<div className='foodcourt'>
 			<Header logo={'Фарш'} shopId={'2'} shopTag={'cafe'} />
-			<Cart isDeliveryPrice={false} shopTag={'cafe'} title='Корзина' />
+			<Cart
+				shopId='2'
+				isDeliveryPrice={false}
+				shopTag={'cafe'}
+				title='Корзина'
+			/>
 			<Footer
 				shopTag={'cafe'}
 				reviewLink='https://yandex.ru/maps-reviews-widget/190773496899?comments'

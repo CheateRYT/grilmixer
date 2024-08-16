@@ -9,44 +9,78 @@ interface CartItem {
 }
 
 interface CartState {
-	items: CartItem[]
+	items: {
+		[shopId: string]: CartItem[]
+	}
 }
 
 const loadCartState = (): CartState => {
 	const savedCart = localStorage.getItem('cart')
-	return savedCart ? JSON.parse(savedCart) : { items: [] }
+	return savedCart ? JSON.parse(savedCart) : { items: {} }
 }
-
+interface AddToCartPayload {
+	productId: number
+	shopId: string // Добавляем shopId
+	quantity: number
+	name: string
+	price: string
+	extraIngredients: string
+}
 const initialState: CartState = loadCartState()
-
 const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		addToCart(state, action: PayloadAction<CartItem>) {
-			const existingItem = state.items.find(
-				item =>
-					item.productId === action.payload.productId &&
-					item.extraIngredients === action.payload.extraIngredients
-			)
-			if (existingItem) {
-				existingItem.quantity += action.payload.quantity // Увеличиваем количество
-			} else {
-				state.items.push(action.payload) // Добавляем новый товар
+		addToCart(state, action: PayloadAction<AddToCartPayload>) {
+			const { shopId, productId, quantity, name, price, extraIngredients } =
+				action.payload
+
+			if (!state.items[shopId]) {
+				state.items[shopId] = [] // Инициализируем массив для нового shopId
 			}
+
+			const existingItem = state.items[shopId].find(
+				item =>
+					item.productId === productId &&
+					item.extraIngredients === extraIngredients
+			)
+
+			if (existingItem) {
+				existingItem.quantity += quantity // Увеличиваем количество
+			} else {
+				state.items[shopId].push({
+					productId,
+					quantity,
+					name,
+					price,
+					extraIngredients,
+				}) // Добавляем новый товар
+			}
+
 			saveCartState(state) // Сохраняем состояние в localStorage
 		},
-		removeFromCart(state, action: PayloadAction<number>) {
-			state.items = state.items.filter(
-				item => item.productId !== action.payload
-			)
-			saveCartState(state) // Сохраняем состояние в localStorage
+		removeFromCart(
+			state,
+			action: PayloadAction<{ shopId: string; productId: number }>
+		) {
+			const { shopId, productId } = action.payload
+			if (state.items[shopId]) {
+				state.items[shopId] = state.items[shopId].filter(
+					item => item.productId !== productId
+				)
+				saveCartState(state)
+			}
 		},
 		plusValue(
 			state,
-			action: PayloadAction<{ productId: number; index: number }>
+			action: PayloadAction<{
+				shopId: string
+				productId: number
+				index: number
+			}>
 		) {
-			const existingItem = state.items[action.payload.index]
+			const { shopId, index } = action.payload
+			const existingItem = state.items[shopId]?.[index]
 			if (existingItem) {
 				++existingItem.quantity
 			}
@@ -54,22 +88,28 @@ const cartSlice = createSlice({
 		},
 		minusValue(
 			state,
-			action: PayloadAction<{ productId: number; index: number }>
+			action: PayloadAction<{
+				shopId: string
+				productId: number
+				index: number
+			}>
 		) {
-			const existingItem = state.items[action.payload.index]
+			const { shopId, index } = action.payload
+			const existingItem = state.items[shopId]?.[index]
 			if (existingItem) {
 				if (existingItem.quantity > 1) {
 					--existingItem.quantity
 				} else {
 					// Удаляем товар, если его количество становится 0
-					state.items.splice(action.payload.index, 1)
+					state.items[shopId].splice(index, 1)
 				}
 			}
 			saveCartState(state)
 		},
-		clearCart(state) {
-			state.items = [] // Очищаем корзину
-			saveCartState(state) // Сохраняем пустую корзину в localStorage
+		clearCart(state, action: PayloadAction<string>) {
+			const shopId = action.payload
+			state.items[shopId] = [] // Очищаем корзину для конкретного магазина
+			saveCartState(state)
 		},
 	},
 })

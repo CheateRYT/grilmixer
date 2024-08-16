@@ -206,7 +206,9 @@ const AdminOrders: React.FC = () => {
 									type='text'
 									name='clientName'
 									value={
-										updatedOrderData.clientName || selectedOrder.clientName
+										updatedOrderData.clientName !== undefined
+											? updatedOrderData.clientName
+											: selectedOrder.clientName
 									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -217,7 +219,11 @@ const AdminOrders: React.FC = () => {
 								<input
 									type='text'
 									name='amount'
-									value={updatedOrderData.amount || selectedOrder.amount}
+									value={
+										updatedOrderData.amount !== undefined
+											? updatedOrderData.amount
+											: selectedOrder.amount
+									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 								/>
@@ -227,7 +233,11 @@ const AdminOrders: React.FC = () => {
 								<input
 									type='text'
 									name='status'
-									value={updatedOrderData.status || selectedOrder.status}
+									value={
+										updatedOrderData.status !== undefined
+											? updatedOrderData.status
+											: selectedOrder.status
+									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 								/>
