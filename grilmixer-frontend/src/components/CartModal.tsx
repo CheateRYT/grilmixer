@@ -35,7 +35,9 @@ const CartModal = ({
 		<div className={styles.cartModal}>
 			<div className={styles.cartHeader}>
 				<h2 className={styles.cartTitle}>Товаров в корзине</h2>
-				<button onClick={setClose}>Закрыть</button>
+				<button className={styles.cartClose} onClick={setClose}>
+					Закрыть
+				</button>
 			</div>
 			<div className={styles.cartItems}>
 				{cartItems.length === 0 ? (

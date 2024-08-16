@@ -6,7 +6,15 @@ import { clearCart, RootState } from '../store/store'
 import Cart from './Cart'
 import styles from './Order.module.css'
 
-const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
+const Order = ({
+	shopId,
+	shopTag,
+	shopName,
+}: {
+	shopId: string
+	shopTag: string
+	shopName: string
+}) => {
 	const [errors, setErrors] = useState<{ [key: string]: boolean }>({})
 	const [name, setName] = useState('')
 	const [phone, setPhone] = useState('')
@@ -188,7 +196,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 			personCount: personCount,
 			changeFrom: changeAmount,
 			ip: ipAddress,
-			shopName: shopTag,
+			shopName: shopName,
 			extraIngredientsOrder: extraIngredientsOrder.map(order => ({
 				productId: order.productId,
 				extraIngredients: order.extraIngredients,
@@ -277,9 +285,7 @@ const Order = ({ shopId, shopTag }: { shopId: string; shopTag: string }) => {
 							setErrors(prev => ({ ...prev, phone: false }))
 						}}
 					/>
-					<label className={styles.label}>
-						Эл. Почта для чека <span className={styles.mustHave}>*</span>
-					</label>
+					<label className={styles.label}>Эл. Почта для чека</label>
 					<input
 						placeholder='example@gmail.com'
 						className={styles.input}

@@ -112,7 +112,7 @@ const AdminPaymentOrders = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{orders.map(order => (
+						{paymentOrders.map(order => (
 							<TableRow key={order.id}>
 								<TableCell>{order.id}</TableCell>
 								<TableCell>{order.shopId}</TableCell>

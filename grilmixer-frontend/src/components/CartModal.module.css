@@ -16,6 +16,9 @@
 	font-weight: bold;
 	font-size: 18px;
 }
+.cartClose {
+	background-color: #1a1a1a;
+}
 .cartTitle {
 	font-size: 28px; /* Увеличенный размер шрифта для названия */
 	margin: 0; /* Убираем отступы */

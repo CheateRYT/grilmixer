@@ -1,5 +1,18 @@
+import Cart from '../components/Cart'
+import Footer from '../components/Footer'
+import Header from '../components/Header'
+
 const CafeCart = () => {
-	return <div>CafeCart</div>
+	return (
+		<div className='foodcourt'>
+			<Header logo={'Фарш'} shopId={'2'} shopTag={'cafe'} />
+			<Cart isDeliveryPrice={false} shopTag={'cafe'} title='Корзина' />
+			<Footer
+				shopTag={'cafe'}
+				reviewLink='https://yandex.ru/maps-reviews-widget/190773496899?comments'
+			/>
+		</div>
+	)
 }
 
 export default CafeCart
