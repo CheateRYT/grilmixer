@@ -299,6 +299,8 @@ export class AdminService {
 				data: { status: 'Оплачен' }
 			})
 			this.gatewayService.sendOrderPaymentSuccess(orderId)
+			console.log(dto)
+			console.error(dto)
 			return payment
 		} catch (e) {
 			throw new HttpException(

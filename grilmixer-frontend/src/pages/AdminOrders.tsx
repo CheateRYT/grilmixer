@@ -165,12 +165,13 @@ const AdminOrders: React.FC = () => {
 								</TableCell>
 								<TableCell>{order.productsCount}</TableCell>
 								<TableCell>
-									{order.extraIngredientsOrder
-										.map(
-											extra =>
-												`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
-										)
-										.join('; ')}
+									{order.extraIngredientsOrder &&
+										order.extraIngredientsOrder
+											.map(
+												extra =>
+													`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
+											)
+											.join('; ')}
 								</TableCell>
 								<TableCell>
 									<Button

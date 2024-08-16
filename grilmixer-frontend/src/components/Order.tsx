@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import { clearCart, RootState } from '../store/store'
 import Cart from './Cart'
@@ -34,6 +35,7 @@ const Order = ({
 	const [ipAddress, setIpAddress] = useState('')
 	const cartItems = useSelector((state: RootState) => state.cart.items[shopId])
 	const [isLoading, setIsLoading] = useState(false) // Состояние загрузки
+	const navigate = useNavigate()
 
 	const [fastDelivery, setFastDelivery] = useState<string>('')
 
@@ -130,10 +132,7 @@ const Order = ({
 			newErrors.street = true
 			alert('Не заполнено обязательное поле - Улица')
 		}
-		if (!house) {
-			newErrors.house = true
-			alert('Не заполнено обязательное поле - Дом')
-		}
+
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
 			return // Прекращаем выполнение, если есть ошибки
@@ -213,6 +212,7 @@ const Order = ({
 			dispatch(clearCart(shopId))
 			if (response.data.order.paymentType === 'Наличные') {
 				console.log('Наличка')
+				navigate(`/${shopTag}/thanks/${response.data.order.id}`)
 			} else {
 				window.open(response.data.order[1].confirmation.confirmation_url)
 			}
@@ -312,9 +312,7 @@ const Order = ({
 							setErrors(prev => ({ ...prev, street: false }))
 						}}
 					/>
-					<label className={styles.label}>
-						Дом <span className={styles.mustHave}>*</span>
-					</label>
+					<label className={styles.label}>Дом</label>
 					<input
 						className={`${styles.input} ${errors.house ? 'error' : ''}`}
 						type='text'
