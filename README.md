@@ -15,7 +15,10 @@
   - **Redux Toolkit 2.0**
 
 - **Backend:**
-  - **NestJS**: Прогрессивный фреймворк для создания серверных приложений на Node.js.
+  - **NestJS**:
+  - **Argon2**:
+  - **Socket.io**:
+  - **ClassTransformer & ClassValidator **:
 
 ## Основные функции
 
