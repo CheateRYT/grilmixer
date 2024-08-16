@@ -32,11 +32,11 @@ const Order = ({
 	const [changeNeeded, setChangeNeeded] = useState(false)
 	const [changeAmount, setChangeAmount] = useState('')
 	const [ipAddress, setIpAddress] = useState('')
-	const cartItems = useSelector(
-		(state: RootState) => state.cart.items[shopId] || []
-	) // Получаем товары для конкретного shopId
-	const [isLoading, setIsLoading] = useState(false)
+	const cartItems = useSelector((state: RootState) => state.cart.items[shopId])
+	const [isLoading, setIsLoading] = useState(false) // Состояние загрузки
+
 	const [fastDelivery, setFastDelivery] = useState<string>('')
+
 	const dispatch = useDispatch()
 
 	useEffect(() => {
@@ -55,23 +55,55 @@ const Order = ({
 	const generateTimeOptions = () => {
 		const options = []
 		const now = new Date()
+
+		// Функция для округления времени
+		const roundToNearestHalfHour = date => {
+			const minutes = date.getMinutes()
+			const roundedMinutes = Math.round(minutes / 30) * 30
+			date.setMinutes(roundedMinutes)
+			date.setSeconds(0)
+			date.setMilliseconds(0)
+			return date
+		}
+
+		// Генерация времени на сегодня
 		for (let i = 0; i < 48; i++) {
 			const date = new Date(now)
 			date.setMinutes(now.getMinutes() + i * 30)
-			options.push(
-				date.toLocaleString('ru-RU', { dateStyle: 'short', timeStyle: 'short' })
-			)
+			const roundedDate = roundToNearestHalfHour(date)
+			const day = String(roundedDate.getDate()).padStart(2, '0')
+			const month = String(roundedDate.getMonth() + 1).padStart(2, '0')
+			const hours = String(roundedDate.getHours()).padStart(2, '0')
+			const minutes = String(roundedDate.getMinutes()).padStart(2, '0')
+			options.push(`${day}.${month} - ${hours}:${minutes}`)
 		}
+
+		// Генерация времени на завтра
+		now.setDate(now.getDate() + 1)
+		for (let i = 0; i < 48; i++) {
+			const date = new Date(now)
+			date.setMinutes(now.getMinutes() + i * 30)
+			const roundedDate = roundToNearestHalfHour(date)
+			const day = String(roundedDate.getDate()).padStart(2, '0')
+			const month = String(roundedDate.getMonth() + 1).padStart(2, '0')
+			const hours = String(roundedDate.getHours()).padStart(2, '0')
+			const minutes = String(roundedDate.getMinutes()).padStart(2, '0')
+			options.push(`${day}.${month} - ${hours}:${minutes}`)
+		}
+
 		return options
 	}
 
 	const handleSubmit = async (event: React.FormEvent) => {
 		event.preventDefault()
+
 		if (cartItems.length === 0) {
 			alert('Корзина пуста. Добавьте товары для заказа.')
 			return
 		}
+
 		const newErrors: { [key: string]: boolean } = {}
+		// Проверка обязательных полей
 		if (!deliveryMethod) {
 			alert('Выберите способ доставки')
 			return
@@ -80,18 +112,20 @@ const Order = ({
 			alert('Выберите способ оплаты')
 			return
 		}
+
 		if (!name) {
 			newErrors.name = true
 			alert('Не заполнено обязательное поле - Имя')
 		}
 		if (!selectedTime) {
-			newErrors.selectedTime = true
+			newErrors.name = true
 			alert('Не заполнено обязательное поле - Дата и время доставки/самовывоза')
 		}
 		if (!phone) {
 			newErrors.phone = true
 			alert('Не заполнено обязательное поле - Телефон')
 		}
+
 		if (!street) {
 			newErrors.street = true
 			alert('Не заполнено обязательное поле - Улица')
@@ -102,9 +136,8 @@ const Order = ({
 		}
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
-			return
+			return // Прекращаем выполнение, если есть ошибки
 		}
-
 		let createdTime = ''
 		if (selectedTime === 'fastDelivery') {
 			createdTime = new Date().toISOString()
@@ -119,35 +152,36 @@ const Order = ({
 			deliveryDate.setHours(parseInt(hours), parseInt(minutes), 0, 0)
 			createdTime = deliveryDate.toISOString()
 		}
-
+		// Объект для хранения уникальных продуктов и их количества
 		const productMap: { [key: number]: number } = {}
 		const extraIngredientsOrder: {
 			productId: number
-			extraIngredients: string
+			extraIngredients: string // Здесь будет строка
 			productCount: number
 		}[] = []
-
 		cartItems.forEach(item => {
 			const productId = item.productId
 			const extraIngredientsArray = JSON.parse(item.extraIngredients || '[]')
+			// Увеличиваем количество в productMap
 			if (productMap[productId]) {
-				productMap[productId] += item.quantity
+				productMap[productId] += item.quantity // Увеличиваем количество
 			} else {
-				productMap[productId] = item.quantity
+				productMap[productId] = item.quantity // Устанавливаем количество
 			}
+			// Добавляем в extraIngredientsOrder
 			const ingredientIds = extraIngredientsArray
 				.map(ingredient => ingredient.id)
-				.join(',')
+				.join(',') // Извлекаем ID и формируем строку
 			extraIngredientsOrder.push({
 				productId: productId,
-				extraIngredients: ingredientIds,
+				extraIngredients: ingredientIds, // Здесь оставляем строку с ID
 				productCount: item.quantity,
 			})
 		})
-
+		// Преобразуем объект в массивы
 		const products = Object.keys(productMap).map(id => parseInt(id))
 		const productsCount = Object.values(productMap).map(count => count)
-
+		// Формирование данных заказа
 		const orderData = {
 			phoneNumber: phone,
 			shopId: parseInt(shopId),
@@ -170,8 +204,7 @@ const Order = ({
 			})),
 			productsCount,
 		}
-
-		setIsLoading(true)
+		setIsLoading(true) // Устанавливаем состояние загрузки в true
 		try {
 			const response = await axios.post(
 				'http://87.117.25.141:4200/api/order/createOrder',
@@ -215,6 +248,7 @@ const Order = ({
 		}
 		setSelectedTime(time)
 	}
+
 	return (
 		<div className={styles.order}>
 			<h1 className={styles.orderTitle}>Создание заказа</h1>
