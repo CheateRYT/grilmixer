@@ -63,10 +63,12 @@ const ProductList = ({
 							></div>
 							<div className={styles.cardText}>
 								<p className={styles.productName}>{product.name}</p>
-								<p className={styles.ingridients}>
-									<span className={styles.ingridientsSpan}>Состав: </span>
-									{product.ingredients}
-								</p>
+								{product.ingredients ? (
+									<p className={styles.ingridients}>
+										<span className={styles.ingridientsSpan}>Состав: </span>
+										{product.ingredients}
+									</p>
+								) : null}
 								<div className={styles.priceContainer}>
 									<span>
 										{(

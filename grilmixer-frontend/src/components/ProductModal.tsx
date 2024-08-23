@@ -19,6 +19,7 @@ interface ProductModalProps {
 		bzu: string
 		imagePath: string
 		weight: string
+		category: string // Добавляем категорию продукта
 	}
 }
 
@@ -97,7 +98,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
 		)
 
 		const totalPrice = Number(price) + totalExtraIngredientsPrice
-
 		dispatch(
 			addToCart({
 				productId,
@@ -108,7 +108,6 @@ const ProductModal: React.FC<ProductModalProps> = ({
 				extraIngredients: JSON.stringify(extraIngredients), // Сохраняем как JSON строку
 			})
 		)
-
 		onClose() // Закрываем модальное окно после добавления в корзину
 	}
 
@@ -141,30 +140,41 @@ const ProductModal: React.FC<ProductModalProps> = ({
 					></div>
 					<div className={styles.productDetails}>
 						<h2 className={styles.productName}>{product.name}</h2>
-						<p className={styles.productIngredients}>
-							Состав: {product.ingredients}
+						{product.ingredients && product.ingredients.trim() !== '' && (
+							<p className={styles.productIngredients}>
+								Состав: {product.ingredients}
+							</p>
+						)}
+						<p>
+							{product.category === 'drinks' ? 'Объем: ' : 'Вес: '}
+							{product.weight} {product.category === 'drinks' ? 'л' : 'гр'}
 						</p>
-						<p>Вес: {product.weight} гр</p>
-						<p>Калорийность: {product.bzu.split(',')[0]}</p>
-						<p>Белки: {product.bzu.split(',')[1]}</p>
-						<p>Жиры: {product.bzu.split(',')[2]}</p>
-						<p>Углеводы: {product.bzu.split(',')[3]}</p>
+						{product.bzu && (
+							<>
+								<p>Калорийность: {product.bzu.split(',')[0]}</p>
+								<p>Белки: {product.bzu.split(',')[1]}</p>
+								<p>Жиры: {product.bzu.split(',')[2]}</p>
+								<p>Углеводы: {product.bzu.split(',')[3]}</p>
+							</>
+						)}
 					</div>
 				</div>
-				<div className={styles.additionalIngredients}>
-					<h3>Дополнительные ингредиенты</h3>
-					{additionalIngredients.map(ingredient => (
-						<label key={ingredient.id}>
-							<input
-								type='checkbox'
-								value={ingredient.id}
-								checked={selectedIngredients.includes(ingredient.id)}
-								onChange={() => handleIngredientChange(ingredient.id)}
-							/>
-							{ingredient.name} (+{ingredient.price} ₽)
-						</label>
-					))}
-				</div>
+				{additionalIngredients.length > 0 && (
+					<div className={styles.additionalIngredients}>
+						<h3>Дополнительные ингредиенты</h3>
+						{additionalIngredients.map(ingredient => (
+							<label key={ingredient.id}>
+								<input
+									type='checkbox'
+									value={ingredient.id}
+									checked={selectedIngredients.includes(ingredient.id)}
+									onChange={() => handleIngredientChange(ingredient.id)}
+								/>
+								{ingredient.name} (+{ingredient.price} ₽)
+							</label>
+						))}
+					</div>
+				)}
 				<div className={styles.quantityContainer}>
 					<p className={styles.productName}>{totalPrice} ₽</p>
 					<button className={styles.quantityButton} onClick={decreaseQuantity}>
