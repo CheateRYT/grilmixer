@@ -139,8 +139,8 @@ const AdminProducts: React.FC = () => {
 					onChange={handleShopIdChange}
 					className='mb-4 px-4 py-2 rounded border'
 				>
-					<option value={1}>ФудКорт 1</option>
-					<option value={2}>Кафе 1</option>
+					<option value={1}>Гриль МикСер номер 1</option>
+					<option value={2}>Фарш номер 2</option>
 				</select>
 				<table className='min-w-full divide-y divide-gray-200 bg-black text-white'>
 					<thead className='bg-gray-800'>
@@ -434,8 +434,8 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 						>
-							<option value='1'>Фудкорт 1</option>
-							<option value='2'>Кафе 2</option>
+							<option value='1'>Гриль МикСер номер 1</option>
+							<option value='2'>Фарш номер 2</option>
 						</select>
 						<input
 							type='text'
