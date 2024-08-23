@@ -175,9 +175,7 @@ const AdminProducts: React.FC = () => {
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Наличие
 							</th>
-							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
-								Картинка
-							</th>
+
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Действие
 							</th>
@@ -236,11 +234,7 @@ const AdminProducts: React.FC = () => {
 									{/* Уменьшаем высоту столбцов */}
 									{product.isAvailable ? 'Да' : 'Нет'}
 								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.imagePath}
-								</td>
+
 								<td className='px-6 py-2'>
 									{' '}
 									{/* Уменьшаем высоту столбцов */}

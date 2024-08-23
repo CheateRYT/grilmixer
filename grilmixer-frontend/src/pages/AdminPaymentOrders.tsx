@@ -15,11 +15,21 @@ import { useEffect, useState } from 'react'
 import { Order } from '../types/Order.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
+
+const orderStatuses = [
+	'Принят',
+	'Готовится',
+	'Приготовлен',
+	'В доставке',
+	'Доставлен',
+]
+
 const AdminPaymentOrders = () => {
-	const [paymentOrders, setPaymentOrders] = useState([])
-	const [selectedOrder, setSelectedOrder] = useState(null)
+	const [paymentOrders, setPaymentOrders] = useState<Order[]>([])
+	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 	const [showModal, setShowModal] = useState(false)
 	const [updatedOrderData, setUpdatedOrderData] = useState<Partial<Order>>({})
+
 	useEffect(() => {
 		const fetchPaymentOrders = async () => {
 			try {
@@ -39,16 +49,17 @@ const AdminPaymentOrders = () => {
 		}
 		fetchPaymentOrders()
 	}, [])
+
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString)
-		const day = String(date.getDate()).padStart(2, '0') // Получаем день
-		const month = String(date.getMonth() + 1).padStart(2, '0') // Получаем месяц (месяцы начинаются с 0)
-		const year = date.getFullYear() // Получаем год
-		const hours = String(date.getHours()).padStart(2, '0') // Получаем часы
-		const minutes = String(date.getMinutes()).padStart(2, '0') // Получаем минуты
-
-		return `${day}.${month}.${year} ${hours}:${minutes}` // Форматируем строку
+		const day = String(date.getDate()).padStart(2, '0')
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const year = date.getFullYear()
+		const hours = String(date.getHours()).padStart(2, '0')
+		const minutes = String(date.getMinutes()).padStart(2, '0')
+		return `${day}.${month}.${year} ${hours}:${minutes}`
 	}
+
 	const handleEditOrder = (order: Order) => {
 		setSelectedOrder(order)
 		setShowModal(true)
@@ -63,7 +74,7 @@ const AdminPaymentOrders = () => {
 		try {
 			const token = Cookies.get('admin-token')
 			await axios.put(
-				`${backendApiUrl}admin/updateOrder/${selectedOrder.id}`,
+				`${backendApiUrl}admin/updateOrder/${selectedOrder?.id}`,
 				updatedOrderData,
 				{
 					headers: {
@@ -78,9 +89,43 @@ const AdminPaymentOrders = () => {
 		}
 	}
 
-	const handleModalInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleModalInputChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
 		const { name, value } = e.target
-		setUpdatedOrderData(prevData => ({ ...prevData, [name]: value }))
+		if (name === 'isStopList' || name === 'isAvailable') {
+			setUpdatedOrderData(prevData => ({
+				...prevData,
+				[name]: value === 'true',
+			}))
+		} else {
+			setUpdatedOrderData(prevData => ({ ...prevData, [name]: value }))
+		}
+	}
+
+	const handleNextStatus = async (orderId: number) => {
+		const order = paymentOrders.find(o => o.id === orderId)
+		if (order) {
+			const currentIndex = orderStatuses.indexOf(order.status)
+			if (currentIndex < orderStatuses.length - 1) {
+				const nextStatus = orderStatuses[currentIndex + 1]
+				try {
+					const token = Cookies.get('admin-token')
+					await axios.put(
+						`${backendApiUrl}admin/updateOrder/${orderId}`,
+						{ status: nextStatus },
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					)
+					window.location.reload() // Обновляем страницу после изменения статуса
+				} catch (error) {
+					console.error('Error updating order status:', error)
+				}
+			}
+		}
 	}
 
 	return (
@@ -124,14 +169,12 @@ const AdminPaymentOrders = () => {
 								<TableCell>{order.deliveryAddress}</TableCell>
 								<TableCell>{order.email}</TableCell>
 								<TableCell>{order.clientName}</TableCell>
-								<TableCell>{formatDate(order.createdTime)}</TableCell>{' '}
-								{/* Форматируем дату создания */}
+								<TableCell>{formatDate(order.createdTime)}</TableCell>
 								<TableCell>
 									{order.completedTime
 										? formatDate(order.completedTime)
 										: 'Не завершен'}
-								</TableCell>{' '}
-								{/* Форматируем дату завершения */}
+								</TableCell>
 								<TableCell>{order.status}</TableCell>
 								<TableCell>
 									{order.products.map(product => product.id).join(',')}
@@ -156,6 +199,14 @@ const AdminPaymentOrders = () => {
 										onClick={() => handleEditOrder(order)}
 									>
 										Редактировать
+									</Button>
+									<Button
+										variant='contained'
+										color='secondary'
+										onClick={() => handleNextStatus(order.id)}
+										className='ml-2'
+									>
+										След. статус
 									</Button>
 								</TableCell>
 							</TableRow>
@@ -198,8 +249,7 @@ const AdminPaymentOrders = () => {
 							</label>
 							<label>
 								Статус:
-								<input
-									type='text'
+								<select
 									name='status'
 									value={
 										updatedOrderData.status !== undefined
@@ -208,7 +258,13 @@ const AdminPaymentOrders = () => {
 									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
-								/>
+								>
+									{orderStatuses.map(status => (
+										<option key={status} value={status}>
+											{status}
+										</option>
+									))}
+								</select>
 							</label>
 							<Button
 								variant='contained'

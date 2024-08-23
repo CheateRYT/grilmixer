@@ -7,49 +7,62 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
-	TablePagination,
 	TableRow,
 } from '@mui/material'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Order } from '../types/Order.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
 
-const AdminOrders: React.FC = () => {
-	const [orders, setOrders] = useState<Order[]>([])
+const orderStatuses = [
+	'Принят',
+	'Готовится',
+	'Приготовлен',
+	'В доставке',
+	'Доставлен',
+]
+
+const AdminPaymentOrders = () => {
+	const [paymentOrders, setPaymentOrders] = useState<Order[]>([])
 	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 	const [showModal, setShowModal] = useState(false)
 	const [updatedOrderData, setUpdatedOrderData] = useState<Partial<Order>>({})
-	const [page, setPage] = useState(0)
-	const [rowsPerPage, setRowsPerPage] = useState(5)
-	const [totalOrders, setTotalOrders] = useState(0)
-
-	const fetchOrders = async () => {
-		try {
-			const token = Cookies.get('admin-token')
-			const response = await axios.get<{
-				orders: Order[]
-				totalOrders: number
-			}>(`${backendApiUrl}admin/getOrders/${page + 1}`, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			})
-			setOrders(response.data.orders)
-			setTotalOrders(response.data.totalOrders)
-		} catch (error) {
-			console.error('Error fetching orders:', error)
-		}
-	}
 
 	useEffect(() => {
-		fetchOrders()
-	}, [page])
+		const fetchPaymentOrders = async () => {
+			try {
+				const token = Cookies.get('admin-token')
+				const response = await axios.get(
+					`${backendApiUrl}admin/getPaymentOrders/`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				)
+				setPaymentOrders(response.data)
+			} catch (error) {
+				console.error('Error fetching payment orders:', error)
+			}
+		}
+		fetchPaymentOrders()
+	}, [])
+
+	const formatDate = (dateString: string) => {
+		const date = new Date(dateString)
+		const day = String(date.getDate()).padStart(2, '0')
+		const month = String(date.getMonth() + 1).padStart(2, '0')
+		const year = date.getFullYear()
+		const hours = String(date.getHours()).padStart(2, '0')
+		const minutes = String(date.getMinutes()).padStart(2, '0')
+		return `${day}.${month}.${year} ${hours}:${minutes}`
+	}
 
 	const handleEditOrder = (order: Order) => {
 		setSelectedOrder(order)
+		setUpdatedOrderData({})
 		setShowModal(true)
 	}
 
@@ -57,16 +70,7 @@ const AdminOrders: React.FC = () => {
 		setShowModal(false)
 		setUpdatedOrderData({})
 	}
-	const formatDate = (dateString: string) => {
-		const date = new Date(dateString)
-		const day = String(date.getDate()).padStart(2, '0') // Получаем день
-		const month = String(date.getMonth() + 1).padStart(2, '0') // Получаем месяц (месяцы начинаются с 0)
-		const year = date.getFullYear() // Получаем год
-		const hours = String(date.getHours()).padStart(2, '0') // Получаем часы
-		const minutes = String(date.getMinutes()).padStart(2, '0') // Получаем минуты
 
-		return `${day}.${month}.${year} ${hours}:${minutes}` // Форматируем строку
-	}
 	const handleUpdateOrder = async () => {
 		try {
 			const token = Cookies.get('admin-token')
@@ -86,31 +90,45 @@ const AdminOrders: React.FC = () => {
 		}
 	}
 
-	const handleModalInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleModalInputChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+	) => {
 		const { name, value } = e.target
-		setUpdatedOrderData(prevData => ({ ...prevData, [name]: value }))
+		setUpdatedOrderData(prevData => ({
+			...prevData,
+			[name]: value,
+		}))
 	}
 
-	const handleChangePage = (
-		event: React.MouseEvent<HTMLButtonElement> | null,
-		newPage: number
-	) => {
-		if (event) {
-			setPage(newPage)
-		} else {
-			setPage(newPage)
+	const handleNextStatus = async (orderId: number) => {
+		const order = paymentOrders.find(o => o.id === orderId)
+		if (order) {
+			const currentIndex = orderStatuses.indexOf(order.status)
+			if (currentIndex < orderStatuses.length - 1) {
+				const nextStatus = orderStatuses[currentIndex + 1]
+				try {
+					const token = Cookies.get('admin-token')
+					await axios.put(
+						`${backendApiUrl}admin/updateOrder/${orderId}`,
+						{ status: nextStatus },
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					)
+					window.location.reload() // Обновляем страницу после изменения статуса
+				} catch (error) {
+					console.error('Error updating order status:', error)
+				}
+			}
 		}
 	}
 
-	const handleChangeRowsPerPage = (
-		event: React.ChangeEvent<HTMLInputElement>
-	) => {
-		setRowsPerPage(parseInt(event.target.value, 10))
-		setPage(0)
-	}
 	return (
 		<div>
 			<AdminMain />
+			<h2>Оплаченные заказы</h2>
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>
@@ -136,7 +154,7 @@ const AdminOrders: React.FC = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{orders.map(order => (
+						{paymentOrders.map(order => (
 							<TableRow key={order.id}>
 								<TableCell>{order.id}</TableCell>
 								<TableCell>{order.shopId}</TableCell>
@@ -148,14 +166,12 @@ const AdminOrders: React.FC = () => {
 								<TableCell>{order.deliveryAddress}</TableCell>
 								<TableCell>{order.email}</TableCell>
 								<TableCell>{order.clientName}</TableCell>
-								<TableCell>{formatDate(order.createdTime)}</TableCell>{' '}
-								{/* Форматируем дату создания */}
+								<TableCell>{formatDate(order.createdTime)}</TableCell>
 								<TableCell>
 									{order.completedTime
 										? formatDate(order.completedTime)
 										: 'Не завершен'}
-								</TableCell>{' '}
-								{/* Форматируем дату завершения */}
+								</TableCell>
 								<TableCell>{order.status}</TableCell>
 								<TableCell>
 									{order.products.map(product => product.id).join(',')}
@@ -181,20 +197,19 @@ const AdminOrders: React.FC = () => {
 									>
 										Редактировать
 									</Button>
+									<Button
+										variant='contained'
+										color='secondary'
+										onClick={() => handleNextStatus(order.id)}
+										className='ml-2'
+									>
+										След. статус
+									</Button>
 								</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
 				</Table>
-				<TablePagination
-					rowsPerPageOptions={[10]}
-					component='div'
-					count={totalOrders}
-					rowsPerPage={rowsPerPage}
-					page={page}
-					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-				/>
 			</TableContainer>
 			{showModal && selectedOrder && (
 				<Modal open={showModal} onClose={handleCancelUpdate}>
@@ -231,8 +246,7 @@ const AdminOrders: React.FC = () => {
 							</label>
 							<label>
 								Статус:
-								<input
-									type='text'
+								<select
 									name='status'
 									value={
 										updatedOrderData.status !== undefined
@@ -241,7 +255,13 @@ const AdminOrders: React.FC = () => {
 									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
-								/>
+								>
+									{orderStatuses.map(status => (
+										<option key={status} value={status}>
+											{status}
+										</option>
+									))}
+								</select>
 							</label>
 							<Button
 								variant='contained'
@@ -267,4 +287,4 @@ const AdminOrders: React.FC = () => {
 	)
 }
 
-export default AdminOrders
+export default AdminPaymentOrders

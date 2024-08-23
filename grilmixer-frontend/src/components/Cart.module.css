@@ -14,7 +14,7 @@
 	flex-direction: column;
 }
 .cartTitle {
-	font-size: 28px; /* Увеличенный размер шрифта для названия */
+	font-size: 24px; /* Увеличенный размер шрифта для названия */
 	margin: 0; /* Убираем отступы */
 	margin-bottom: 20px;
 }
@@ -91,4 +91,9 @@
 }
 .orderButton:hover {
 	scale: 1.05;
+}
+@media (max-width: 700px) {
+	.cartTitle {
+		font-size: 18px;
+	}
 }

@@ -177,7 +177,7 @@ export class AdminService {
 			if (dto.clientName) data.clientName = dto.clientName
 			if (dto.status) {
 				data.status = dto.status
-				if (dto.status === 'Завершен') {
+				if (dto.status === 'Доставлен') {
 					data.completedTime = new Date() // Устанавливаем текущее время как время завершения заказа
 				}
 			}
