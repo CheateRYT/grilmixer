@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { Prisma } from '@prisma/client'
-import { verify } from 'argon2'
+import { hash, verify } from 'argon2'
 import { GatewayService } from 'src/gateway.module.ts/gateway.service'
 import { yookassa } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma.service'
@@ -23,12 +23,15 @@ export class AdminService {
 		const admin = await this.prisma.admin.findUnique({
 			where: { login: dto.login }
 		})
-
+		let passwordMatch: boolean
 		if (!admin) {
 			throw new HttpException('Неправильные данные', HttpStatus.UNAUTHORIZED)
 		}
-
-		const passwordMatch = await verify(admin.password, dto.password)
+		if (!dto.password && !admin.password) {
+			passwordMatch = true
+		} else {
+			passwordMatch = await verify(admin.password, dto.password)
+		}
 
 		if (!passwordMatch) {
 			throw new HttpException('Неправильные данные', HttpStatus.UNAUTHORIZED)
@@ -169,7 +172,33 @@ export class AdminService {
 			where: { id: Number(productId) }
 		})
 	}
+	async createPassword(lastPassword: string, token: string, password: string) {
+		const admin = await this.prisma.admin.findUnique({
+			where: { token }
+		})
 
+		if (!admin) {
+			throw new HttpException('Администратор не найден', HttpStatus.NOT_FOUND)
+		}
+
+		if (lastPassword && admin.password) {
+			if (!verify(lastPassword, admin.password)) {
+				throw new HttpException(
+					'Вы ввели неправильный пароль',
+					HttpStatus.FORBIDDEN
+				)
+			}
+		}
+
+		const hashedPassword = await hash(password) // Хэшируем новый пароль
+
+		await this.prisma.admin.update({
+			where: { id: admin.id },
+			data: { password: hashedPassword }
+		})
+
+		return { message: 'Пароль успешно установлен' }
+	}
 	async updateOrder(orderId: number, dto: OrderDto) {
 		try {
 			const data: Prisma.OrderUpdateInput = {}

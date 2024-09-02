@@ -12,6 +12,7 @@ import AdminNotifications from './pages/AdminNotifications'
 import AdminOrders from './pages/AdminOrders'
 import AdminPaymentOrders from './pages/AdminPaymentOrders'
 import AdminProducts from './pages/AdminProducts'
+import AdminSettings from './pages/AdminSettings'
 import Banquet from './pages/Banquet'
 import Cafe from './pages/Cafe'
 import CafeAbout from './pages/CafeAbout'
@@ -75,6 +76,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route
 					path='/admin/events'
 					element={<PrivateRouter Page={AdminEvents} />}
+				/>
+				<Route
+					path='/admin/settings'
+					element={<PrivateRouter Page={AdminSettings} />}
 				/>
 				<Route
 					path='/admin/products'

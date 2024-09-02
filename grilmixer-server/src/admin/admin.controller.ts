@@ -17,6 +17,7 @@ import { OrderDto } from '../dto/order.dto'
 import { AdminService } from './admin.service'
 import { AdminLoginDto } from './dto/Admin-Login.dto'
 import { CategoryDto } from './dto/category.dto'
+import { CreatePasswordDto } from './dto/create-password.dto'
 import { EventDto } from './dto/event.dto'
 import { ExtraIngredientDto } from './dto/extraIngredients.dto'
 import { PaymentStatusDto } from './dto/payment-status.dto'
@@ -241,6 +242,18 @@ export class AdminController {
 	@Post('paymentOrder/confirm')
 	async paymentOrderConfirm(@Body() payment: PaymentStatusDto) {
 		return this.adminService.paymentOrderConfirm(payment)
+	}
+	@Post('create-password')
+	async createPassword(
+		@Body() dto: CreatePasswordDto,
+		@Headers('authorization') authorization: string
+	) {
+		const token: string = authorization.replace('Bearer ', '')
+		return this.adminService.createPassword(
+			dto.lastPassword,
+			token,
+			dto.password
+		)
 	}
 	@UsePipes(new ValidationPipe())
 	@HttpCode(201)

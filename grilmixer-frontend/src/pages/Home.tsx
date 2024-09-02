@@ -31,7 +31,7 @@ const Home = () => {
 						<h1 className={styles.header__logo}>Гриль-МикСер</h1>
 						<div className={styles.about}>
 							<p className={styles.about__address}>Транспортная ул., 46</p>
-							<p className={styles.about__phone}>+79000000000</p>
+							<p className={styles.about__phone}>+7 (904) 506-67-43</p>
 						</div>
 					</header>
 					<div className={styles.buttons}>

@@ -24,6 +24,9 @@ const DeliveryRules = ({ shopName }: { shopName: string }) => {
 					<li>Оплата наличными</li>
 				</ul>
 				<p className={styles.pickupInfo}>
+					Примерное время приготовления и доставки 1 час.
+				</p>
+				<p className={styles.pickupInfo}>
 					Вы можете получить заказ в пункте самовывоза «{shopName}».
 				</p>
 			</div>

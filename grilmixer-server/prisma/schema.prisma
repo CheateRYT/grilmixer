@@ -8,10 +8,10 @@ datasource db {
 }
 
 model Admin {
-  id       Int    @id @default(autoincrement())
-  login    String @unique
-  password String
-  token    String
+  id       Int     @id @default(autoincrement())
+  login    String  @unique
+  password String?
+  token    String  @unique
 }
 
 model Product {
