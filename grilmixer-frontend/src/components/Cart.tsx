@@ -9,11 +9,13 @@ const Cart = ({
 	title,
 	shopId,
 	isDeliveryPrice,
+	deliveryMethod, // добавляем deliveryMethod как пропс
 }: {
 	shopTag: string
 	shopId: string
 	title: string
 	isDeliveryPrice: boolean
+	deliveryMethod: string // добавляем тип для deliveryMethod
 }) => {
 	const dispatch = useDispatch()
 	const cartItems = useSelector((state: RootState) => state.cart.items[shopId])
@@ -23,7 +25,7 @@ const Cart = ({
 		navigate(`/${shopTag}/order`)
 	}
 	const deliveryPrice = 300
-	// Функция для подсчета общей стоимости
+
 	const calculateTotalAmount = () => {
 		if (cartItems) {
 			return cartItems.reduce((total, item) => {
@@ -32,13 +34,15 @@ const Cart = ({
 		}
 	}
 
-	// Используем useEffect для обновления общей стоимости при изменении cartItems
 	useEffect(() => {
 		setTotalAmount(calculateTotalAmount())
 	}, [cartItems])
-	const totalWithDelivery = isDeliveryPrice
-		? totalAmount + deliveryPrice
-		: totalAmount
+
+	const totalWithDelivery =
+		isDeliveryPrice && deliveryMethod === 'Доставка'
+			? totalAmount + deliveryPrice
+			: totalAmount
+
 	return (
 		<div className={styles.cartModal}>
 			<h1>{title}</h1>
@@ -46,11 +50,17 @@ const Cart = ({
 				<h2 className={styles.cartTitle}>Товаров в корзине</h2>
 				<div className={styles.cartPrice}>
 					<h2 className={styles.cartAmount}>Стоимость: {totalAmount} ₽</h2>
-					{isDeliveryPrice && cartItems && cartItems.length > 0 && (
-						<div>
-							<p className={styles.cartDeliveryPrice}>Доставка: 300 ₽</p>
-							<p className={styles.cartItogo}>Итого: {totalWithDelivery} ₽</p>
-						</div>
+					{isDeliveryPrice &&
+						cartItems &&
+						cartItems.length > 0 &&
+						deliveryMethod === 'Доставка' && (
+							<div>
+								<p className={styles.cartDeliveryPrice}>Доставка: 300 ₽</p>
+								<p className={styles.cartItogo}>Итого: {totalWithDelivery} ₽</p>
+							</div>
+						)}
+					{deliveryMethod === 'Самовывоз' && (
+						<p className={styles.cartItogo}>Итого: {totalAmount} ₽</p>
 					)}
 				</div>
 			</div>

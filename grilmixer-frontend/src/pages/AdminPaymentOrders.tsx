@@ -17,6 +17,8 @@ import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
 
 const orderStatuses = [
+	'Новый',
+	'Оплачен',
 	'Принят',
 	'Готовится',
 	'Приготовлен',
@@ -157,60 +159,62 @@ const AdminPaymentOrders = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paymentOrders.map(order => (
-							<TableRow key={order.id}>
-								<TableCell>{order.id}</TableCell>
-								<TableCell>{order.shopId}</TableCell>
-								<TableCell>{order.amount}</TableCell>
-								<TableCell>{order.changeFrom}</TableCell>
-								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
-								<TableCell>{order.personCount}</TableCell>
-								<TableCell>{order.phoneNumber}</TableCell>
-								<TableCell>{order.deliveryAddress}</TableCell>
-								<TableCell>{order.email}</TableCell>
-								<TableCell>{order.clientName}</TableCell>
-								<TableCell>{formatDate(order.createdTime)}</TableCell>
-								<TableCell>
-									{order.completedTime
-										? formatDate(order.completedTime)
-										: 'Не завершен'}
-								</TableCell>
-								<TableCell>{order.status}</TableCell>
-								<TableCell>
-									{order.products.map(product => product.id).join(',')}
-								</TableCell>
-								<TableCell>
-									{order.products.map(product => product.name).join(',')}
-								</TableCell>
-								<TableCell>{order.productsCount}</TableCell>
-								<TableCell>
-									{order.extraIngredientsOrder &&
-										order.extraIngredientsOrder
-											.map(
-												extra =>
-													`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
-											)
-											.join('; ')}
-								</TableCell>
-								<TableCell>
-									<Button
-										variant='contained'
-										color='primary'
-										onClick={() => handleEditOrder(order)}
-									>
-										Редактировать
-									</Button>
-									<Button
-										variant='contained'
-										color='secondary'
-										onClick={() => handleNextStatus(order.id)}
-										className='ml-2'
-									>
-										След. статус
-									</Button>
-								</TableCell>
-							</TableRow>
-						))}
+						{paymentOrders
+							.filter(order => order.status !== 'Доставлен') // Фильтрация заказов
+							.map(order => (
+								<TableRow key={order.id}>
+									<TableCell>{order.id}</TableCell>
+									<TableCell>{order.shopId}</TableCell>
+									<TableCell>{order.amount}</TableCell>
+									<TableCell>{order.changeFrom}</TableCell>
+									<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
+									<TableCell>{order.personCount}</TableCell>
+									<TableCell>{order.phoneNumber}</TableCell>
+									<TableCell>{order.deliveryAddress}</TableCell>
+									<TableCell>{order.email}</TableCell>
+									<TableCell>{order.clientName}</TableCell>
+									<TableCell>{formatDate(order.createdTime)}</TableCell>
+									<TableCell>
+										{order.completedTime
+											? formatDate(order.completedTime)
+											: 'Не завершен'}
+									</TableCell>
+									<TableCell>{order.status}</TableCell>
+									<TableCell>
+										{order.products.map(product => product.id).join(',')}
+									</TableCell>
+									<TableCell>
+										{order.products.map(product => product.name).join(',')}
+									</TableCell>
+									<TableCell>{order.productsCount}</TableCell>
+									<TableCell>
+										{order.extraIngredientsOrder &&
+											order.extraIngredientsOrder
+												.map(
+													extra =>
+														`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
+												)
+												.join('; ')}
+									</TableCell>
+									<TableCell>
+										<Button
+											variant='contained'
+											color='primary'
+											onClick={() => handleEditOrder(order)}
+										>
+											Редактировать
+										</Button>
+										<Button
+											variant='contained'
+											color='secondary'
+											onClick={() => handleNextStatus(order.id)}
+											className='ml-2'
+										>
+											След. статус
+										</Button>
+									</TableCell>
+								</TableRow>
+							))}
 					</TableBody>
 				</Table>
 			</TableContainer>

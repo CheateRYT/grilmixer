@@ -7,48 +7,90 @@ import {
 	TableCell,
 	TableContainer,
 	TableHead,
+	TablePagination,
 	TableRow,
 } from '@mui/material'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Order } from '../types/Order.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
 
-const orderStatuses = [
-	'Принят',
-	'Готовится',
-	'Приготовлен',
-	'В доставке',
-	'Доставлен',
-]
-
-const AdminPaymentOrders = () => {
-	const [paymentOrders, setPaymentOrders] = useState<Order[]>([])
+const AdminOrders: React.FC = () => {
+	const orderStatuses = [
+		'Новый',
+		'Оплачен',
+		'Принят',
+		'Готовится',
+		'Приготовлен',
+		'В доставке',
+		'Доставлен',
+	]
+	const [orders, setOrders] = useState<Order[]>([])
 	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 	const [showModal, setShowModal] = useState(false)
 	const [updatedOrderData, setUpdatedOrderData] = useState<Partial<Order>>({})
+	const [page, setPage] = useState(0)
+	const [rowsPerPage, setRowsPerPage] = useState(5)
+	const [totalOrders, setTotalOrders] = useState(0)
 
-	useEffect(() => {
-		const fetchPaymentOrders = async () => {
-			try {
-				const token = Cookies.get('admin-token')
-				const response = await axios.get(
-					`${backendApiUrl}admin/getPaymentOrders/`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				)
-				setPaymentOrders(response.data)
-			} catch (error) {
-				console.error('Error fetching payment orders:', error)
+	const fetchOrders = async () => {
+		try {
+			const token = Cookies.get('admin-token')
+			const response = await axios.get<{
+				orders: Order[]
+				totalOrders: number
+			}>(`${backendApiUrl}admin/getOrders/${page + 1}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			setOrders(response.data.orders)
+			setTotalOrders(response.data.totalOrders)
+		} catch (error) {
+			console.error('Error fetching orders:', error)
+		}
+	}
+
+	const handleNextStatus = async (orderId: number) => {
+		const order = orders.find(o => o.id === orderId)
+		if (order) {
+			const currentIndex = orderStatuses.indexOf(order.status)
+			if (currentIndex < orderStatuses.length - 1) {
+				const nextStatus = orderStatuses[currentIndex + 1]
+				try {
+					const token = Cookies.get('admin-token')
+					await axios.put(
+						`${backendApiUrl}admin/updateOrder/${orderId}`,
+						{ status: nextStatus },
+						{
+							headers: {
+								Authorization: `Bearer ${token}`,
+							},
+						}
+					)
+					window.location.reload() // Обновляем страницу после изменения статуса
+				} catch (error) {
+					console.error('Error updating order status:', error)
+				}
 			}
 		}
-		fetchPaymentOrders()
-	}, [])
+	}
+
+	useEffect(() => {
+		fetchOrders()
+	}, [page])
+
+	const handleEditOrder = (order: Order) => {
+		setSelectedOrder(order)
+		setShowModal(true)
+	}
+
+	const handleCancelUpdate = () => {
+		setShowModal(false)
+		setUpdatedOrderData({})
+	}
 
 	const formatDate = (dateString: string) => {
 		const date = new Date(dateString)
@@ -58,17 +100,6 @@ const AdminPaymentOrders = () => {
 		const hours = String(date.getHours()).padStart(2, '0')
 		const minutes = String(date.getMinutes()).padStart(2, '0')
 		return `${day}.${month}.${year} ${hours}:${minutes}`
-	}
-
-	const handleEditOrder = (order: Order) => {
-		setSelectedOrder(order)
-		setUpdatedOrderData({})
-		setShowModal(true)
-	}
-
-	const handleCancelUpdate = () => {
-		setShowModal(false)
-		setUpdatedOrderData({})
 	}
 
 	const handleUpdateOrder = async () => {
@@ -94,55 +125,47 @@ const AdminPaymentOrders = () => {
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
 		const { name, value } = e.target
-		setUpdatedOrderData(prevData => ({
-			...prevData,
-			[name]: value,
-		}))
+		if (name === 'isStopList' || name === 'isAvailable') {
+			setUpdatedOrderData(prevData => ({
+				...prevData,
+				[name]: value === 'true',
+			}))
+		} else {
+			setUpdatedOrderData(prevData => ({ ...prevData, [name]: value }))
+		}
 	}
 
-	const handleNextStatus = async (orderId: number) => {
-		const order = paymentOrders.find(o => o.id === orderId)
-		if (order) {
-			const currentIndex = orderStatuses.indexOf(order.status)
-			if (currentIndex < orderStatuses.length - 1) {
-				const nextStatus = orderStatuses[currentIndex + 1]
-				try {
-					const token = Cookies.get('admin-token')
-					await axios.put(
-						`${backendApiUrl}admin/updateOrder/${orderId}`,
-						{ status: nextStatus },
-						{
-							headers: {
-								Authorization: `Bearer ${token}`,
-							},
-						}
-					)
-					window.location.reload() // Обновляем страницу после изменения статуса
-				} catch (error) {
-					console.error('Error updating order status:', error)
-				}
-			}
-		}
+	const handleChangePage = (
+		event: React.MouseEvent<HTMLButtonElement> | null,
+		newPage: number
+	) => {
+		setPage(newPage)
+	}
+
+	const handleChangeRowsPerPage = (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		setRowsPerPage(parseInt(event.target.value, 10))
+		setPage(0)
 	}
 
 	return (
 		<div>
 			<AdminMain />
-			<h2>Оплаченные заказы</h2>
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>
 						<TableRow>
 							<TableCell>Номер</TableCell>
 							<TableCell>Номер магазина</TableCell>
+							<TableCell>Имя клиента</TableCell>
+							<TableCell>Телефон</TableCell>
+							<TableCell>Адрес</TableCell>
+							<TableCell>Почта</TableCell>
 							<TableCell>Стоимость</TableCell>
 							<TableCell>Сдача с</TableCell>
 							<TableCell>Тип</TableCell>
 							<TableCell>Персон</TableCell>
-							<TableCell>Телефон</TableCell>
-							<TableCell>Адрес</TableCell>
-							<TableCell>Почта</TableCell>
-							<TableCell>Имя клиента</TableCell>
 							<TableCell>Время</TableCell>
 							<TableCell>Время окончания</TableCell>
 							<TableCell>Статус</TableCell>
@@ -154,18 +177,18 @@ const AdminPaymentOrders = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{paymentOrders.map(order => (
+						{orders.map(order => (
 							<TableRow key={order.id}>
 								<TableCell>{order.id}</TableCell>
 								<TableCell>{order.shopId}</TableCell>
+								<TableCell>{order.clientName}</TableCell>
+								<TableCell>{order.phoneNumber}</TableCell>
+								<TableCell>{order.deliveryAddress}</TableCell>
+								<TableCell>{order.email}</TableCell>
 								<TableCell>{order.amount}</TableCell>
 								<TableCell>{order.changeFrom}</TableCell>
 								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 								<TableCell>{order.personCount}</TableCell>
-								<TableCell>{order.phoneNumber}</TableCell>
-								<TableCell>{order.deliveryAddress}</TableCell>
-								<TableCell>{order.email}</TableCell>
-								<TableCell>{order.clientName}</TableCell>
 								<TableCell>{formatDate(order.createdTime)}</TableCell>
 								<TableCell>
 									{order.completedTime
@@ -181,13 +204,12 @@ const AdminPaymentOrders = () => {
 								</TableCell>
 								<TableCell>{order.productsCount}</TableCell>
 								<TableCell>
-									{order.extraIngredientsOrder &&
-										order.extraIngredientsOrder
-											.map(
-												extra =>
-													`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
-											)
-											.join('; ')}
+									{order.extraIngredientsOrder
+										.map(
+											extra =>
+												`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
+										)
+										.join('; ')}
 								</TableCell>
 								<TableCell>
 									<Button
@@ -210,6 +232,15 @@ const AdminPaymentOrders = () => {
 						))}
 					</TableBody>
 				</Table>
+				<TablePagination
+					rowsPerPageOptions={[10]}
+					component='div'
+					count={totalOrders}
+					rowsPerPage={rowsPerPage}
+					page={page}
+					onPageChange={handleChangePage}
+					onRowsPerPageChange={handleChangeRowsPerPage}
+				/>
 			</TableContainer>
 			{showModal && selectedOrder && (
 				<Modal open={showModal} onClose={handleCancelUpdate}>
@@ -222,9 +253,7 @@ const AdminPaymentOrders = () => {
 									type='text'
 									name='clientName'
 									value={
-										updatedOrderData.clientName !== undefined
-											? updatedOrderData.clientName
-											: selectedOrder.clientName
+										updatedOrderData.clientName || selectedOrder.clientName
 									}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
@@ -235,11 +264,7 @@ const AdminPaymentOrders = () => {
 								<input
 									type='text'
 									name='amount'
-									value={
-										updatedOrderData.amount !== undefined
-											? updatedOrderData.amount
-											: selectedOrder.amount
-									}
+									value={updatedOrderData.amount || selectedOrder.amount}
 									onChange={handleModalInputChange}
 									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
 								/>
@@ -287,4 +312,4 @@ const AdminPaymentOrders = () => {
 	)
 }
 
-export default AdminPaymentOrders
+export default AdminOrders

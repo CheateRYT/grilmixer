@@ -143,7 +143,7 @@ const AdminProducts: React.FC = () => {
 					<option value={2}>Фарш номер 2</option>
 				</select>
 				<table className='min-w-full divide-y divide-gray-200 bg-black text-white'>
-					<thead className='bg-gray-800'>
+					<thead className='bg-gray-800 pb-3'>
 						<tr>
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Номер

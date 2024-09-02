@@ -75,7 +75,7 @@ const Thanks = ({ orderId }) => {
 							</p>
 							<p className={styles.orderP}>
 								<strong>Примерное время доставки:</strong>{' '}
-								{orderData.deliveryAddress.includes('Как можно скорее')
+								{orderData.deliveryAddress.includes('Доставить по готовности')
 									? 'Как можно скорее'
 									: new Date(orderData.createdTime).toLocaleString()}
 							</p>

@@ -110,10 +110,6 @@ const Order = ({
 			alert('Выберите способ доставки')
 			return
 		}
-		if (deliveryMethod === 'Самовывоз' && !paymentMethod) {
-			alert('Выберите способ оплаты')
-			return
-		}
 
 		if (!name) {
 			newErrors.name = true
@@ -230,21 +226,24 @@ const Order = ({
 			setChangeAmount('')
 			setPaymentMethod('')
 		}
-	}
-
-	const handlePaymentChange = (value: string) => {
-		setPaymentMethod(value)
-		if (value === 'Наличные') {
-			setChangeNeeded(true)
-		} else {
-			setChangeNeeded(false)
-			setChangeAmount('')
+		if (value === 'Самовывоз') {
+			setPaymentMethod('')
 		}
 	}
 
+	// const handlePaymentChange = (value: string) => {
+	// 	setPaymentMethod(value)
+	// 	if (value === 'Наличные') {
+	// 		setChangeNeeded(true)
+	// 	} else {
+	// 		setChangeNeeded(false)
+	// 		setChangeAmount('')
+	// 	}
+	// }
+
 	const setSelectedTimeCustom = (time: string) => {
 		if (time === 'fastDelivery') {
-			setFastDelivery('Как можно скорее')
+			setFastDelivery('Доставить по готовности')
 		}
 		setSelectedTime(time)
 	}
@@ -255,8 +254,9 @@ const Order = ({
 			<Cart
 				shopId={shopId}
 				isDeliveryPrice={true}
-				shopTag={'foodcourt'}
+				shopTag={shopTag}
 				title=''
+				deliveryMethod={deliveryMethod} // передаем выбранный способ доставки
 			/>
 			{isLoading && (
 				<div className='ringloader'>
@@ -378,7 +378,7 @@ const Order = ({
 							Выберите время
 						</option>
 						<option className={styles.selectedTimeOption} value='fastDelivery'>
-							Как можно скорее
+							Доставить по готовности
 						</option>
 						{generateTimeOptions().map((time, index) => (
 							<option
@@ -426,41 +426,7 @@ const Order = ({
 					</div>
 				</div>
 				{/* Способ оплаты (появляется только при выборе самовывоза) */}
-				{deliveryMethod === 'Самовывоз' && (
-					<div className={styles.row}>
-						<label className={styles.label}>
-							Способ оплаты <span className={styles.mustHave}>*</span>{' '}
-						</label>
-						<div className={styles.paymentOptions}>
-							<label
-								className={`${styles.button} ${
-									paymentMethod === 'Наличные' ? styles.selected : ''
-								}`}
-							>
-								<input
-									type='radio'
-									value='Наличные'
-									checked={paymentMethod === 'Наличные'}
-									onChange={e => handlePaymentChange(e.target.value)}
-								/>
-								Наличные
-							</label>
-							<label
-								className={`${styles.button} ${
-									paymentMethod === 'Безналичная' ? styles.selected : ''
-								}`}
-							>
-								<input
-									type='radio'
-									value='Безналичная'
-									checked={paymentMethod === 'Безналичная'}
-									onChange={e => handlePaymentChange(e.target.value)}
-								/>
-								Безналичная
-							</label>
-						</div>
-					</div>
-				)}
+
 				{/* Поле для сдачи, если выбраны наличные */}
 				{changeNeeded && paymentMethod === 'Наличные' && (
 					<div className={styles.row}>
