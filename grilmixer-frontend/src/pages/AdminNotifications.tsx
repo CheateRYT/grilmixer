@@ -51,10 +51,10 @@ const AdminNotifications: React.FC = () => {
 	}
 
 	return (
-		<div className='p-4'>
+		<div className='p-4  bg-slate-700'>
 			<AdminMain />
 			<div>
-				<h2 className='text-xl font-bold mb-2'>Уведомления:</h2>
+				<h2 className='text-xl font-bold mb-2 text-white'>Уведомления:</h2>
 				<table className='min-w-full divide-y divide-gray-200 bg-black text-white'>
 					<thead className='bg-gray-800'>
 						<tr>

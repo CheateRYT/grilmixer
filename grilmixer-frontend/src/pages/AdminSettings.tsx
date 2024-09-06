@@ -55,9 +55,9 @@ const AdminSettings: React.FC = () => {
 	}
 
 	return (
-		<div className='p-4'>
+		<div className='p-4 bg-slate-700'>
 			<AdminMain />
-			<h2 className='text-xl font-bold mb-4'>
+			<h2 className='text-xl font-bold mb-4 text-white'>
 				Изменение пароля администратора
 			</h2>
 			{errorMessage && <div className='text-red-500 mb-2'>{errorMessage}</div>}
@@ -75,7 +75,7 @@ const AdminSettings: React.FC = () => {
 						value={lastPassword}
 						onChange={handleLastPasswordChange}
 						placeholder='Если пароля не было, оставьте пустую строку'
-						className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+						className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 					/>
 				</label>
 				<label className='block mb-2'>
@@ -84,7 +84,7 @@ const AdminSettings: React.FC = () => {
 						type='password'
 						value={password}
 						onChange={handlePasswordChange}
-						className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+						className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						required
 					/>
 				</label>
@@ -94,7 +94,7 @@ const AdminSettings: React.FC = () => {
 						type='password'
 						value={confirmPassword}
 						onChange={handleConfirmPasswordChange}
-						className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+						className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						required
 					/>
 				</label>

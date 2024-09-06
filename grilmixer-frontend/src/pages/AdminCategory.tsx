@@ -83,17 +83,17 @@ const AdminCategory = () => {
 		}
 	}
 	return (
-		<div>
+		<div className='bg-slate-700'>
 			<AdminMain />
 			<div>
-				<h2 className='text-xl font-bold mb-2'>Категории:</h2>
+				<h2 className='text-xl font-bold mb-2   text-white'>Категории:</h2>
 				<button
 					onClick={handleOpenModal}
 					className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2'
 				>
 					Создать категорию
 				</button>
-				<p>Выбрать магазин</p>
+				<p className='text-white'>Выбрать магазин</p>
 				<select
 					value={selectedShopId}
 					onChange={handleShopIdChange}
@@ -160,10 +160,11 @@ const AdminCategory = () => {
 									})
 								}
 								placeholder='Название категории'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<select
 								name='shopId'
+								className=' bg-slate-700'
 								onChange={e =>
 									setNewCategoryData({
 										...newCategoryData,
@@ -185,7 +186,7 @@ const AdminCategory = () => {
 									})
 								}
 								placeholder='Tag категории (Пример burgers,pizza)'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<input
 								type='text'
@@ -198,7 +199,7 @@ const AdminCategory = () => {
 									})
 								}
 								placeholder='Путь к картинке'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<button
 								onClick={handleCreateCategory}

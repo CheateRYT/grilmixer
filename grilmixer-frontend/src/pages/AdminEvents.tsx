@@ -75,17 +75,17 @@ const AdminEvents = () => {
 		}
 	}
 	return (
-		<div>
+		<div className='bg-slate-700'>
 			<AdminMain />
 			<div>
-				<h2 className='text-xl font-bold mb-2'>Акции:</h2>
+				<h2 className='text-xl font-bold mb-2 text-white'>Акции:</h2>
 				<button
 					onClick={handleOpenModal}
 					className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2'
 				>
 					Создать акцию
 				</button>
-				<p>Выбрать магазин</p>
+				<p className='text-white'>Выбрать магазин</p>
 				<select
 					value={selectedShopId}
 					onChange={handleShopIdChange}
@@ -136,6 +136,7 @@ const AdminEvents = () => {
 						<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
 							<h3 className='text-lg font-bold mb-2'>Создать Акцию</h3>
 							<select
+								className=' bg-slate-700'
 								name='shopId'
 								onChange={e =>
 									setNewEventData({
@@ -144,8 +145,8 @@ const AdminEvents = () => {
 									})
 								}
 							>
-								<option value='1'>Фудкорт 1</option>
-								<option value='2'>Кафе 2</option>
+								<option value='1'>Гриль-МикСер 1</option>
+								<option value='2'>Фарш 2</option>
 							</select>
 							<input
 								type='text'
@@ -158,7 +159,7 @@ const AdminEvents = () => {
 									})
 								}
 								placeholder='Текст'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<input
 								type='text'
@@ -171,7 +172,7 @@ const AdminEvents = () => {
 									})
 								}
 								placeholder='Путь к картинке'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<button
 								onClick={handleCreateEvent}

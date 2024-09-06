@@ -85,17 +85,19 @@ const AdminExtraIngredient = () => {
 		await fetchExtraIngredients()
 	}
 	return (
-		<div>
+		<div className='bg-slate-700'>
 			<AdminMain />
 			<div>
-				<h2 className='text-xl font-bold mb-2'>Дополнительные ингредиенты:</h2>
+				<h2 className='text-xl font-bold mb-2 text-white  '>
+					Дополнительные ингредиенты:
+				</h2>
 				<button
 					onClick={handleOpenModal}
 					className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2'
 				>
 					Создать доп ингредиент
 				</button>
-				<p>Выбрать магазин</p>
+				<p className='text-white'>Выбрать магазин</p>
 				<select
 					value={selectedShopId}
 					onChange={handleShopIdChange}
@@ -104,10 +106,11 @@ const AdminExtraIngredient = () => {
 					<option value={1}>Гриль МикСер номер 1</option>
 					<option value={2}>Фарш 2</option>
 				</select>
-				<p>Tag категории (Пример burgers, pizza)</p>
+				<p className='text-white'>Tag категории (Пример burgers, pizza)</p>
 				<input
 					className='mb-4 px-4 py-2 rounded border'
 					type='text'
+					placeholder='Tag категории'
 					onChange={e => setSelectedCategoryTag(e.target.value)}
 				/>
 				<button
@@ -186,10 +189,11 @@ const AdminExtraIngredient = () => {
 									})
 								}
 								placeholder='Название доп ингредиента'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 							<select
 								name='shopId'
+								className=' bg-slate-700'
 								onChange={e =>
 									setNewExtraIngredientData({
 										...newExtraIngredientData,
@@ -211,7 +215,7 @@ const AdminExtraIngredient = () => {
 									})
 								}
 								placeholder='Tag категории (Пример burgers,pizza)'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<input
 								type='text'
@@ -224,7 +228,7 @@ const AdminExtraIngredient = () => {
 									})
 								}
 								placeholder='Цена'
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 							/>
 							<button
 								onClick={handleCreateExtraIngredient}

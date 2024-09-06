@@ -21,7 +21,6 @@ const DeliveryRules = ({ shopName }: { shopName: string }) => {
 					<li>Безналичная оплата: Юkassa, ЮMoney , Банковская карта</li>
 					<li className={styles.pickup}>Самовывоз</li>
 					<li>Безналичная оплата: Юkassa, ЮMoney , Банковская карта</li>
-					<li>Оплата наличными</li>
 				</ul>
 				<p className={styles.pickupInfo}>
 					Примерное время приготовления и доставки 1 час.

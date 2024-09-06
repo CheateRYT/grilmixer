@@ -35,7 +35,7 @@ const AdminMain = () => {
 
 	return (
 		<div>
-			<div className='flex justify-center items-center'>
+			<div className='flex justify-center items-center  bg-slate-700'>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('notifications')}

@@ -125,15 +125,15 @@ const AdminProducts: React.FC = () => {
 	return (
 		<div className='p-4'>
 			<AdminMain />
-			<div className='overflow-x-auto'>
-				<h2 className='text-xl font-bold mb-2'>Товары:</h2>
+			<div className='overflow-x-auto  bg-slate-700'>
+				<h2 className='text-xl text-white font-bold mb-2'>Товары:</h2>
 				<button
 					onClick={handleOpenCreateModal}
 					className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2'
 				>
 					Создать товар
 				</button>
-				<p>Выбрать магазин</p>
+				<p className='text-white'>Выбрать магазин</p>
 				<select
 					value={selectedShopId}
 					onChange={handleShopIdChange}
@@ -426,6 +426,7 @@ const AdminProducts: React.FC = () => {
 					<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
 						<h3 className='text-lg font-bold mb-2'>Создать Товар</h3>
 						<select
+							className=' bg-slate-700'
 							name='shopId'
 							onChange={e =>
 								setNewProductData({
@@ -448,7 +449,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Название товара'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -461,7 +462,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Tag категории (Пример burgers, pizza)'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -474,7 +475,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Ингридиенты, через запятую без пробелов'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -487,7 +488,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='КБЖУ, Калории, белки жиры углеводы через запятую без пробелов'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -500,7 +501,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Вес'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -513,7 +514,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Цена, пример: 2000'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -526,7 +527,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Скидка, пример: 150'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 						/>
 						<input
 							type='text'
@@ -539,7 +540,7 @@ const AdminProducts: React.FC = () => {
 								})
 							}
 							placeholder='Путь к картинке, ссылка'
-							className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+							className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 						/>
 						<input
 							type='checkbox'

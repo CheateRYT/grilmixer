@@ -234,7 +234,7 @@ const AdminPaymentOrders = () => {
 											: selectedOrder.clientName
 									}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 								/>
 							</label>
 							<label>
@@ -248,7 +248,7 @@ const AdminPaymentOrders = () => {
 											: selectedOrder.amount
 									}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 								/>
 							</label>
 							<label>
@@ -261,7 +261,7 @@ const AdminPaymentOrders = () => {
 											: selectedOrder.status
 									}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
 								>
 									{orderStatuses.map(status => (
 										<option key={status} value={status}>
