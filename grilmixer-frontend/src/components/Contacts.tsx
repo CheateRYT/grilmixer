@@ -13,7 +13,7 @@ const Contacts = ({ phone }: { phone: string }) => {
 					<strong>Телефоны:</strong> {phone}
 				</p>
 				<p className={styles.orderHours}>
-					<strong>Заказы принимаются:</strong> с 10:00 до 22:00
+					<strong>Заказы принимаются:</strong> с 10:00 до 01:30
 				</p>
 			</div>
 			<HomeYandexMap link='https://yandex.ru/map-widget/v1/org/gril_mikser/5282682587/?ll=38.884448%2C47.223400&z=17' />

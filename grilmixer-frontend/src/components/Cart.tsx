@@ -74,7 +74,9 @@ const Cart = ({
 							className={styles.cartItem}
 						>
 							<div>
-								<span className={styles.itemName}>{item.name}</span>
+								<span className={styles.itemName}>
+									{index + 1}) {item.name}
+								</span>
 								{JSON.parse(item.extraIngredients).length > 0 && (
 									<ul className={styles.extraIngredientsList}>
 										{JSON.parse(item.extraIngredients).map(ing => (

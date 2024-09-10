@@ -5,6 +5,7 @@ import CookieNotification from '../components/CookieNotification'
 import styles from './Home.module.css'
 
 const Home = () => {
+	document.title = 'Гриль-МикСер'
 	const navigate = useNavigate()
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -31,7 +32,7 @@ const Home = () => {
 						<h1 className={styles.header__logo}>Гриль-МикСер</h1>
 						<div className={styles.about}>
 							<p className={styles.about__address}>Транспортная ул., 46</p>
-							<p className={styles.about__phone}>+7 (904) 506-67-43</p>
+							<p className={styles.about__phone}>8 (929) 820-74-74</p>
 						</div>
 					</header>
 					<div className={styles.buttons}>

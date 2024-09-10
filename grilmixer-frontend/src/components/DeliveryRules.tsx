@@ -8,8 +8,8 @@ const DeliveryRules = ({ shopName }: { shopName: string }) => {
 				<h1 className={styles.title}>Условия доставки</h1>
 				<h2 className={styles.subtitle}>Доставка и оплата</h2>
 				<p className={styles.workingHours}>
-					<strong>Часы работы доставки:</strong> с 10:00 до 21:30 (Заказы на
-					самовывоз принимаются с 10:00 до 21:30)
+					<strong>Часы работы доставки:</strong> с 10:00 до (Заказы на самовывоз
+					принимаются с 10:00 до 01:30)
 				</p>
 				<h3 className={styles.deliveryHeader}>ДОСТАВКА</h3>
 				<p className={styles.deliveryCost}>

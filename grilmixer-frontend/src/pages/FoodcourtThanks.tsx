@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import Thanks from '../components/Thanks'
 
 const FoodcourtThanks = () => {
+	document.title = 'Гриль-МикСер'
 	const { orderId } = useParams()
 	return (
 		<div className='foodcourt'>

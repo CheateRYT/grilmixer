@@ -7,6 +7,7 @@ import { fetchUnreadNotifications } from '../utils/fetchUnreadNotifications'
 const AdminMain = () => {
 	const [unreadNotifications, setUnreadNotifications] = useState(0)
 	const navigate = useNavigate()
+
 	useEffect(() => {
 		fetchUnreadNotifications(setUnreadNotifications)
 		const socket = io('http://87.117.25.141:4200', {
@@ -15,13 +16,21 @@ const AdminMain = () => {
 			},
 		})
 
+		// Звуковые уведомления
+		const newOrderSound = new Audio('../../public/newOrderSound.mp3') // Укажите путь к вашему звуку для нового заказа
+		const paymentSuccessSound = new Audio(
+			'../../public/paymentSuccessSound.mp3'
+		) // Укажите путь к вашему звуку для успешной оплаты
+
 		socket.on('orderCreated', msg => {
 			alert('Поступил новый заказ с номером ' + msg.content)
+			newOrderSound.play() // Воспроизведение звука нового заказа
 			fetchUnreadNotifications(setUnreadNotifications)
 		})
 
 		socket.on('orderPaymentSuccess', msg => {
 			alert('Клиентом оплачен заказ с номером ' + msg.content)
+			paymentSuccessSound.play() // Воспроизведение звука успешной оплаты
 		})
 
 		return () => {
@@ -35,7 +44,13 @@ const AdminMain = () => {
 
 	return (
 		<div>
-			<div className='flex justify-center items-center  bg-slate-700'>
+			<div
+				className='flex justify-center items-center  
+			pt-4
+			pb-4
+			bg-slate-700 gap-5
+			'
+			>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('notifications')}
@@ -69,13 +84,13 @@ const AdminMain = () => {
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'
 					onClick={() => handleComponentClick('orders')}
 				>
-					Заказы
+					История
 				</button>
 				<button
-					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'
+					className='bg-red-500 text-white rounded-full py-2 px-4 font-bold'
 					onClick={() => handleComponentClick('paymentOrders')}
 				>
-					Оплаченные заказы
+					Новые Оплаченные заказы
 				</button>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'

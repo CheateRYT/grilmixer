@@ -1,4 +1,6 @@
-import { useNavigate } from 'react-router-dom' // Импортируем useNavigate из react-router-dom
+import { faCcMastercard, faCcVisa } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
 
 const Footer = ({
@@ -9,11 +11,9 @@ const Footer = ({
 	shopTag: string
 }) => {
 	const navigate = useNavigate()
-
 	const handleNavigateReviewLink = () => {
 		window.open(reviewLink, '_blank')
 	}
-
 	return (
 		<footer className={styles.footer}>
 			<div>
@@ -45,26 +45,8 @@ const Footer = ({
 			<div className={styles.footerContent}>
 				<div>Мы принимаем:</div>
 				<div className={styles.footerIcons}>
-					<img
-						src='./../../public/img/mastercard.png'
-						alt='MasterCard'
-						className={styles.icon}
-					/>
-					<img
-						src='./../../public/img/visa.png'
-						alt='Visa'
-						className={styles.icon}
-					/>
-					<img
-						src='./../../public/img/mir.png'
-						alt='Мир'
-						className={styles.icon}
-					/>
-					<img
-						src='./../../public/img/yandexmoney.png'
-						alt='ЮMoney'
-						className={styles.icon}
-					/>
+					<FontAwesomeIcon icon={faCcMastercard} className={styles.icon} />
+					<FontAwesomeIcon icon={faCcVisa} className={styles.icon} />
 				</div>
 			</div>
 			{/* Правая часть с иконкой ВКонтакте */}
@@ -72,7 +54,7 @@ const Footer = ({
 				<p className={styles.socialTitle}>Мы в соц сетях:</p>
 				<a
 					className={styles.vkIcon}
-					href='https://vk.com'
+					href='https://vk.com/farsh_launge_cafe'
 					target='_blank'
 					rel='noopener noreferrer'
 				>

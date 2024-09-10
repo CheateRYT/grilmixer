@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 
 const CafeDeliveryRules = () => {
+	document.title = 'Фарш'
 	return (
 		<div className='foodcourt'>
 			<Header shopId='2' logo='Фарш' shopTag='cafe' />

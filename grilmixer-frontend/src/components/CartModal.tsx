@@ -36,7 +36,10 @@ const CartModal = ({
 	}, [cartItems])
 
 	return (
-		<div className={styles.cartModal}>
+		<div
+			className={styles.cartModal}
+			onMouseLeave={setClose} // Закрываем модальное окно при уходе курсора
+		>
 			<div className={styles.cartHeader}>
 				<h2 className={styles.cartTitle}>Товаров в корзине</h2>
 				<button className={styles.cartClose} onClick={setClose}>

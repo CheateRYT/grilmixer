@@ -97,3 +97,33 @@
 		font-size: 18px;
 	}
 }
+.cartItem {
+	background-color: #242424;
+	display: flex;
+	justify-content: space-between; /* Разделяем элементы по краям */
+	align-items: center; /* Выравнивание по центру */
+	margin-bottom: 20px;
+	padding: 10px; /* Добавим отступы для лучшего визуального восприятия */
+}
+
+.itemName {
+	font-size: 22px; /* Увеличенный размер шрифта для названия блюда */
+	flex: 1; /* Позволяет элементу занимать свободное пространство */
+	text-align: left; /* Выравнивание текста по левому краю */
+}
+
+.quantityControls {
+	background-color: #242424;
+	gap: 10px; /* Уменьшаем расстояние между кнопками */
+	font-weight: bold;
+	color: white;
+	display: flex;
+	align-items: center; /* Выравнивание по центру */
+	flex: 0 0 auto; /* Не позволяем этому элементу растягиваться */
+}
+
+.amount {
+	font-size: 18px;
+	flex: 0 0 100px; /* Устанавливаем фиксированную ширину для цены */
+	text-align: right; /* Выравнивание текста по правому краю */
+}

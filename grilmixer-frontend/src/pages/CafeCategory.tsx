@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import ProductList from '../components/ProductList'
 
 const CafeCategory = () => {
+	document.title = 'Фарш'
 	const { name } = useParams()
 	return (
 		<div className='foodcourt'>

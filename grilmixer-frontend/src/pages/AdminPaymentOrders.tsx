@@ -12,6 +12,7 @@ import {
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react'
+import { ExtraIngredient } from '../types/ExtraIngredient.interface'
 import { Order } from '../types/Order.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
@@ -31,6 +32,9 @@ const AdminPaymentOrders = () => {
 	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 	const [showModal, setShowModal] = useState(false)
 	const [updatedOrderData, setUpdatedOrderData] = useState<Partial<Order>>({})
+	const [productsData, setProductsData] = useState<{ [key: number]: string }>(
+		{}
+	)
 
 	useEffect(() => {
 		const fetchPaymentOrders = async () => {
@@ -45,6 +49,7 @@ const AdminPaymentOrders = () => {
 					}
 				)
 				setPaymentOrders(response.data)
+				await fetchProductsData(response.data)
 			} catch (error) {
 				console.error('Error fetching payment orders:', error)
 			}
@@ -129,32 +134,95 @@ const AdminPaymentOrders = () => {
 			}
 		}
 	}
+	const fetchExtraIngredientsByCategory = async (
+		selectedShopId: number,
+		category: string | null
+	) => {
+		if (!category) return [] // Если нет категории, возвращаем пустой массив
+		try {
+			const response = await axios.get<ExtraIngredient[]>(
+				`${backendApiUrl}admin/extraIngredients/${selectedShopId}/${category}`
+			)
+			return response.data
+		} catch (error) {
+			console.error('Ошибка при получении дополнительных ингредиентов:', error)
+			return []
+		}
+	}
+	const getNextStatus = (currentStatus: string) => {
+		const currentIndex = orderStatuses.indexOf(currentStatus)
+		if (currentIndex < orderStatuses.length - 1) {
+			return orderStatuses[currentIndex + 1]
+		}
+		return currentStatus // Если это последний статус, возвращаем текущий
+	}
+	const fetchProductCategory = async (productId: number) => {
+		try {
+			const response = await axios.get(
+				`${backendApiUrl}admin/getProducts/${productId}`
+			)
+			return response.data.category // Предполагается, что категория находится в этом поле
+		} catch (error) {
+			console.error('Ошибка при получении категории продукта:', error)
+			return null
+		}
+	}
+
+	const fetchProductsData = async (orders: Order[]) => {
+		const productsData = await Promise.all(
+			orders.map(async order => {
+				const counts = order.productsCount
+					.split(',')
+					.map(count => parseInt(count, 10))
+				const productsWithExtraIngredients = await Promise.all(
+					order.products.map(async (product, index) => {
+						const category = await fetchProductCategory(product.id)
+						const extraIngredients = await fetchExtraIngredientsByCategory(
+							order.shopId,
+							category
+						)
+						const extraIngredientsNames = extraIngredients
+							.map(extra => extra.name)
+							.join(', ')
+						const count = counts[index] !== undefined ? counts[index] : 0
+						return `${index + 1}) ${
+							product.name
+						}: ${count} шт. - Доп.ингредиенты: ${
+							extraIngredientsNames || 'нет'
+						}`
+					})
+				)
+				return productsWithExtraIngredients.join('\n')
+			})
+		)
+		const productsMap = orders.reduce((acc, order, index) => {
+			acc[order.id] = productsData[index]
+			return acc
+		}, {} as { [key: number]: string })
+		setProductsData(productsMap)
+	}
 
 	return (
 		<div>
 			<AdminMain />
-			<h2>Оплаченные заказы</h2>
+			<h2 className='bg-slate-700 pb-3 text-lg'>Оплаченные заказы</h2>
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>
 						<TableRow>
 							<TableCell>Номер</TableCell>
-							<TableCell>Номер магазина</TableCell>
-							<TableCell>Стоимость</TableCell>
-							<TableCell>Сдача с</TableCell>
-							<TableCell>Тип</TableCell>
-							<TableCell>Персон</TableCell>
+							<TableCell>Название магазина</TableCell>
+							<TableCell>Имя клиента</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
 							<TableCell>Почта</TableCell>
-							<TableCell>Имя клиента</TableCell>
+							<TableCell>Стоимость</TableCell>
+							<TableCell>Тип</TableCell>
+							<TableCell>Персон</TableCell>
 							<TableCell>Время</TableCell>
 							<TableCell>Время окончания</TableCell>
-							<TableCell>Статус</TableCell>
-							<TableCell>Номера продуктов</TableCell>
-							<TableCell>Названия продуктов</TableCell>
-							<TableCell>Количество продуктов</TableCell>
-							<TableCell>Доп.Ингредиенты</TableCell>
+							<TableCell className='border-2 border-red-700'>Статус</TableCell>
+							<TableCell>Товары</TableCell>
 							<TableCell>Действие</TableCell>
 						</TableRow>
 					</TableHead>
@@ -164,37 +232,33 @@ const AdminPaymentOrders = () => {
 							.map(order => (
 								<TableRow key={order.id}>
 									<TableCell>{order.id}</TableCell>
-									<TableCell>{order.shopId}</TableCell>
-									<TableCell>{order.amount}</TableCell>
-									<TableCell>{order.changeFrom}</TableCell>
-									<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
-									<TableCell>{order.personCount}</TableCell>
+									<TableCell>
+										{order.shopId === 1
+											? 'ГрильМикСер'
+											: order.shopId === 2
+											? 'Фарш'
+											: order.shopId}
+									</TableCell>
+									<TableCell>{order.clientName}</TableCell>
 									<TableCell>{order.phoneNumber}</TableCell>
 									<TableCell>{order.deliveryAddress}</TableCell>
 									<TableCell>{order.email}</TableCell>
-									<TableCell>{order.clientName}</TableCell>
+									<TableCell>{order.amount}</TableCell>
+									<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
+									<TableCell>{order.personCount}</TableCell>
 									<TableCell>{formatDate(order.createdTime)}</TableCell>
 									<TableCell>
 										{order.completedTime
 											? formatDate(order.completedTime)
 											: 'Не завершен'}
 									</TableCell>
-									<TableCell>{order.status}</TableCell>
-									<TableCell>
-										{order.products.map(product => product.id).join(',')}
+									<TableCell className='border-2 border-red-700'>
+										{order.status}
 									</TableCell>
 									<TableCell>
-										{order.products.map(product => product.name).join(',')}
-									</TableCell>
-									<TableCell>{order.productsCount}</TableCell>
-									<TableCell>
-										{order.extraIngredientsOrder &&
-											order.extraIngredientsOrder
-												.map(
-													extra =>
-														`Товар  -  ${extra.productId}: ${extra.productCount} шт., ингредиенты: ${extra.extraIngredients}`
-												)
-												.join('; ')}
+										<pre className='whitespace-normal break-words'>
+											{productsData[order.id] || 'Пусто'}
+										</pre>
 									</TableCell>
 									<TableCell>
 										<Button
@@ -210,7 +274,8 @@ const AdminPaymentOrders = () => {
 											onClick={() => handleNextStatus(order.id)}
 											className='ml-2'
 										>
-											След. статус
+											{getNextStatus(order.status)}{' '}
+											{/* Отображаем следующий статус */}
 										</Button>
 									</TableCell>
 								</TableRow>

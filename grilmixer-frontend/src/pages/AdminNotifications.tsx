@@ -50,11 +50,23 @@ const AdminNotifications: React.FC = () => {
 		}
 	}
 
+	const handleDeleteAllNotifications = async () => {
+		for (const notification of notifications) {
+			await handleReadNotification(notification.id)
+		}
+	}
+
 	return (
-		<div className='p-4  bg-slate-700'>
+		<div className='p-4 bg-slate-700'>
 			<AdminMain />
 			<div>
 				<h2 className='text-xl font-bold mb-2 text-white'>Уведомления:</h2>
+				<button
+					onClick={handleDeleteAllNotifications}
+					className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4'
+				>
+					Удалить все уведомления
+				</button>
 				<table className='min-w-full divide-y divide-gray-200 bg-black text-white'>
 					<thead className='bg-gray-800'>
 						<tr>
@@ -89,7 +101,7 @@ const AdminNotifications: React.FC = () => {
 										onClick={() => handleReadNotification(notification.id)}
 										className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
 									>
-										Прочитать
+										Удалить
 									</button>
 								</td>
 							</tr>

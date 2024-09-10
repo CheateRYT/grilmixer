@@ -124,11 +124,6 @@ const Order = ({
 			alert('Не заполнено обязательное поле - Телефон')
 		}
 
-		if (!street) {
-			newErrors.street = true
-			alert('Не заполнено обязательное поле - Улица')
-		}
-
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors)
 			return // Прекращаем выполнение, если есть ошибки
@@ -300,9 +295,7 @@ const Order = ({
 					/>
 				</div>
 				<div className={styles.row}>
-					<label className={styles.label}>
-						Улица <span className={styles.mustHave}>*</span>
-					</label>
+					<label className={styles.label}>Улица</label>
 					<input
 						className={`${styles.input} ${errors.street ? 'error' : ''}`}
 						type='text'
@@ -394,7 +387,8 @@ const Order = ({
 				{/* Способы доставки */}
 				<div className={styles.row}>
 					<label className={styles.label}>
-						Способы доставки <span className={styles.mustHave}>*</span>
+						Способы доставки (Курьером - 300р){' '}
+						<span className={styles.mustHave}>*</span>
 					</label>
 					<div className={styles.deliveryOptions}>
 						<label

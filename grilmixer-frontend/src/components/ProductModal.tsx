@@ -151,6 +151,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
 						</p>
 						{product.bzu && (
 							<>
+								<h5>На 100 гр продукта</h5>
 								<p>Калорийность: {product.bzu.split(',')[0]}</p>
 								<p>Белки: {product.bzu.split(',')[1]}</p>
 								<p>Жиры: {product.bzu.split(',')[2]}</p>

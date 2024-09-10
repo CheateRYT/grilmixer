@@ -4,6 +4,7 @@ import Header from '../components/Header'
 import ProductList from '../components/ProductList'
 
 const FoodcourtCategory = () => {
+	document.title = 'Гриль-МикСер'
 	const { name } = useParams() // Используем useParams для получения параметра name
 
 	return (

@@ -3,6 +3,7 @@ import Header from '../components/Header'
 import Order from '../components/Order'
 
 const FoodcourtOrder = () => {
+	document.title = 'Гриль-МикСер'
 	return (
 		<div className='foodcourt'>
 			<Header logo={'Гриль-МикСер'} shopId={'1'} shopTag={'foodcourt'} />

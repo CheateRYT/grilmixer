@@ -3,6 +3,7 @@ import Footer from '../components/Footer'
 import Header from '../components/Header'
 
 const CafeCart = () => {
+	document.title = 'Фарш'
 	return (
 		<div className='foodcourt'>
 			<Header logo={'Фарш'} shopId={'2'} shopTag={'cafe'} />

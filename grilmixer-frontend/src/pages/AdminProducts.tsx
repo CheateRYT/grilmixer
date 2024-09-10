@@ -271,7 +271,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.name
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -285,7 +285,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.price
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -300,7 +300,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.category
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -314,7 +314,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.discount || ''
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -328,7 +328,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.weight
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -342,7 +342,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.ingredients
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -356,7 +356,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.bzu
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<label>
@@ -369,7 +369,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.isStopList
 								}
 								onChange={e => handleModalInputChange(e)}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							>
 								<option value={true}>Да</option>
 								<option value={false}>Нет</option>
@@ -385,7 +385,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.isAvailable
 								}
 								onChange={e => handleModalInputChange(e)}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							>
 								<option value={true}>Да</option>
 								<option value={false}>Нет</option>
@@ -403,7 +403,7 @@ const AdminProducts: React.FC = () => {
 										: selectedProduct.imagePath
 								}
 								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1'
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 							/>
 						</label>
 						<button

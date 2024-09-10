@@ -5,6 +5,7 @@ import HomeEvents from '../components/HomeEvents'
 import HomeYandexMap from '../components/HomeYandexMap'
 
 const Cafe = () => {
+	document.title = 'Фарш'
 	return (
 		<div className='foodcourt'>
 			<Header logo={'Фарш'} shopId={'2'} shopTag={'cafe'} />
