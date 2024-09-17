@@ -387,4 +387,16 @@ export class AdminController {
 			)
 		}
 	}
+	@HttpCode(200)
+	@Get('extraIngredient/:id')
+	async getExtraIngredient(@Param('id') id: number) {
+		try {
+			return await this.adminService.getExtraIngredient(id)
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении дополнительного ингредиента' + error,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
 }

@@ -58,6 +58,7 @@
 	font-size: 18px;
 }
 .extraIngredientsList {
+	color: #8a8a8a;
 	list-style-type: none; /* Убираем маркеры списка */
 	padding-left: 0; /* Убираем отступ слева */
 	align-items: center;
@@ -120,6 +121,9 @@
 	display: flex;
 	align-items: center; /* Выравнивание по центру */
 	flex: 0 0 auto; /* Не позволяем этому элементу растягиваться */
+}
+.extraIngredient {
+	color: 969696 !important;
 }
 
 .amount {

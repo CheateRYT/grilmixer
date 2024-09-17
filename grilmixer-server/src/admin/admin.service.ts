@@ -410,4 +410,11 @@ export class AdminService {
 			}
 		})
 	}
+	async getExtraIngredient(id: number) {
+		return await this.prisma.extraIngredient.findFirst({
+			where: {
+				id: Number(id)
+			}
+		})
+	}
 }

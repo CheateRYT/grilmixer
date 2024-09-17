@@ -57,7 +57,10 @@ const AdminPaymentOrders = () => {
 		fetchPaymentOrders()
 	}, [])
 
-	const formatDate = (dateString: string) => {
+	const formatDate = (dateString: string, comment: string) => {
+		if (comment.includes('Доставить по готовности')) {
+			return 'По готовности'
+		}
 		const date = new Date(dateString)
 		const day = String(date.getDate()).padStart(2, '0')
 		const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -134,6 +137,7 @@ const AdminPaymentOrders = () => {
 			}
 		}
 	}
+
 	const fetchExtraIngredientsByCategory = async (
 		selectedShopId: number,
 		category: string | null
@@ -149,13 +153,7 @@ const AdminPaymentOrders = () => {
 			return []
 		}
 	}
-	const getNextStatus = (currentStatus: string) => {
-		const currentIndex = orderStatuses.indexOf(currentStatus)
-		if (currentIndex < orderStatuses.length - 1) {
-			return orderStatuses[currentIndex + 1]
-		}
-		return currentStatus // Если это последний статус, возвращаем текущий
-	}
+
 	const fetchProductCategory = async (productId: number) => {
 		try {
 			const response = await axios.get(
@@ -185,10 +183,10 @@ const AdminPaymentOrders = () => {
 							.map(extra => extra.name)
 							.join(', ')
 						const count = counts[index] !== undefined ? counts[index] : 0
-						return `${index + 1}) ${
-							product.name
-						}: ${count} шт. - Доп.ингредиенты: ${
-							extraIngredientsNames || 'нет'
+						return `${index + 1}) ${product.name}: ${count} шт${
+							extraIngredientsNames
+								? ' - Доп.ингредиенты: ' + extraIngredientsNames
+								: ''
 						}`
 					})
 				)
@@ -201,7 +199,13 @@ const AdminPaymentOrders = () => {
 		}, {} as { [key: number]: string })
 		setProductsData(productsMap)
 	}
-
+	const getNextStatus = (currentStatus: string) => {
+		const currentIndex = orderStatuses.indexOf(currentStatus)
+		if (currentIndex < orderStatuses.length - 1) {
+			return orderStatuses[currentIndex + 1]
+		}
+		return currentStatus // Возвращаем текущий статус, если это последний статус
+	}
 	return (
 		<div>
 			<AdminMain />
@@ -246,7 +250,10 @@ const AdminPaymentOrders = () => {
 									<TableCell>{order.amount}</TableCell>
 									<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 									<TableCell>{order.personCount}</TableCell>
-									<TableCell>{formatDate(order.createdTime)}</TableCell>
+									<TableCell>
+										{formatDate(order.createdTime, order.deliveryAddress)}{' '}
+										{/* Передаем комментарий */}
+									</TableCell>
 									<TableCell>
 										{order.completedTime
 											? formatDate(order.completedTime)

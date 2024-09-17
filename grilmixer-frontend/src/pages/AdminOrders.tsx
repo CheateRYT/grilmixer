@@ -57,6 +57,7 @@ const AdminOrders: React.FC = () => {
 			console.error('Error fetching orders:', error)
 		}
 	}
+
 	const getNextStatus = (currentStatus: string) => {
 		const currentIndex = orderStatuses.indexOf(currentStatus)
 		if (currentIndex < orderStatuses.length - 1) {
@@ -64,6 +65,7 @@ const AdminOrders: React.FC = () => {
 		}
 		return currentStatus // Если это последний статус, возвращаем текущий
 	}
+
 	const fetchProductsData = async (orders: Order[]) => {
 		const productsData = await Promise.all(
 			orders.map(async order => {
@@ -73,18 +75,14 @@ const AdminOrders: React.FC = () => {
 				const productsWithExtraIngredients = await Promise.all(
 					order.products.map(async (product, index) => {
 						const category = await fetchProductCategory(product.id)
-						const extraIngredients = await fetchExtraIngredientsByCategory(
-							order.shopId,
-							category
+						const extraIngredientsNames = await fetchExtraIngredientsNames(
+							order.extraIngredientsOrder,
+							product.id
 						)
-						const extraIngredientsNames = extraIngredients
-							.map(extra => extra.name)
-							.join(', ')
-						const count = counts[index] !== undefined ? counts[index] : 0
-						return `${index + 1}) ${
-							product.name
-						}: ${count} шт. - Доп.ингредиенты: ${
-							extraIngredientsNames || 'нет'
+						return `${index + 1}) ${product.name}: ${counts[index]} шт${
+							extraIngredientsNames
+								? ' - Доп.ингредиенты: ' + extraIngredientsNames
+								: ''
 						}`
 					})
 				)
@@ -96,6 +94,22 @@ const AdminOrders: React.FC = () => {
 			return acc
 		}, {} as { [key: number]: string })
 		setProductsData(productsMap)
+	}
+
+	const fetchExtraIngredientsNames = async (
+		extraIngredientsOrder: ExtraIngredientOrder[],
+		productId: number
+	) => {
+		const extraIngredientsIds = extraIngredientsOrder
+			.filter(orderItem => orderItem.productId === productId)
+			.flatMap(orderItem =>
+				orderItem.extraIngredients.split(',').map(id => parseInt(id, 10))
+			)
+
+		const extraIngredientsNames = await Promise.all(
+			extraIngredientsIds.map(id => fetchExtraIngredient(id))
+		)
+		return extraIngredientsNames.filter(name => name).join(', ')
 	}
 
 	const handleNextStatus = async (orderId: number) => {
@@ -137,7 +151,10 @@ const AdminOrders: React.FC = () => {
 		setUpdatedOrderData({})
 	}
 
-	const formatDate = (dateString: string) => {
+	const formatDate = (dateString: string, comment: string) => {
+		if (comment.includes('Доставить по готовности')) {
+			return 'По готовности'
+		}
 		const date = new Date(dateString)
 		const day = String(date.getDate()).padStart(2, '0')
 		const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -194,19 +211,16 @@ const AdminOrders: React.FC = () => {
 		setPage(0)
 	}
 
-	const fetchExtraIngredientsByCategory = async (
-		selectedShopId: number,
-		category: string | null
-	) => {
-		if (!category) return [] // Если нет категории, возвращаем пустой массив
+	const fetchExtraIngredient = async (id: number) => {
+		if (!id) return '' // Если нет категории, возвращаем текст
 		try {
 			const response = await axios.get<ExtraIngredient[]>(
-				`${backendApiUrl}admin/extraIngredients/${selectedShopId}/${category}`
+				`${backendApiUrl}admin/extraIngredient/${id}`
 			)
-			return response.data
+			return response.data.name // Возвращаем имя дополнительного ингредиента
 		} catch (error) {
-			console.error('Ошибка при получении дополнительных ингредиентов:', error)
-			return []
+			console.error('Ошибка при получении дополнительного ингридиента:', error)
+			return ''
 		}
 	}
 
@@ -234,12 +248,11 @@ const AdminOrders: React.FC = () => {
 							<TableCell>Имя клиента</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
-							<TableCell>Почта</TableCell>
+
 							<TableCell>Стоимость</TableCell>
 							<TableCell>Тип</TableCell>
 							<TableCell>Персон</TableCell>
 							<TableCell>Время</TableCell>
-							<TableCell>Время окончания</TableCell>
 							<TableCell className='border-2 border-red-700'>Статус</TableCell>
 							<TableCell>Товары</TableCell>
 							<TableCell>Действие</TableCell>
@@ -259,15 +272,12 @@ const AdminOrders: React.FC = () => {
 								<TableCell>{order.clientName}</TableCell>
 								<TableCell>{order.phoneNumber}</TableCell>
 								<TableCell>{order.deliveryAddress}</TableCell>
-								<TableCell>{order.email}</TableCell>
 								<TableCell>{order.amount}</TableCell>
 								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 								<TableCell>{order.personCount}</TableCell>
-								<TableCell>{formatDate(order.createdTime)}</TableCell>
 								<TableCell>
-									{order.completedTime
-										? formatDate(order.completedTime)
-										: 'Не завершен'}
+									{formatDate(order.createdTime, order.deliveryAddress)}{' '}
+									{/* Передаем комментарий */}
 								</TableCell>
 								<TableCell className='border-2 border-red-700'>
 									{order.status}
