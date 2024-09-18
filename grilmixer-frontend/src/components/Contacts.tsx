@@ -1,7 +1,7 @@
 import styles from './Contacts.module.css' // Импортируем CSS модули
 import HomeYandexMap from './HomeYandexMap'
 
-const Contacts = ({ phone }: { phone: string }) => {
+const Contacts = ({ phone, link }: { phone: string; link: string }) => {
 	return (
 		<div>
 			<div className={styles.contactsContainer}>
@@ -16,7 +16,7 @@ const Contacts = ({ phone }: { phone: string }) => {
 					<strong>Заказы принимаются:</strong> с 10:00 до 01:30
 				</p>
 			</div>
-			<HomeYandexMap link='https://yandex.ru/map-widget/v1/org/gril_mikser/5282682587/?ll=38.884448%2C47.223400&z=17' />
+			<HomeYandexMap link={link} />
 		</div>
 	)
 }

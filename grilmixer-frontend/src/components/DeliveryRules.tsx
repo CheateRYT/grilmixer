@@ -1,7 +1,13 @@
 import styles from './DeliveryRules.module.css' // Импортируем CSS модули
 import HomeYandexMap from './HomeYandexMap'
 
-const DeliveryRules = ({ shopName }: { shopName: string }) => {
+const DeliveryRules = ({
+	shopName,
+	link,
+}: {
+	shopName: string
+	link: string
+}) => {
 	return (
 		<div>
 			<div className={styles.deliveryRulesContainer}>
@@ -29,7 +35,7 @@ const DeliveryRules = ({ shopName }: { shopName: string }) => {
 					Вы можете получить заказ в пункте самовывоза «{shopName}».
 				</p>
 			</div>
-			<HomeYandexMap link='https://yandex.ru/map-widget/v1/org/gril_mikser/5282682587/?ll=38.884448%2C47.223400&z=17' />
+			<HomeYandexMap link={link} />
 		</div>
 	)
 }

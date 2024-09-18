@@ -7,7 +7,10 @@ const CafeDeliveryRules = () => {
 	return (
 		<div className='foodcourt'>
 			<Header shopId='2' logo='Фарш' shopTag='cafe' />
-			<DeliveryRules shopName='Фарш' />
+			<DeliveryRules
+				shopName='Фарш'
+				link='https://yandex.ru/map-widget/v1/org/farsh/190773496899/?ll=38.884448%2C47.223400&z=17'
+			/>
 			<Footer
 				shopTag={'cafe'}
 				reviewLink='https://yandex.ru/maps-reviews-widget/190773496899?comments'
