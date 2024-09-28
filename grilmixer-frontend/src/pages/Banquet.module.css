@@ -9,13 +9,16 @@
 	text-align: center;
 	margin-bottom: 30px;
 }
+
 .moreFood {
+	padding-top: 20px;
 	font-size: 20px;
 	color: #b20522;
 }
+
 .title {
 	min-height: 3vh;
-	font-size: 4cap; /* Адаптивный размер шрифта */
+	font-size: 4rem; /* Адаптивный размер шрифта */
 	color: #b20522;
 	cursor: pointer;
 	font-weight: bold;
@@ -23,41 +26,51 @@
 	letter-spacing: 0.1em; /* Адаптивный интервал между буквами */
 }
 
-.gallery,
-.menu,
-.contact,
-.map {
+.menuTitle {
+	font-weight: bold;
+	font-size: 25px;
+	color: #b20522;
+	padding-bottom: 20px;
+}
+
+.category {
 	margin-bottom: 30px;
 }
 
-.images {
-	display: flex;
-	justify-content: space-around;
-	flex-wrap: wrap;
-}
-
-.image {
-	width: 300px;
-	height: auto;
-	margin: 10px;
-}
-
-.menuList {
-	list-style-type: none;
-	padding: 0;
-}
-
-.menuList li {
+.categoryTitle {
+	font-weight: bold;
+	font-size: 22px;
 	color: white;
-	padding: 10px;
-	margin: 5px 0;
+	margin-bottom: 10px;
 }
 
+.cardContainer {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.card {
+	border: rgba(255, 0, 0, 0.7) 1px solid;
+	padding: 10px;
+	border-radius: 0.5rem; /* 8px */
+	margin: 10px;
+	flex: 1 1 calc(25% - 10px); /* Адаптивная ширина карточек */
+	color: white;
+}
+
+.card h4 {
+	margin: 0;
+	font-size: 20px;
+}
+.gallery {
+	margin-bottom: 20px;
+}
 .contact {
 	background-color: rgba(255, 0, 0, 0.5);
 	padding: 10px;
-
-	border-radius: 0.5rem /* 8px */;
+	border-radius: 0.5rem; /* 8px */
+	margin: 20px;
 }
 
 .contact a {

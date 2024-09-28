@@ -1,7 +1,15 @@
 import styles from './Contacts.module.css' // Импортируем CSS модули
 import HomeYandexMap from './HomeYandexMap'
 
-const Contacts = ({ phone, link }: { phone: string; link: string }) => {
+const Contacts = ({
+	phone,
+	link,
+	maxDeliveryTime,
+}: {
+	phone: string
+	link: string
+	maxDeliveryTime: string
+}) => {
 	return (
 		<div>
 			<div className={styles.contactsContainer}>
@@ -13,7 +21,7 @@ const Contacts = ({ phone, link }: { phone: string; link: string }) => {
 					<strong>Телефоны:</strong> {phone}
 				</p>
 				<p className={styles.orderHours}>
-					<strong>Заказы принимаются:</strong> с 10:00 до 01:30
+					<strong>Заказы принимаются:</strong> с 10:00 до {maxDeliveryTime}
 				</p>
 			</div>
 			<HomeYandexMap link={link} />

@@ -10,6 +10,7 @@ const FoodcourtDeliveryRules = () => {
 			<DeliveryRules
 				shopName='Гриль-МикСер'
 				link='https://yandex.ru/map-widget/v1/org/gril_mikser/5282682587/?ll=38.884448%2C47.223400&z=17'
+				maxDeliveryTime='01:30'
 			/>
 			<Footer
 				shopTag={'foodcourt'}

@@ -10,6 +10,7 @@ const CafeDeliveryRules = () => {
 			<DeliveryRules
 				shopName='Фарш'
 				link='https://yandex.ru/map-widget/v1/org/farsh/190773496899/?ll=38.884448%2C47.223400&z=17'
+				maxDeliveryTime='00:00'
 			/>
 			<Footer
 				shopTag={'cafe'}

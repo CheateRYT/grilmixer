@@ -4,9 +4,11 @@ import HomeYandexMap from './HomeYandexMap'
 const DeliveryRules = ({
 	shopName,
 	link,
+	maxDeliveryTime,
 }: {
 	shopName: string
 	link: string
+	maxDeliveryTime: string
 }) => {
 	return (
 		<div>
@@ -15,7 +17,7 @@ const DeliveryRules = ({
 				<h2 className={styles.subtitle}>Доставка и оплата</h2>
 				<p className={styles.workingHours}>
 					<strong>Часы работы доставки:</strong> с 10:00 до (Заказы на самовывоз
-					принимаются с 10:00 до 01:30)
+					принимаются с 10:00 до {maxDeliveryTime})
 				</p>
 				<h3 className={styles.deliveryHeader}>ДОСТАВКА</h3>
 				<p className={styles.deliveryCost}>
