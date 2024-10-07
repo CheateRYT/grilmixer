@@ -40,7 +40,7 @@ const Pominki = () => {
 		<div className={styles.container}>
 			<header className={styles.header}>
 				<h1 className={styles.title} onClick={handleClickTitle}>
-					Поминки
+					Поминальное меню
 				</h1>
 			</header>
 			<section className={styles.gallery}>

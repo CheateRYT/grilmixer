@@ -219,12 +219,12 @@ const AdminPaymentOrders = () => {
 							<TableCell>Имя клиента</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
-							<TableCell>Почта</TableCell>
+
 							<TableCell>Стоимость</TableCell>
 							<TableCell>Тип</TableCell>
 							<TableCell>Персон</TableCell>
 							<TableCell>Время</TableCell>
-							<TableCell>Время окончания</TableCell>
+
 							<TableCell className='border-2 border-red-700'>Статус</TableCell>
 							<TableCell>Товары</TableCell>
 							<TableCell>Действие</TableCell>
@@ -246,18 +246,13 @@ const AdminPaymentOrders = () => {
 									<TableCell>{order.clientName}</TableCell>
 									<TableCell>{order.phoneNumber}</TableCell>
 									<TableCell>{order.deliveryAddress}</TableCell>
-									<TableCell>{order.email}</TableCell>
+
 									<TableCell>{order.amount}</TableCell>
 									<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 									<TableCell>{order.personCount}</TableCell>
 									<TableCell>
 										{formatDate(order.createdTime, order.deliveryAddress)}{' '}
 										{/* Передаем комментарий */}
-									</TableCell>
-									<TableCell>
-										{order.completedTime
-											? formatDate(order.completedTime)
-											: 'Не завершен'}
 									</TableCell>
 									<TableCell className='border-2 border-red-700'>
 										{order.status}

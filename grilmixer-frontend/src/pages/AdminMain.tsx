@@ -16,21 +16,14 @@ const AdminMain = () => {
 			},
 		})
 
-		// Звуковые уведомления
-		const newOrderSound = new Audio('../../public/newOrderSound.mp3') // Укажите путь к вашему звуку для нового заказа
 		const paymentSuccessSound = new Audio(
 			'../../public/paymentSuccessSound.mp3'
 		) // Укажите путь к вашему звуку для успешной оплаты
 
-		socket.on('orderCreated', msg => {
-			alert('Поступил новый заказ с номером ' + msg.content)
-			newOrderSound.play() // Воспроизведение звука нового заказа
-			fetchUnreadNotifications(setUnreadNotifications)
-		})
-
 		socket.on('orderPaymentSuccess', msg => {
-			alert('Клиентом оплачен заказ с номером ' + msg.content)
 			paymentSuccessSound.play() // Воспроизведение звука успешной оплаты
+			window.location.reload()
+			alert('Клиентом оплачен заказ с номером ' + msg.content)
 		})
 
 		return () => {
@@ -51,7 +44,7 @@ const AdminMain = () => {
 			bg-slate-700 gap-5
 			'
 			>
-				<button
+				{/* <button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('notifications')}
 				>
@@ -61,7 +54,7 @@ const AdminMain = () => {
 							{unreadNotifications}
 						</span>
 					)}
-				</button>
+				</button> */}
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('events')}

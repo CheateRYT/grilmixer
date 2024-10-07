@@ -157,7 +157,7 @@ const Banquet = () => {
 		<div className={styles.container}>
 			<header className={styles.header}>
 				<h1 className={styles.title} onClick={handleClickTitle}>
-					Банкет
+					Банкетное меню
 				</h1>
 			</header>
 			<section className={styles.gallery}>

@@ -29,7 +29,7 @@ const Home = () => {
 			) : (
 				<main className={styles.main}>
 					<header className={styles.header}>
-						<h1 className={styles.header__logo}>Гриль-МикСер</h1>
+						<h1 className={styles.header__logo}>Фарш</h1>
 						<div className={styles.about}>
 							<p className={styles.about__address}>Транспортная ул., 46</p>
 							<p className={styles.about__phone}>8 (929) 820-74-74</p>
@@ -40,22 +40,22 @@ const Home = () => {
 							onClick={() => handleNavigate('foodcourt')}
 							className={styles.button}
 						>
-							ФудКорт
+							ФудКорт Гриль-МикСер
 						</p>
 						<p onClick={() => handleNavigate('cafe')} className={styles.button}>
-							Кафе
+							Ресторан
 						</p>
 						<p
 							onClick={() => handleNavigate('banquet')}
 							className={styles.button}
 						>
-							Банкет
+							Банкетное меню
 						</p>
 						<p
 							onClick={() => handleNavigate('pominki')}
 							className={styles.button}
 						>
-							Поминки
+							Поминальное меню
 						</p>
 					</div>
 					<CookieNotification />
