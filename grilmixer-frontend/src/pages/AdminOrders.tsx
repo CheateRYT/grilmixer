@@ -25,7 +25,7 @@ const AdminOrders: React.FC = () => {
 		'Принят',
 		'Готовится',
 		'Приготовлен',
-		'В доставке',
+		'В пути',
 		'Доставлен',
 	]
 	const [orders, setOrders] = useState<Order[]>([])

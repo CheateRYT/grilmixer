@@ -21,11 +21,22 @@
 	font-size: 4rem; /* Адаптивный размер шрифта */
 	color: #b20522;
 	cursor: pointer;
+	overflow-y: hidden;
 	font-weight: bold;
 	text-transform: uppercase;
 	letter-spacing: 0.1em; /* Адаптивный интервал между буквами */
 }
-
+body {
+	background-color: #131313;
+}
+body {
+	overflow-x: hidden;
+}
+@media (max-width: 768px) {
+	.title {
+		font-size: 2.5rem; /* Уменьшенный размер шрифта для мобильных устройств */
+	}
+}
 .menuTitle {
 	font-weight: bold;
 	font-size: 25px;

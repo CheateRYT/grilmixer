@@ -1,3 +1,6 @@
+body {
+	background-color: #131313;
+}
 /* Default styles */
 .containerHome {
 	height: 100vh;
@@ -89,7 +92,7 @@
 		font-size: 50px;
 	}
 	.about {
-		font-size: 20px;
+		font-size: 25px;
 	}
 	.buttons {
 		margin-top: 60px;
@@ -106,13 +109,13 @@
 /* Media query for phones */
 @media only screen and (max-width: 600px) {
 	.main {
-		padding-top: 30px;
+		padding-top: 35px;
 	}
 	.header__logo {
 		font-size: 40px;
 	}
 	.about {
-		font-size: 15px;
+		font-size: 20px;
 	}
 	.buttons {
 		margin-top: 50px;
@@ -129,19 +132,19 @@
 	/* Additional media queries for different screen sizes */
 	@media only screen and (max-width: 400px) {
 		.header__logo {
-			font-size: 30px;
+			font-size: 35px;
 		}
 		.about {
-			font-size: 12px;
+			font-size: 17px;
 		}
 	}
 
 	@media only screen and (max-width: 300px) {
 		.header__logo {
-			font-size: 20px;
+			font-size: 35px;
 		}
 		.about {
-			font-size: 10px;
+			font-size: 15px;
 		}
 	}
 }
