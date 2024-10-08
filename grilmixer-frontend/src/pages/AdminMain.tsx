@@ -15,17 +15,14 @@ const AdminMain = () => {
 				token: Cookies.get('admin-token'),
 			},
 		})
-
 		const paymentSuccessSound = new Audio(
 			'../../public/paymentSuccessSound.mp3'
-		) // Укажите путь к вашему звуку для успешной оплаты
-
+		)
 		socket.on('orderPaymentSuccess', msg => {
-			paymentSuccessSound.play() // Воспроизведение звука успешной оплаты
+			paymentSuccessSound.play()
 			window.location.reload()
 			alert('Клиентом оплачен заказ с номером ' + msg.content)
 		})
-
 		return () => {
 			socket.disconnect()
 		}
@@ -36,25 +33,8 @@ const AdminMain = () => {
 	}
 
 	return (
-		<div>
-			<div
-				className='flex justify-center items-center  
-			pt-4
-			pb-4
-			bg-slate-700 gap-5
-			'
-			>
-				{/* <button
-					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
-					onClick={() => handleComponentClick('notifications')}
-				>
-					Уведомления
-					{unreadNotifications > 0 && (
-						<span className='bg-red-500 text-white rounded-full px-2'>
-							{unreadNotifications}
-						</span>
-					)}
-				</button> */}
+		<div className='flex items-center justify-around bg-slate-800 '>
+			<div className='flex flex-wrap justify-center items-center pt-4 bg-slate-800 w-full md:w-1/2 gap-5'>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('events')}
@@ -74,7 +54,7 @@ const AdminMain = () => {
 					Доп.Ингредиенты
 				</button>
 				<button
-					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'
+					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'
 					onClick={() => handleComponentClick('orders')}
 				>
 					История

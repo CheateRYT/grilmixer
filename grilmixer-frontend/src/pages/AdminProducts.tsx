@@ -123,7 +123,7 @@ const AdminProducts: React.FC = () => {
 	}
 
 	return (
-		<div className='p-4'>
+		<div>
 			<AdminMain />
 			<div className='overflow-x-auto  bg-slate-700'>
 				<h2 className='text-xl text-white font-bold mb-2'>Товары:</h2>
