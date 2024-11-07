@@ -1,6 +1,6 @@
 // Header.tsx
 
-import { ShoppingCartIcon } from '@heroicons/react/20/solid'
+//import { ShoppingCartIcon } from '@heroicons/react/20/solid'
 import { Skeleton } from '@mui/material' // Импортируем Skeleton из Material-UI
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 						onMouseEnter={handleShowModal}
 						onClick={handleMobileCart}
 					>
-						<ShoppingCartIcon className={styles.cartIcon} />
+						{/* <ShoppingCartIcon className={styles.cartIcon} /> */}
 					</button>
 					{showModal && (
 						<CartModal

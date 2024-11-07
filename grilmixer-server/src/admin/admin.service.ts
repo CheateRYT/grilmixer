@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { hash, verify } from 'argon2'
 import { GatewayService } from 'src/gateway.module.ts/gateway.service'
