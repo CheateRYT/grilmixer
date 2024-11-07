@@ -1,15 +1,12 @@
 import Cookies from 'js-cookie'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
-import { fetchUnreadNotifications } from '../utils/fetchUnreadNotifications'
 
 const AdminMain = () => {
-	const [unreadNotifications, setUnreadNotifications] = useState(0)
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetchUnreadNotifications(setUnreadNotifications)
 		const socket = io('http://28.83.144.26:4200', {
 			auth: {
 				token: Cookies.get('admin-token'),

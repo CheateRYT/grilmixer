@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common'
 import { OrderDto } from '../dto/order.dto'
 import { AdminService } from './admin.service'
-import { AdminLoginDto } from './dto/Admin-Login.dto'
+import { AdminLoginDto } from './dto/admin-login.dto'
 import { CategoryDto } from './dto/category.dto'
 import { CreatePasswordDto } from './dto/create-password.dto'
 import { EventDto } from './dto/event.dto'

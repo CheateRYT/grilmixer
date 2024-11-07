@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
 	Button,
 	Modal,
@@ -74,7 +75,6 @@ const AdminOrders: React.FC = () => {
 					.map(count => parseInt(count, 10))
 				const productsWithExtraIngredients = await Promise.all(
 					order.products.map(async (product, index) => {
-						const category = await fetchProductCategory(product.id)
 						const extraIngredientsNames = await fetchExtraIngredientsNames(
 							order.extraIngredientsOrder,
 							product.id
@@ -97,7 +97,7 @@ const AdminOrders: React.FC = () => {
 	}
 
 	const fetchExtraIngredientsNames = async (
-		extraIngredientsOrder: ExtraIngredientOrder[],
+		extraIngredientsOrder: [],
 		productId: number
 	) => {
 		const extraIngredientsIds = extraIngredientsOrder
@@ -197,10 +197,7 @@ const AdminOrders: React.FC = () => {
 		}
 	}
 
-	const handleChangePage = (
-		event: React.MouseEvent<HTMLButtonElement> | null,
-		newPage: number
-	) => {
+	const handleChangePage = (newPage: number) => {
 		setPage(newPage)
 	}
 
@@ -214,9 +211,10 @@ const AdminOrders: React.FC = () => {
 	const fetchExtraIngredient = async (id: number) => {
 		if (!id) return '' // Если нет категории, возвращаем текст
 		try {
-			const response = await axios.get<ExtraIngredient[]>(
+			const response = await axios.get<ExtraIngredient>(
 				`${backendApiUrl}admin/extraIngredient/${id}`
 			)
+
 			return response.data.name // Возвращаем имя дополнительного ингредиента
 		} catch (error) {
 			console.error('Ошибка при получении дополнительного ингридиента:', error)

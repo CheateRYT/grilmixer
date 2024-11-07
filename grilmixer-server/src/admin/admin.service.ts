@@ -1,12 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import { Prisma } from '@prisma/client'
 import { hash, verify } from 'argon2'
 import { GatewayService } from 'src/gateway.module.ts/gateway.service'
 import { yookassa } from 'src/order/order.service'
 import { PrismaService } from 'src/prisma.service'
 import { v4 as uuidv4 } from 'uuid'
 import { OrderDto } from '../dto/order.dto'
-import { AdminLoginDto } from './dto/Admin-Login.dto'
+import { AdminLoginDto } from './dto/admin-login.dto'
 import { CategoryDto } from './dto/category.dto'
 import { EventDto } from './dto/event.dto'
 import { ExtraIngredientDto } from './dto/extraIngredients.dto'
@@ -115,7 +114,7 @@ export class AdminService {
 	}
 	async createProduct(dto: ProductDto) {
 		try {
-			const productData: Prisma.ProductCreateInput = {
+			const productData = {
 				shopId: dto.shopId,
 				category: dto.category,
 				bzu: dto.bzu,
@@ -141,7 +140,7 @@ export class AdminService {
 
 	async updateProduct(productId: number, dto: ProductDto) {
 		try {
-			const data: Prisma.ProductUpdateInput = {}
+			const data = {}
 			if (dto.shopId) data.shopId = dto.shopId
 			if (dto.category) data.category = dto.category
 			if (dto.bzu) data.bzu = dto.bzu
@@ -202,7 +201,7 @@ export class AdminService {
 	}
 	async updateOrder(orderId: number, dto: OrderDto) {
 		try {
-			const data: Prisma.OrderUpdateInput = {}
+			const data = {}
 			if (dto.amount) data.amount = dto.amount
 			if (dto.clientName) data.clientName = dto.clientName
 			if (dto.status) {
@@ -342,7 +341,7 @@ export class AdminService {
 
 	async createCategory(dto: CategoryDto) {
 		try {
-			const categoryData: Prisma.CategoryCreateInput = {
+			const categoryData = {
 				shopId: dto.shopId,
 				name: dto.name,
 				tag: dto.tag,

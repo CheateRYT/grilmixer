@@ -7,7 +7,7 @@ const CafeAbout = () => {
 	return (
 		<div className='foodcourt'>
 			<Header shopId='2' logo='Фарш' shopTag='cafe' />
-			<About shopName='Фарш' />
+			<About />
 			<Footer
 				shopTag={'cafe'}
 				reviewLink='https://yandex.ru/maps-reviews-widget/190773496899?comments'
