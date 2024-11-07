@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { RingLoader } from 'react-spinners'
 import { clearCart, RootState } from '../store/store'
+import { backendApiUrl } from '../utils/BackendUrl'
 import Cart from './Cart'
 import styles from './Order.module.css'
 
@@ -197,7 +198,7 @@ const Order = ({
 		setIsLoading(true) // Устанавливаем состояние загрузки в true
 		try {
 			const response = await axios.post(
-				'http://87.117.25.141:4200/api/order/createOrder',
+				`${backendApiUrl}order/createOrder`,
 				orderData
 			)
 			dispatch(clearCart(shopId))

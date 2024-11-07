@@ -178,7 +178,7 @@ export class OrderService {
 				return newOrder // Возвращаем заказ без создания платежа
 			}
 
-			const returnUrl = `http://87.117.25.141:5173/${orderData.shopTag}/thanks/${newOrder.id}`
+			const returnUrl = `http://109.205.58.24:5173/${orderData.shopTag}/thanks/${newOrder.id}`
 			const payment = await yookassa.createPayment({
 				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
 				confirmation: {

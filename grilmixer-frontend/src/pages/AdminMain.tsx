@@ -10,7 +10,7 @@ const AdminMain = () => {
 
 	useEffect(() => {
 		fetchUnreadNotifications(setUnreadNotifications)
-		const socket = io('http://87.117.25.141:4200', {
+		const socket = io('http://28.83.144.26:4200', {
 			auth: {
 				token: Cookies.get('admin-token'),
 			},

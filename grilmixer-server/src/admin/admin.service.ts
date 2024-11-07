@@ -124,11 +124,12 @@ export class AdminService {
 				weight: dto.weight,
 				price: dto.price,
 				discount: dto.discount,
-				imagePath: dto.imagePath,
+				imagePath:
+					dto.imagePath ||
+					'https://lh3.googleusercontent.com/pw/AP1GczOf-hwrt20joidRy5-FsFmzIPPg_98EMZY2Ll1n4Vdw9UQiMfFzbGw3FY7KXpwbX2f0PfPSDKne4w44hF1KWKyPmOQ7t5xgMuPuABfpRcqm-fLjapklzVxmjMg2bEbehTFHt44Mmk28F9Oo2pBZL2vS=w211-h156-s-no-gm?authuser=0',
 				isStopList: dto.isStopList,
 				isAvailable: dto.isAvailable
 			}
-
 			return this.prisma.product.create({ data: productData })
 		} catch (error) {
 			throw new HttpException(
