@@ -1,4 +1,6 @@
 // Header.tsx
+//ts-ignore
+
 import { ShoppingCartIcon } from '@heroicons/react/20/solid'
 import { Skeleton } from '@mui/material' // Импортируем Skeleton из Material-UI
 import axios from 'axios'

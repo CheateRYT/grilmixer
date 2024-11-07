@@ -140,7 +140,19 @@ export class AdminService {
 
 	async updateProduct(productId: number, dto: ProductDto) {
 		try {
-			const data = {}
+			let data: {
+				shopId: number
+				category: string
+				bzu: string
+				name: string
+				ingredients: string
+				weight: string
+				price: string
+				imagePath: string
+				isStopList: boolean
+				discount: string
+				isAvailable: boolean
+			}
 			if (dto.shopId) data.shopId = dto.shopId
 			if (dto.category) data.category = dto.category
 			if (dto.bzu) data.bzu = dto.bzu
@@ -201,7 +213,12 @@ export class AdminService {
 	}
 	async updateOrder(orderId: number, dto: OrderDto) {
 		try {
-			const data = {}
+			let data: {
+				amount: string
+				clientName: string
+				status: string
+				completedTime: string | Date
+			}
 			if (dto.amount) data.amount = dto.amount
 			if (dto.clientName) data.clientName = dto.clientName
 			if (dto.status) {
