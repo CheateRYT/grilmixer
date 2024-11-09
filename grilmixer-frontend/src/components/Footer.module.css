@@ -6,7 +6,7 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
-
+	margin-top: auto;
 	background-color: #131313; /* Цвет фона */
 }
 .footer ::before {

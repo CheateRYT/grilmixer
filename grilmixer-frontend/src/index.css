@@ -21,7 +21,12 @@
 		opacity: 1;
 	}
 }
+html {
+	background: initial;
+}
 .foodcourt {
+	flex: 1; /* Позволяет этому элементу занимать оставшееся пространство */
+	flex-direction: column !important; /* Добавлено для вертикального расположения элементов */
 	background-color: #131313;
 	height: 100%;
 	width: 100%;
@@ -32,8 +37,8 @@
 body {
 	display: flex;
 	flex-direction: column;
+	height: 100vh;
 	margin: 0 auto;
-	height: 100%;
 }
 .cartModal {
 	position: absolute;

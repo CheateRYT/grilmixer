@@ -12,13 +12,17 @@
 	width: 600px; /* Ширина модального окна */
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
 .orderAmount {
 	font-weight: bold;
+	margin-top: 10px;
 	font-size: 18px;
 }
+
 .cartClose {
 	background-color: #1a1a1a;
 }
+
 .cartTitle {
 	font-size: 28px; /* Увеличенный размер шрифта для названия */
 	margin: 0; /* Убираем отступы */
@@ -34,6 +38,9 @@
 .cartItems {
 	background-color: #242424;
 	overflow-y: auto; /* Прокрутка при переполнении */
+	max-height: 300px; /* Максимальная высота для содержимого корзины */
+	padding: 10px; /* Отступы для содержимого корзины */
+	border-radius: 0.5rem; /* Закругление углов для лучшего стиля */
 }
 
 .cartItem {
@@ -48,9 +55,11 @@
 	font-size: 22px; /* Увеличенный размер шрифта для названия блюда */
 	display: block; /* Делаем элемент блочным для переноса */
 }
+
 .amount {
 	font-size: 18px;
 }
+
 .extraIngredientsList {
 	color: #8a8a8a;
 	list-style-type: none; /* Убираем маркеры списка */
@@ -59,9 +68,11 @@
 	margin: 5px 0 0 0; /* Отступ сверху для списка */
 	font-size: 16px; /* Размер шрифта для дополнительных ингредиентов */
 }
+
 .quantity {
 	font-size: 20px !important;
 }
+
 .quantityControls {
 	background-color: #242424;
 	gap: 20px;
@@ -70,11 +81,13 @@
 	display: flex;
 	align-items: center; /* Выравнивание по центру */
 }
+
 .quantityControl {
 	font-size: 20px;
 	color: white;
 	background-color: #1a1a1a;
 }
+
 .orderButton {
 	background-color: #b20522; /* Цвет кнопки */
 	color: white; /* Цвет текста кнопки */
@@ -84,6 +97,7 @@
 	cursor: pointer; /* Курсор при наведении */
 	margin-top: 20px; /* Отступ сверху */
 }
+
 .orderButton:hover {
 	scale: 1.05;
 }

@@ -1,12 +1,9 @@
-// Header.tsx
-
-//import { ShoppingCartIcon } from '@heroicons/react/20/solid'
-import { Skeleton } from '@mui/material' // Импортируем Skeleton из Material-UI
+import { Skeleton } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { backendApiUrl } from '../utils/BackendUrl'
-import CartModal from './CartModal' // Импортируем новый компонент
+import CartModal from './CartModal'
 import styles from './Header.module.css'
 
 interface HeaderProps {
@@ -101,7 +98,11 @@ export const Header: React.FC<HeaderProps> = ({ logo, shopId, shopTag }) => {
 						onMouseEnter={handleShowModal}
 						onClick={handleMobileCart}
 					>
-						{/* <ShoppingCartIcon className={styles.cartIcon} /> */}
+						<img
+							src='../../public//shopping-basket-white-icon.svg'
+							alt=''
+							className={styles.cartIcon}
+						/>
 					</button>
 					{showModal && (
 						<CartModal

@@ -27,8 +27,7 @@
 }
 
 .categoryRow {
-	width: 60%;
-	max-width: 70rem; /* Адаптивная ширина */
+	width: 60%; /* Адаптивная ширина */
 	align-items: center;
 	text-align: center;
 	gap: 1vh; /* Адаптивный отступ между элементами */
@@ -68,7 +67,7 @@
 }
 .afterHeader {
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-evenly;
 }
 .cartItems {
 	max-height: 300px; /* Максимальная высота для прокрутки */

@@ -17,6 +17,7 @@ const CartModal = ({
 	const cartItems = useSelector((state: RootState) => state.cart.items[shopId])
 	const [totalAmount, setTotalAmount] = useState<number>(0)
 	const navigate = useNavigate()
+
 	const handleOrder = () => {
 		navigate(`/${shopTag}/cart`)
 	}
@@ -28,6 +29,7 @@ const CartModal = ({
 				return total + Number(item.price) * item.quantity
 			}, 0)
 		}
+		return 0 // Возвращаем 0, если корзина пуста
 	}
 
 	// Используем useEffect для обновления общей стоимости при изменении cartItems
@@ -47,7 +49,7 @@ const CartModal = ({
 				</button>
 			</div>
 			<div className={styles.cartItems}>
-				{!cartItems ? (
+				{!cartItems || cartItems.length === 0 ? (
 					<p>Корзина пуста</p>
 				) : (
 					cartItems.map((item, index) => (
@@ -98,7 +100,7 @@ const CartModal = ({
 					))
 				)}
 			</div>
-			{cartItems && (
+			{cartItems && cartItems.length > 0 && (
 				<div>
 					<h3 className={styles.orderAmount}>Стоимость: {totalAmount} ₽</h3>
 					<button className={styles.orderButton} onClick={handleOrder}>
