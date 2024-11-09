@@ -141,7 +141,7 @@ export class AdminService {
 
 	async updateProduct(productId: number, dto: ProductDto) {
 		try {
-			let data: {
+			const data: {
 				shopId: number
 				category: string
 				bzu: string
@@ -153,7 +153,7 @@ export class AdminService {
 				isStopList: boolean
 				discount: string
 				isAvailable: boolean
-			}
+			} = {}
 			if (dto.shopId) data.shopId = dto.shopId
 			if (dto.category) data.category = dto.category
 			if (dto.bzu) data.bzu = dto.bzu
@@ -214,12 +214,12 @@ export class AdminService {
 	}
 	async updateOrder(orderId: number, dto: OrderDto) {
 		try {
-			let data: {
+			const data: {
 				amount: string
 				clientName: string
 				status: string
 				completedTime: string | Date
-			}
+			} = {}
 			if (dto.amount) data.amount = dto.amount
 			if (dto.clientName) data.clientName = dto.clientName
 			if (dto.status) {
