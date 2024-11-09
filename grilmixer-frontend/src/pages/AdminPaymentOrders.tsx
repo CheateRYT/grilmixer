@@ -209,7 +209,6 @@ const AdminPaymentOrders = () => {
 	return (
 		<div>
 			<AdminMain />
-			<h2 className='bg-slate-700 pb-3 text-lg'>Оплаченные заказы</h2>
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>

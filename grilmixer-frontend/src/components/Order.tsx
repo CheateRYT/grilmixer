@@ -28,7 +28,7 @@ const Order = ({
 	const [comment, setComment] = useState('')
 	const [personCount, setPersonCount] = useState<number>(1)
 	const [email, setEmail] = useState('')
-	const [deliveryMethod, setDeliveryMethod] = useState('')
+	const [deliveryMethod, setDeliveryMethod] = useState('Доставка')
 	const [paymentMethod, setPaymentMethod] = useState('')
 	const [selectedTime, setSelectedTime] = useState('')
 	const [changeNeeded, setChangeNeeded] = useState(false)
@@ -115,6 +115,16 @@ const Order = ({
 		if (!name) {
 			newErrors.name = true
 			alert('Не заполнено обязательное поле - Имя')
+		}
+		if (deliveryMethod === 'Доставка') {
+			if (!street) {
+				newErrors.street = true
+				alert('Не заполнено обязательное поле - Улица')
+			}
+			if (!house) {
+				newErrors.house = true
+				alert('Не заполнено обязательное поле - Дом')
+			}
 		}
 		if (!selectedTime) {
 			newErrors.name = true
@@ -270,7 +280,7 @@ const Order = ({
 						value={name}
 						onChange={e => {
 							setName(e.target.value)
-							setErrors(prev => ({ ...prev, name: false })) // Убираем ошибку при вводе
+							setErrors(prev => ({ ...prev, name: false }))
 						}}
 					/>
 					<label className={styles.label}>
@@ -295,51 +305,60 @@ const Order = ({
 						onChange={e => setEmail(e.target.value)}
 					/>
 				</div>
-				<div className={styles.row}>
-					<label className={styles.label}>Улица</label>
-					<input
-						className={`${styles.input} ${errors.street ? 'error' : ''}`}
-						type='text'
-						value={street}
-						onChange={e => {
-							setStreet(e.target.value)
-							setErrors(prev => ({ ...prev, street: false }))
-						}}
-					/>
-					<label className={styles.label}>Дом</label>
-					<input
-						className={`${styles.input} ${errors.house ? 'error' : ''}`}
-						type='text'
-						value={house}
-						onChange={e => {
-							setHouse(e.target.value)
-							setErrors(prev => ({ ...prev, house: false }))
-						}}
-					/>
-					<label className={styles.label}>Строение/Корпус</label>
-					<input
-						className={styles.input}
-						type='text'
-						value={building}
-						onChange={e => setBuilding(e.target.value)}
-					/>
-				</div>
-				<div className={styles.row}>
-					<label className={styles.label}>Подьезд</label>
-					<input
-						className={styles.input}
-						type='text'
-						value={entrance}
-						onChange={e => setEntrance(e.target.value)}
-					/>
-					<label className={styles.label}>Квартира</label>
-					<input
-						className={styles.input}
-						type='text'
-						value={room}
-						onChange={e => setRoom(e.target.value)}
-					/>
-				</div>
+				{/* Поля для адреса отображаются только при выборе доставки */}
+				{deliveryMethod === 'Доставка' && (
+					<>
+						<div className={styles.row}>
+							<label className={styles.label}>
+								Улица <span className={styles.mustHave}>*</span>
+							</label>
+							<input
+								className={`${styles.input} ${errors.street ? 'error' : ''}`}
+								type='text'
+								value={street}
+								onChange={e => {
+									setStreet(e.target.value)
+									setErrors(prev => ({ ...prev, street: false }))
+								}}
+							/>
+							<label className={styles.label}>
+								Дом <span className={styles.mustHave}>*</span>
+							</label>
+							<input
+								className={`${styles.input} ${errors.house ? 'error' : ''}`}
+								type='text'
+								value={house}
+								onChange={e => {
+									setHouse(e.target.value)
+									setErrors(prev => ({ ...prev, house: false }))
+								}}
+							/>
+							<label className={styles.label}>Строение/Корпус</label>
+							<input
+								className={styles.input}
+								type='text'
+								value={building}
+								onChange={e => setBuilding(e.target.value)}
+							/>
+						</div>
+						<div className={styles.row}>
+							<label className={styles.label}>Подьезд</label>
+							<input
+								className={styles.input}
+								type='text'
+								value={entrance}
+								onChange={e => setEntrance(e.target.value)}
+							/>
+							<label className={styles.label}>Квартира</label>
+							<input
+								className={styles.input}
+								type='text'
+								value={room}
+								onChange={e => setRoom(e.target.value)}
+							/>
+						</div>
+					</>
+				)}
 				<div className={styles.row}>
 					<label className={styles.label}>Комментарий</label>
 					<input
@@ -355,7 +374,9 @@ const Order = ({
 						className={styles.input}
 						type='number'
 						value={personCount}
-						onChange={e => setPersonCount(Number(e.target.value) || 1)}
+						onChange={e =>
+							setPersonCount(Math.floor(Number(e.target.value)) || 1)
+						}
 					/>
 				</div>
 				<div className={styles.row}>
@@ -388,7 +409,7 @@ const Order = ({
 				{/* Способы доставки */}
 				<div className={styles.row}>
 					<label className={styles.label}>
-						Способы доставки (Курьером - 300р){' '}
+						Способы доставки (Курьером по городу - 300р, Самовывоз - бесплатно){' '}
 						<span className={styles.mustHave}>*</span>
 					</label>
 					<div className={styles.deliveryOptions}>
@@ -420,21 +441,6 @@ const Order = ({
 						</label>
 					</div>
 				</div>
-				{/* Способ оплаты (появляется только при выборе самовывоза) */}
-
-				{/* Поле для сдачи, если выбраны наличные */}
-				{changeNeeded && paymentMethod === 'Наличные' && (
-					<div className={styles.row}>
-						<label className={styles.label}>Нужна сдача с</label>
-						<input
-							className={styles.input}
-							type='number'
-							value={changeAmount}
-							onChange={e => setChangeAmount(e.target.value)}
-							placeholder='Введите сумму'
-						/>
-					</div>
-				)}
 				<div className={styles.row}>
 					<label className={styles.labelRow}>* - Обязательное поле</label>
 				</div>
