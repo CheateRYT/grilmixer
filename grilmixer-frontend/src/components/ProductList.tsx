@@ -1,4 +1,3 @@
-// ProductList.tsx
 import { Skeleton } from '@mui/material'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -16,7 +15,8 @@ const ProductList = ({
 }) => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [loading, setLoading] = useState(true)
-	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null) // Храним выбранный продукт для модального окна
+	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+	const [isMobile, setIsMobile] = useState<boolean>(false)
 
 	useEffect(() => {
 		const fetchProducts = async () => {
@@ -34,12 +34,24 @@ const ProductList = ({
 		fetchProducts()
 	}, [shopId, categoryTag])
 
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth <= 1400) //
+		}
+
+		checkMobile()
+		window.addEventListener('resize', checkMobile)
+		return () => {
+			window.removeEventListener('resize', checkMobile)
+		}
+	}, [])
+
 	const handleAddToCart = (product: Product) => {
-		setSelectedProduct(product) // Устанавливаем выбранный продукт
+		setSelectedProduct(product)
 	}
 
 	const closeModal = () => {
-		setSelectedProduct(null) // Закрываем модальное окно
+		setSelectedProduct(null)
 	}
 
 	return (
@@ -58,12 +70,13 @@ const ProductList = ({
 				: products.map(product => (
 						<div key={product.id} className={styles.card}>
 							<div
+								onClick={() => handleAddToCart(product)}
 								className={styles.cardImage}
 								style={{ backgroundImage: `url(${product.imagePath})` }}
 							></div>
 							<div className={styles.cardText}>
 								<p className={styles.productName}>{product.name}</p>
-								{product.ingredients ? (
+								{!isMobile && product.ingredients ? ( // Условное отображение блока с ингредиентами
 									<p className={styles.ingridients}>
 										<span className={styles.ingridientsSpan}>Состав: </span>
 										{product.ingredients}

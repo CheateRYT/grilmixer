@@ -1,7 +1,7 @@
-import CloseIcon from '@mui/icons-material/Close' // Импортируем иконку закрытия
+import CloseIcon from '@mui/icons-material/Close'
 import IconButton from '@mui/material/IconButton'
 import React from 'react'
-import styles from './CookieNotification.module.css' // Импортируем стили
+import styles from './CookieNotification.module.css'
 
 const CookieNotification: React.FC = () => {
 	const [open, setOpen] = React.useState(true) // Состояние для управления видимостью уведомления
