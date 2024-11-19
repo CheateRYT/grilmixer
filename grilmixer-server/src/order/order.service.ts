@@ -178,7 +178,7 @@ export class OrderService {
 				return newOrder // Возвращаем заказ без создания платежа
 			}
 
-			const returnUrl = `http://109.205.58.241:80/${orderData.shopTag}/thanks/${newOrder.id}`
+			const returnUrl = `https://грильмиксер.рф/${orderData.shopTag}/thanks/${newOrder.id}`
 			const payment = await yookassa.createPayment({
 				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
 				confirmation: {

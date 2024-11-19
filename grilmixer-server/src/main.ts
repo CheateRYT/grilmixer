@@ -4,8 +4,8 @@ import { AppModule } from './app.module'
 
 async function bootstrap() {
 	const httpsOptions = {
-		key: fs.readFileSync('./serts/privkey.pem'),
-		cert: fs.readFileSync('./secrets/fullchain.pem')
+		key: fs.readFileSync('./src/serts/privkey.pem'),
+		cert: fs.readFileSync('./src/serts/fullchain.pem')
 	}
 	const app = await NestFactory.create(AppModule, { httpsOptions })
 	app.setGlobalPrefix('api')
