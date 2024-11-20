@@ -31,7 +31,7 @@ const Home = () => {
 					<header className={styles.header}>
 						<h1 className={styles.header__logo}>Фарш</h1>
 						<div className={styles.about}>
-							<p className={styles.about__address}>Транспортная ул., 46</p>
+							<p className={styles.about__address}>Транспортная ул. 46</p>
 							<p className={styles.about__phone}>8 (929) 820-74-74</p>
 						</div>
 					</header>
