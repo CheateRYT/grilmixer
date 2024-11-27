@@ -78,12 +78,12 @@ const AdminEvents = () => {
 		<div className='bg-slate-700'>
 			<AdminMain />
 			<div>
-				<h2 className='text-xl font-bold mb-2 text-white'>Акции:</h2>
+				<h2 className='text-xl font-bold mb-2 text-white'>Новости:</h2>
 				<button
 					onClick={handleOpenModal}
 					className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2'
 				>
-					Создать акцию
+					Создать Новость
 				</button>
 				<p className='text-white'>Выбрать магазин</p>
 				<select
@@ -134,7 +134,7 @@ const AdminEvents = () => {
 				{showModal && (
 					<div className='fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75'>
 						<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
-							<h3 className='text-lg font-bold mb-2'>Создать Акцию</h3>
+							<h3 className='text-lg font-bold mb-2'>Создать новость</h3>
 							<select
 								className=' bg-slate-700'
 								name='shopId'

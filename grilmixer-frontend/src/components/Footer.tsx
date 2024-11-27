@@ -1,5 +1,3 @@
-import { faCcMastercard, faCcVisa } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
 
@@ -39,16 +37,22 @@ const Footer = ({
 					>
 						О нас
 					</span>
+					<span
+						onClick={() => navigate(`/${shopTag}/userAgreement`)}
+						className={styles.link}
+					>
+						Пользовательское соглашение
+					</span>
 				</div>
 			</div>
 			{/* Центральная часть с текстом и иконками */}
-			<div className={styles.footerContent}>
+			{/* <div className={styles.footerContent}>
 				<div>Мы принимаем:</div>
 				<div className={styles.footerIcons}>
 					<FontAwesomeIcon icon={faCcMastercard} className={styles.icon} />
 					<FontAwesomeIcon icon={faCcVisa} className={styles.icon} />
 				</div>
-			</div>
+			</div> */}
 			{/* Правая часть с иконкой ВКонтакте */}
 			<div className={styles.social}>
 				<p className={styles.socialTitle}>Мы в соц сетях:</p>

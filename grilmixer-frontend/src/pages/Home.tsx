@@ -32,7 +32,11 @@ const Home = () => {
 						<h1 className={styles.header__logo}>Фарш</h1>
 						<div className={styles.about}>
 							<p className={styles.about__address}>Транспортная ул. 46</p>
-							<p className={styles.about__phone}>8 (929) 820-74-74</p>
+							<p className={styles.about__phone}>
+								<a href='tel:89298207474' className='text-blue-600 underline'>
+									8 (929) 820-74-74
+								</a>
+							</p>
 						</div>
 					</header>
 					<div className={styles.buttons}>

@@ -16,6 +16,7 @@ import AdminSettings from './pages/AdminSettings'
 import Banquet from './pages/Banquet'
 import Cafe from './pages/Cafe'
 import CafeAbout from './pages/CafeAbout'
+import CafeAgreement from './pages/CafeAgreement'
 import CafeCart from './pages/CafeCart'
 import CafeCategory from './pages/CafeCategory'
 import CafeContacts from './pages/CafeContacts'
@@ -24,6 +25,7 @@ import CafeOrder from './pages/CafeOrder'
 import CafeThanks from './pages/CafeThanks'
 import FoodCourt from './pages/FoodCourt'
 import FoodcourtAbout from './pages/FoodcourtAbout'
+import FoodcourtAgreement from './pages/FoodcourtAgreement'
 import FoodcourtCart from './pages/FoodcourtCart'
 import FoodcourtCategory from './pages/FoodcourtCategory'
 import FoodcourtContacts from './pages/FoodcourtContacts'
@@ -50,6 +52,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				/>
 				<Route path='/foodcourt/about' Component={FoodcourtAbout} />
 				<Route path='/foodcourt/contacts' Component={FoodcourtContacts} />
+				<Route path='/foodcourt/userAgreement' Component={FoodcourtAgreement} />
 				<Route path='/foodcourt/thanks/:orderId' Component={FoodcourtThanks} />
 				<Route path='/foodcourt/cart' Component={FoodcourtCart} />
 				<Route path='/cafe' Component={Cafe} />
@@ -58,6 +61,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route path='/cafe/order' Component={CafeOrder} />
 				<Route path='/cafe/about' Component={CafeAbout} />
 				<Route path='/cafe/contacts' Component={CafeContacts} />
+				<Route path='/cafe/userAgreement' Component={CafeAgreement} />
 				<Route path='/cafe/thanks/:orderId' Component={CafeThanks} />
 				<Route path='/cafe/cart' Component={CafeCart} />
 				<Route path='/banquet' Component={Banquet} />
