@@ -15,10 +15,17 @@
   - **Redux Toolkit 2.0**
 
 - **Backend:**
+
   - **NestJS**:
   - **Argon2**:
   - **Socket.io**:
-  - **ClassTransformer & ClassValidator **:
+  - **Prisma ORM**:
+
+- **Deploy:**
+  - **Nginx**:
+  - **LetsEncypt certBot for HTTPS**:
+  - **Ubuntu 20.11**:
+  - **VDS server**:
 
 ## Основные функции
 
