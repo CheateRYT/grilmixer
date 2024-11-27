@@ -14,7 +14,7 @@ const AdminCategoryDiscount = () => {
 	}
 
 	const [categories, setCategories] = useState<Category[]>([])
-	const [selectedCategoryId, setSelectedCategoryId] = useState<number>(0)
+	const [selectedCategoryTag, setSelectedCategoryTag] = useState<string>('')
 	const [discountPercentage, setDiscountPercentage] = useState<number>(0)
 	const [selectedShopId, setSelectedShopId] = useState<number>(1) // shopId по умолчанию
 	const [shops] = useState([
@@ -41,7 +41,7 @@ const AdminCategoryDiscount = () => {
 			const token = Cookies.get('admin-token')
 			await axios.post(
 				`${backendApiUrl}admin/applyDiscount`,
-				{ category: selectedCategoryId, discountPercentage },
+				{ category: selectedCategoryTag, discountPercentage },
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -59,7 +59,7 @@ const AdminCategoryDiscount = () => {
 			const token = Cookies.get('admin-token')
 			await axios.post(
 				`${backendApiUrl}admin/removeDiscount`,
-				{ category: selectedCategoryId },
+				{ category: selectedCategoryTag },
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -91,19 +91,18 @@ const AdminCategoryDiscount = () => {
 						</option>
 					))}
 				</select>
-
 				<label className='block text-white mb-2'>Выберите категорию:</label>
 				<select
-					value={selectedCategoryId}
-					onChange={e => setSelectedCategoryId(Number(e.target.value))}
+					value={selectedCategoryTag}
+					onChange={e => setSelectedCategoryTag(e.target.value)}
 					className='mb-4 px-4 py-2 rounded border'
 				>
-					<option value={0} disabled>
-						-- Выберите категорию --
+					<option value='' disabled>
+						-- Выберите категорию по тегу --
 					</option>
 					{categories.map(category => (
-						<option key={category.id} value={category.id}>
-							{category.name}
+						<option key={category.id} value={category.tag}>
+							{category.tag} - {category.name}
 						</option>
 					))}
 				</select>
