@@ -1,4 +1,4 @@
-Englist text below
+**Englist text below**
 ---
 # Гриль-МикСер - Сайт для заказа еды
 
