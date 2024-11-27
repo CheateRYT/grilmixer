@@ -27,7 +27,70 @@ import { ProductDto } from './dto/product.dto'
 export class AdminController {
 	constructor(private readonly adminService: AdminService) {}
 
-	@UsePipes(new ValidationPipe())
+	@HttpCode(200)
+	@Get('revenue/today')
+	async getRevenueForToday(
+		@Headers('authorization') authorization: string
+	): Promise<string> {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.getRevenueForToday()
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении выручки за сегодня',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Get('revenue/week')
+	async getRevenueForWeek(
+		@Headers('authorization') authorization: string
+	): Promise<string> {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.getRevenueForWeek()
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении выручки за неделю',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Get('revenue/month')
+	async getRevenueForMonth(
+		@Headers('authorization') authorization: string
+	): Promise<string> {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.getRevenueForMonth()
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении выручки за месяц',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Get('revenue/total')
+	async getTotalRevenue(
+		@Headers('authorization') authorization: string
+	): Promise<string> {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.getTotalRevenue()
+		} catch (error) {
+			throw new HttpException(
+				'Ошибка при получении общей выручки',
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
 	@HttpCode(201)
 	@Post('applyDiscount')
 	async applyDiscount(
@@ -52,7 +115,6 @@ export class AdminController {
 		}
 	}
 
-	@UsePipes(new ValidationPipe())
 	@HttpCode(201)
 	@Post('removeDiscount')
 	async removeDiscount(

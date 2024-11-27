@@ -7,7 +7,7 @@ const AdminMain = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		const socket = io('http://28.83.144.26:4200', {
+		const socket = io('https://грильмиксер.рф:4200', {
 			auth: {
 				token: Cookies.get('admin-token'),
 			},
@@ -67,6 +67,18 @@ const AdminMain = () => {
 					onClick={() => handleComponentClick('categories')}
 				>
 					Категории
+				</button>
+				<button
+					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'
+					onClick={() => handleComponentClick('categoryDiscount')}
+				>
+					Скидка на категорию
+				</button>
+				<button
+					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'
+					onClick={() => handleComponentClick('revenue')}
+				>
+					Выручка
 				</button>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold'

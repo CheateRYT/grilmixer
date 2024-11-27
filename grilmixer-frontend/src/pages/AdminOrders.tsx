@@ -52,6 +52,7 @@ const AdminOrders: React.FC = () => {
 				},
 			})
 			setOrders(response.data.orders)
+			console.log(response.data.orders)
 			setTotalOrders(response.data.totalOrders)
 			await fetchProductsData(response.data.orders)
 		} catch (error) {

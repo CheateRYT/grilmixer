@@ -5,6 +5,7 @@ import 'tailwindcss/tailwind.css'
 import './index.css'
 import Admin from './pages/Admin'
 import AdminCategory from './pages/AdminCategory'
+import AdminCategoryDiscount from './pages/AdminCategoryDiscount'
 import AdminEvents from './pages/AdminEvents'
 import AdminExtraIngredient from './pages/AdminExtraIngredient'
 import AdminMain from './pages/AdminMain'
@@ -12,6 +13,7 @@ import AdminNotifications from './pages/AdminNotifications'
 import AdminOrders from './pages/AdminOrders'
 import AdminPaymentOrders from './pages/AdminPaymentOrders'
 import AdminProducts from './pages/AdminProducts'
+import AdminRevenue from './pages/AdminRevenue'
 import AdminSettings from './pages/AdminSettings'
 import Banquet from './pages/Banquet'
 import Cafe from './pages/Cafe'
@@ -55,6 +57,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route path='/foodcourt/userAgreement' Component={FoodcourtAgreement} />
 				<Route path='/foodcourt/thanks/:orderId' Component={FoodcourtThanks} />
 				<Route path='/foodcourt/cart' Component={FoodcourtCart} />
+
 				<Route path='/cafe' Component={Cafe} />
 				<Route path='/cafe/deliveryRules' Component={CafeDeliveryRules} />
 				<Route path='/cafe/category/:name' Component={CafeCategory} />
@@ -76,6 +79,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route
 					path='/admin/notifications'
 					element={<PrivateRouter Page={AdminNotifications} />}
+				/>
+				<Route
+					path='/admin/revenue'
+					element={<PrivateRouter Page={AdminRevenue} />}
+				/>
+				<Route
+					path='/admin/categoryDiscount'
+					element={<PrivateRouter Page={AdminCategoryDiscount} />}
 				/>
 				<Route
 					path='/admin/events'

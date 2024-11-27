@@ -498,4 +498,95 @@ export class AdminService {
 			)
 		}
 	}
+
+	async getRevenueForToday(): Promise<string> {
+		const startOfDay = new Date()
+		startOfDay.setHours(0, 0, 0, 0)
+
+		const endOfDay = new Date()
+		endOfDay.setHours(23, 59, 59, 999)
+
+		const orders = await this.prisma.order.findMany({
+			where: {
+				status: 'Оплачен',
+				createdTime: {
+					gte: startOfDay,
+					lte: endOfDay
+				}
+			}
+		})
+
+		const totalRevenue = orders.reduce(
+			(acc, order) => acc + parseFloat(order.amount),
+			0
+		)
+		return totalRevenue.toFixed(2) + ' руб.'
+	}
+
+	async getRevenueForWeek(): Promise<string> {
+		const startOfWeek = new Date()
+		const today = new Date()
+		startOfWeek.setDate(today.getDate() - today.getDay())
+		startOfWeek.setHours(0, 0, 0, 0)
+
+		const endOfWeek = new Date()
+		endOfWeek.setHours(23, 59, 59, 999)
+
+		const orders = await this.prisma.order.findMany({
+			where: {
+				status: 'Оплачен',
+				createdTime: {
+					gte: startOfWeek,
+					lte: endOfWeek
+				}
+			}
+		})
+
+		const totalRevenue = orders.reduce(
+			(acc, order) => acc + parseFloat(order.amount),
+			0
+		)
+		return totalRevenue.toFixed(2) + ' руб.'
+	}
+
+	async getRevenueForMonth(): Promise<string> {
+		const startOfMonth = new Date()
+		startOfMonth.setDate(1)
+		startOfMonth.setHours(0, 0, 0, 0)
+
+		const endOfMonth = new Date()
+		endOfMonth.setMonth(endOfMonth.getMonth() + 1)
+		endOfMonth.setDate(0)
+		endOfMonth.setHours(23, 59, 59, 999)
+
+		const orders = await this.prisma.order.findMany({
+			where: {
+				status: 'Оплачен',
+				createdTime: {
+					gte: startOfMonth,
+					lte: endOfMonth
+				}
+			}
+		})
+
+		const totalRevenue = orders.reduce(
+			(acc, order) => acc + parseFloat(order.amount),
+			0
+		)
+		return totalRevenue.toFixed(2) + ' руб.'
+	}
+
+	async getTotalRevenue(): Promise<string> {
+		const orders = await this.prisma.order.findMany({
+			where: {
+				status: 'Оплачен'
+			}
+		})
+
+		const totalRevenue = orders.reduce(
+			(acc, order) => acc + parseFloat(order.amount),
+			0
+		)
+		return totalRevenue.toFixed(2) + ' руб.'
+	}
 }
