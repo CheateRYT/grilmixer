@@ -16,6 +16,9 @@ const ProductList = ({
 	const [products, setProducts] = useState<Product[]>([])
 	const [loading, setLoading] = useState(true)
 	const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+	const [priceAfterDiscount, setPriceAfterDiscount] = useState<number | null>(
+		null
+	) // Новое состояние для цены со скидкой
 	const [isMobile, setIsMobile] = useState<boolean>(false)
 
 	useEffect(() => {
@@ -47,10 +50,13 @@ const ProductList = ({
 
 	const handleAddToCart = (product: Product) => {
 		setSelectedProduct(product)
+		const priceAfterDiscount = Number(product.price) - Number(product.discount)
+		setPriceAfterDiscount(priceAfterDiscount) // Устанавливаем значение скидки
 	}
 
 	const closeModal = () => {
 		setSelectedProduct(null)
+		setPriceAfterDiscount(null) // Сбрасываем цену при закрытии модала
 	}
 
 	return (
@@ -71,7 +77,6 @@ const ProductList = ({
 							Number(product.price) - Number(product.discount)
 						const discountPercentage =
 							(Number(product.discount) / Number(product.price)) * 100
-
 						return (
 							<div key={product.id} className={styles.card}>
 								<div
@@ -95,7 +100,6 @@ const ProductList = ({
 									) : null}
 									<div className={styles.priceContainer}>
 										<span>{priceAfterDiscount.toFixed(2)} ₽</span>
-
 										<button
 											className={styles.addToCartButton}
 											onClick={() => handleAddToCart(product)}
@@ -113,7 +117,7 @@ const ProductList = ({
 					shopId={shopId}
 					categoryTag={categoryTag}
 					onClose={closeModal}
-					price={priceAfterDiscount.toFixed(2)}
+					price={priceAfterDiscount?.toFixed(2) || '0.00'} // Используем новое состояние
 					product={selectedProduct}
 				/>
 			)}
