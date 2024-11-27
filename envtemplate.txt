@@ -1,0 +1,7 @@
+
+
+DATABASE_URL="file:./dev.db"
+
+YOOKASSA_TOKEN="Your_YooKassa_Token"
+
+SHOP_ID='Your_ShopId'
