@@ -6,7 +6,16 @@
 	padding-left: 30px;
 	padding-right: 30px;
 }
-
+.discountBadge {
+	position: absolute; /* Позиционирование относительно родителя */
+	top: 10px; /* Отступ сверху */
+	left: 10px; /* Отступ слева */
+	background-color: #b20522; /* Красный фон */
+	color: white; /* Белый текст */
+	padding: 5px 10px; /* Отступы для текста */
+	border-radius: 5px; /* Радиус углов */
+	font-weight: bold; /* Жирный шрифт */
+}
 .card {
 	color: white;
 	text-decoration: none;

@@ -36,9 +36,8 @@ const ProductList = ({
 
 	useEffect(() => {
 		const checkMobile = () => {
-			setIsMobile(window.innerWidth <= 1400) //
+			setIsMobile(window.innerWidth <= 1400)
 		}
-
 		checkMobile()
 		window.addEventListener('resize', checkMobile)
 		return () => {
@@ -67,47 +66,54 @@ const ProductList = ({
 							</div>
 						</div>
 				  ))
-				: products.map(product => (
-						<div key={product.id} className={styles.card}>
-							<div
-								onClick={() => handleAddToCart(product)}
-								className={styles.cardImage}
-								style={{ backgroundImage: `url(${product.imagePath})` }}
-							></div>
-							<div className={styles.cardText}>
-								<p className={styles.productName}>{product.name}</p>
-								{!isMobile && product.ingredients ? ( // Условное отображение блока с ингредиентами
-									<p className={styles.ingridients}>
-										<span className={styles.ingridientsSpan}>Состав: </span>
-										{product.ingredients}
-									</p>
-								) : null}
-								<div className={styles.priceContainer}>
-									<span>
-										{(
-											Number(product.price) - Number(product.discount)
-										).toString()}{' '}
-										₽
-									</span>
-									<button
-										className={styles.addToCartButton}
-										onClick={() => handleAddToCart(product)}
-									>
-										В корзину
-									</button>
+				: products.map(product => {
+						const priceAfterDiscount =
+							Number(product.price) - Number(product.discount)
+						const discountPercentage =
+							(Number(product.discount) / Number(product.price)) * 100
+
+						return (
+							<div key={product.id} className={styles.card}>
+								<div
+									onClick={() => handleAddToCart(product)}
+									className={styles.cardImage}
+									style={{ backgroundImage: `url(${product.imagePath})` }}
+								>
+									{Number(product.discount) > 0 && (
+										<div className={styles.discountBadge}>
+											-{discountPercentage.toFixed(0)}%
+										</div>
+									)}
+								</div>
+								<div className={styles.cardText}>
+									<p className={styles.productName}>{product.name}</p>
+									{!isMobile && product.ingredients ? (
+										<p className={styles.ingridients}>
+											<span className={styles.ingridientsSpan}>Состав: </span>
+											{product.ingredients}
+										</p>
+									) : null}
+									<div className={styles.priceContainer}>
+										<span>{priceAfterDiscount.toFixed(2)} ₽</span>
+
+										<button
+											className={styles.addToCartButton}
+											onClick={() => handleAddToCart(product)}
+										>
+											В корзину
+										</button>
+									</div>
 								</div>
 							</div>
-						</div>
-				  ))}
+						)
+				  })}
 			{selectedProduct && (
 				<ProductModal
 					productId={selectedProduct.id}
 					shopId={shopId}
 					categoryTag={categoryTag}
 					onClose={closeModal}
-					price={(
-						Number(selectedProduct.price) - Number(selectedProduct.discount)
-					).toString()}
+					price={priceAfterDiscount.toFixed(2)}
 					product={selectedProduct}
 				/>
 			)}

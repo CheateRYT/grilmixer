@@ -448,13 +448,14 @@ export class AdminService {
 
 			// Обновляем каждый продукт, устанавливая новую скидку
 			for (const product of products) {
+				// Рассчитываем новую скидку как процент от цены
 				const discountAmount =
 					(parseFloat(product.price) * discountPercentage) / 100
-				const newDiscount = (parseFloat(product.discount) || 0) + discountAmount
+				const newDiscount = discountAmount // Устанавливаем новую скидку
 
 				await this.prisma.product.update({
 					where: { id: product.id },
-					data: { discount: newDiscount.toString() }
+					data: { discount: newDiscount.toString() } // Присваиваем новую скидку
 				})
 			}
 
@@ -463,7 +464,7 @@ export class AdminService {
 			}
 		} catch (error) {
 			throw new HttpException(
-				`Ошибка при применении скидки: ${error}`,
+				`Ошибка при применении скидки: ${error.message}`,
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
 		}

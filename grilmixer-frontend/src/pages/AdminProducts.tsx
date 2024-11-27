@@ -1,12 +1,12 @@
 // @ts-nocheck
 //ts-ignore
-
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import React, { useEffect, useState } from 'react'
 import { Product } from '../types/Product.interface'
 import { backendApiUrl } from '../utils/BackendUrl'
 import AdminMain from './AdminMain'
+
 const AdminProducts: React.FC = () => {
 	const [products, setProducts] = useState<Product[]>([])
 	const [selectedShopId, setSelectedShopId] = useState<number>(1) // Default shopId
@@ -15,7 +15,6 @@ const AdminProducts: React.FC = () => {
 	const [updatedProductData, setUpdatedProductData] = useState<
 		Partial<Product>
 	>({})
-
 	const [showCreateModal, setShowCreateModal] = useState(false)
 	const [newProductData, setNewProductData] = useState({
 		shopId: 1, // Default shopId
@@ -44,23 +43,40 @@ const AdminProducts: React.FC = () => {
 		}
 		fetchProducts()
 	}, [selectedShopId])
+
 	const handleShopIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectedShopId(parseInt(e.target.value))
 	}
+
 	const handleEditProduct = (product: Product) => {
 		setSelectedProduct(product)
+		setUpdatedProductData({
+			...product,
+			discount: (
+				((parseFloat(product.discount) || 0) / parseFloat(product.price)) *
+				100
+			).toFixed(2), // Calculate discount percentage
+		})
 		setShowModal(true)
 	}
+
 	const handleCancelUpdate = () => {
 		setShowModal(false)
 		setUpdatedProductData({}) // Очищаем данные, если они были изменены
 	}
+
 	const handleUpdateProduct = async () => {
 		try {
 			const token = Cookies.get('admin-token')
 			await axios.put(
 				`${backendApiUrl}admin/updateProduct/${selectedProduct.id}`,
-				updatedProductData,
+				{
+					...updatedProductData,
+					discount: (
+						(parseFloat(updatedProductData.discount) / 100) *
+						parseFloat(updatedProductData.price)
+					).toFixed(2), // Calculate the discount amount
+				},
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -68,13 +84,13 @@ const AdminProducts: React.FC = () => {
 				}
 			)
 			// Обновить список продуктов после успешного обновления
-
 			setShowModal(false)
 			window.location.reload()
 		} catch (error) {
 			console.error('Error updating product:', error)
 		}
 	}
+
 	const handleModalInputChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
@@ -88,6 +104,7 @@ const AdminProducts: React.FC = () => {
 			setUpdatedProductData(prevData => ({ ...prevData, [name]: value }))
 		}
 	}
+
 	const handleDeleteProduct = async (productId: number) => {
 		try {
 			const token = Cookies.get('admin-token')
@@ -102,6 +119,7 @@ const AdminProducts: React.FC = () => {
 			console.error('Error deleting product:', error)
 		}
 	}
+
 	const handleOpenCreateModal = () => {
 		setShowCreateModal(true)
 	}
@@ -128,7 +146,7 @@ const AdminProducts: React.FC = () => {
 	return (
 		<div>
 			<AdminMain />
-			<div className='overflow-x-auto  bg-slate-700'>
+			<div className='overflow-x-auto bg-slate-700'>
 				<h2 className='text-xl text-white font-bold mb-2'>Товары:</h2>
 				<button
 					onClick={handleOpenCreateModal}
@@ -170,7 +188,7 @@ const AdminProducts: React.FC = () => {
 								Цена
 							</th>
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
-								Скидка
+								Скидка в ₽
 							</th>
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Стоп-лист
@@ -178,7 +196,6 @@ const AdminProducts: React.FC = () => {
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Наличие
 							</th>
-
 							<th className='px-6 py-3 text-left text-xs font-medium uppercase tracking-wider'>
 								Действие
 							</th>
@@ -187,60 +204,21 @@ const AdminProducts: React.FC = () => {
 					<tbody className='bg-black divide-y divide-gray-200'>
 						{products.map(product => (
 							<tr key={product.id}>
+								<td className='px-6 py-2'>{product.id}</td>
+								<td className='px-6 py-2'>{product.category}</td>
+								<td className='px-6 py-2'>{product.name}</td>
+								<td className='px-6 py-2'>{product.ingredients}</td>
+								<td className='px-6 py-2'>{product.bzu}</td>
+								<td className='px-6 py-2'>{product.weight}</td>
+								<td className='px-6 py-2'>{product.price}</td>
+								<td className='px-6 py-2'>{product.discount || '-'}</td>
 								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.id}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.category}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.name}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.ingredients}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.bzu}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.weight}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.price}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
-									{product.discount || '-'}
-								</td>
-								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
 									{product.isStopList ? 'Да' : 'Нет'}
 								</td>
 								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
 									{product.isAvailable ? 'Да' : 'Нет'}
 								</td>
-
 								<td className='px-6 py-2'>
-									{' '}
-									{/* Уменьшаем высоту столбцов */}
 									<button
 										onClick={() => handleEditProduct(product)}
 										className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
@@ -292,6 +270,24 @@ const AdminProducts: React.FC = () => {
 							/>
 						</label>
 						<label>
+							Скидка (%):
+							<input
+								type='text'
+								name='discount'
+								value={
+									updatedProductData.discount !== undefined
+										? updatedProductData.discount
+										: (
+												(parseFloat(selectedProduct.discount) /
+													parseFloat(selectedProduct.price)) *
+												100
+										  ).toFixed(2) || ''
+								}
+								onChange={handleModalInputChange}
+								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
+							/>
+						</label>
+						<label>
 							Категория:
 							<input
 								type='text'
@@ -301,20 +297,6 @@ const AdminProducts: React.FC = () => {
 									updatedProductData.category !== undefined
 										? updatedProductData.category
 										: selectedProduct.category
-								}
-								onChange={handleModalInputChange}
-								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
-							/>
-						</label>
-						<label>
-							Скидка:
-							<input
-								type='text'
-								name='discount'
-								value={
-									updatedProductData.discount !== undefined
-										? updatedProductData.discount
-										: selectedProduct.discount || ''
 								}
 								onChange={handleModalInputChange}
 								className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
@@ -394,7 +376,6 @@ const AdminProducts: React.FC = () => {
 								<option value={false}>Нет</option>
 							</select>
 						</label>
-
 						<label>
 							Картинка:
 							<input
@@ -429,7 +410,7 @@ const AdminProducts: React.FC = () => {
 					<div className='bg-gray-800 p-4 rounded shadow-lg text-white'>
 						<h3 className='text-lg font-bold mb-2'>Создать Товар</h3>
 						<select
-							className=' bg-slate-700'
+							className='bg-slate-700'
 							name='shopId'
 							onChange={e =>
 								setNewProductData({
