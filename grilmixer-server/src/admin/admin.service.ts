@@ -435,4 +435,67 @@ export class AdminService {
 			}
 		})
 	}
+	async applyDiscountToCategory(category: string, discountPercentage: number) {
+		try {
+			// Получаем все продукты из указанной категории
+			const products = await this.prisma.product.findMany({
+				where: {
+					category,
+					isAvailable: true, // Убедитесь, что продукты доступны
+					isStopList: false // Продукты не должны быть в стоп-листе
+				}
+			})
+
+			// Обновляем каждый продукт, устанавливая новую скидку
+			for (const product of products) {
+				const discountAmount =
+					(parseFloat(product.price) * discountPercentage) / 100
+				const newDiscount = (parseFloat(product.discount) || 0) + discountAmount
+
+				await this.prisma.product.update({
+					where: { id: product.id },
+					data: { discount: newDiscount.toString() }
+				})
+			}
+
+			return {
+				message: 'Скидка успешно применена ко всем продуктам в категории'
+			}
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при применении скидки: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	async removeDiscountFromCategory(category: string) {
+		try {
+			// Получаем все продукты из указанной категории
+			const products = await this.prisma.product.findMany({
+				where: {
+					category,
+					isAvailable: true, // Убедитесь, что продукты доступны
+					isStopList: false // Продукты не должны быть в стоп-листе
+				}
+			})
+
+			// Удаляем скидку для каждого продукта
+			for (const product of products) {
+				await this.prisma.product.update({
+					where: { id: product.id },
+					data: { discount: '0' } // Устанавливаем скидку в 0
+				})
+			}
+
+			return {
+				message: 'Скидка успешно удалена для всех продуктов в категории'
+			}
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при удалении скидки: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
 }

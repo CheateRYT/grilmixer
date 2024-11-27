@@ -27,6 +27,48 @@ import { ProductDto } from './dto/product.dto'
 export class AdminController {
 	constructor(private readonly adminService: AdminService) {}
 
+	@UsePipes(new ValidationPipe())
+	@HttpCode(201)
+	@Post('applyDiscount')
+	async applyDiscount(
+		@Headers('authorization') authorization: string,
+		@Body()
+		{
+			category,
+			discountPercentage
+		}: { category: string; discountPercentage: number }
+	) {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.applyDiscountToCategory(
+				category,
+				discountPercentage
+			)
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при применении скидки: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@UsePipes(new ValidationPipe())
+	@HttpCode(201)
+	@Post('removeDiscount')
+	async removeDiscount(
+		@Headers('authorization') authorization: string,
+		@Body() { category }: { category: string }
+	) {
+		try {
+			await this.isAdmin(authorization)
+			return await this.adminService.removeDiscountFromCategory(category)
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при удалении скидки: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
 	@Post('login')
 	@UsePipes(new ValidationPipe())
 	async login(@Body() dto: AdminLoginDto): Promise<{ token: string }> {
