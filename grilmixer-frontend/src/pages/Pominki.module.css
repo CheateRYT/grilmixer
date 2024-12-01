@@ -4,7 +4,32 @@
 	background-color: black;
 	padding: 20px;
 }
+.slick-prev,
+.slick-next {
+	font-size: 30px; /* Увеличьте размер шрифта для стрелок */
+	color: #b20522; /* Цвет стрелок */
+	z-index: 1; /* Убедитесь, что стрелки находятся выше других элементов */
+}
 
+.slick-prev:before,
+.slick-next:before {
+	font-size: 30px; /* Увеличьте размер стрелок */
+	color: #b20522; /* Цвет стрелок */
+}
+
+.slick-prev {
+	left: 10px; /* Положение стрелки "Назад" */
+}
+
+.slick-next {
+	right: 10px; /* Положение стрелки "Вперед" */
+}
+.sliderImage {
+	max-width: 1000px; /* Установите максимальную ширину слайдера */
+	max-height: 600px; /* Установите максимальную высоту слайдера */
+	object-fit: cover; /* Обрезка изображения для сохранения пропорций */
+	margin: 0 auto; /* Центрирование изображения */
+}
 .header {
 	text-align: center;
 	margin-bottom: 30px;

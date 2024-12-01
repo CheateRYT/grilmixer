@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
+import Slider from 'react-slick'
 import HomeYandexMap from '../components/HomeYandexMap'
 import styles from './Pominki.module.css'
-
 const Pominki = () => {
 	const navigate = useNavigate()
 	const handleClickTitle = () => {
@@ -36,6 +36,34 @@ const Pominki = () => {
 		],
 	}
 
+	const CustomPrevArrow = props => {
+		const { className, onClick } = props
+		return (
+			<div className={`${className} custom-prev-arrow`} onClick={onClick}>
+				&#10094;
+			</div>
+		)
+	}
+
+	const CustomNextArrow = props => {
+		const { className, onClick } = props
+		return (
+			<div className={`${className} custom-next-arrow`} onClick={onClick}>
+				&#10095;
+			</div>
+		)
+	}
+
+	const settings = {
+		dots: true,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		adaptiveHeight: true,
+		prevArrow: <CustomPrevArrow />,
+		nextArrow: <CustomNextArrow />,
+	}
 	return (
 		<div className={styles.container}>
 			<header className={styles.header}>
@@ -44,33 +72,43 @@ const Pominki = () => {
 				</h1>
 			</header>
 			<section className={styles.gallery}>
-				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2'>
-					<img
-						src='/pominki/table1.jpg'
-						alt='Стол'
-						className='w-full h-auto rounded-lg'
-					/>
-					<img
-						src='/pominki/table2.jpg'
-						alt='Зона'
-						className='w-full h-auto rounded-lg'
-					/>
-					<img
-						src='/pominki/room1.jpg'
-						alt='Блюда 2'
-						className='w-full h-auto rounded-lg'
-					/>
-					<img
-						src='/pominki/table3.jpg'
-						alt='Блюда'
-						className='w-full h-auto rounded-lg'
-					/>
-					<img
-						src='/pominki/table4.jpg'
-						alt='Стол 2'
-						className='w-full h-auto rounded-lg'
-					/>
-				</div>
+				<Slider {...settings}>
+					<div>
+						<img
+							src='/pominki/table1.jpg'
+							alt='Стол'
+							className={`${styles.sliderImage} w-full h-auto`}
+						/>
+					</div>
+					<div>
+						<img
+							src='/pominki/table2.jpg'
+							alt='Зона'
+							className={`${styles.sliderImage} w-full h-auto`}
+						/>
+					</div>
+					<div>
+						<img
+							src='/pominki/room1.jpg'
+							alt='Блюда 2'
+							className={`${styles.sliderImage} w-full h-auto`}
+						/>
+					</div>
+					<div>
+						<img
+							src='/pominki/table3.jpg'
+							alt='Блюда'
+							className={`${styles.sliderImage} w-full h-auto`}
+						/>
+					</div>
+					<div>
+						<img
+							src='/pominki/table4.jpg'
+							alt='Стол 2'
+							className={`${styles.sliderImage} w-full h-auto`}
+						/>
+					</div>
+				</Slider>
 			</section>
 			<section className={styles.menu}>
 				<h2 className={styles.menuTitle}>Меню</h2>
