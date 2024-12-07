@@ -130,6 +130,10 @@ const Order = ({
 			newErrors.name = true
 			alert('Не заполнено обязательное поле - Дата и время доставки/самовывоза')
 		}
+		if (!email) {
+			newErrors.name = true
+			alert('Не заполнено обязательное поле - Почта')
+		}
 		if (!phone) {
 			newErrors.phone = true
 			alert('Не заполнено обязательное поле - Телефон')
@@ -212,6 +216,7 @@ const Order = ({
 				orderData
 			)
 			dispatch(clearCart(shopId))
+			console.log(response)
 			if (response.data.order.paymentType === 'Наличные') {
 				console.log('Наличка')
 				navigate(`/${shopTag}/thanks/${response.data.order.id}`)
@@ -296,7 +301,9 @@ const Order = ({
 							setErrors(prev => ({ ...prev, phone: false }))
 						}}
 					/>
-					<label className={styles.label}>Эл. Почта для чека</label>
+					<label className={styles.label}>
+						Эл. Почта для чека <span className={styles.mustHave}>*</span>
+					</label>
 					<input
 						placeholder='example@gmail.com'
 						className={styles.input}

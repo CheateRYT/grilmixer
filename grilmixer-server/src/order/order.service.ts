@@ -25,7 +25,6 @@ export class OrderService {
 					}
 				}
 			})
-
 			const unavailableProducts = products.filter(
 				product => !product.isAvailable || product.isStopList
 			)
@@ -37,22 +36,16 @@ export class OrderService {
 			}
 
 			let totalAmount = 0 // Общая сумма заказа
-			const receiptItems = []
-
-			// Группируем заказы по продуктам и их дополнительным ингредиентам
+			const receiptItems = [] // Общий массив для чеков
 			const groupedOrders = new Map<
 				string,
 				{ productId: number; productCount: number; extraIngredients: string }
 			>()
 
-			for (let i = 0; i < orderData.extraIngredientsOrder.length; i++) {
-				const extraIngredientsOrder = orderData.extraIngredientsOrder[i]
-				const productId = extraIngredientsOrder.productId
-				const productCount = extraIngredientsOrder.productCount
-				const extraIngredients = extraIngredientsOrder.extraIngredients
-
+			for (const extraIngredientsOrder of orderData.extraIngredientsOrder) {
+				const { productId, productCount, extraIngredients } =
+					extraIngredientsOrder
 				const key = `${productId}-${extraIngredients}` // Уникальный ключ для группировки
-
 				if (groupedOrders.has(key)) {
 					const existingOrder = groupedOrders.get(key)
 					existingOrder.productCount += productCount // Увеличиваем количество
@@ -102,7 +95,11 @@ export class OrderService {
 					description: product.name,
 					quantity: productCount,
 					payment_subject: 'commodity',
-					amount: { value: productTotalPrice.toFixed(2), currency: 'RUB' },
+					payment_mode: 'full_prepayment',
+					amount: {
+						value: (productTotalPrice / productCount).toFixed(2).toString(), // Убедитесь, что это число
+						currency: 'RUB'
+					},
 					vat_code: 1,
 					measure: 'piece'
 				})
@@ -123,7 +120,20 @@ export class OrderService {
 			// Учитываем стоимость доставки только если тип заказа "Доставка"
 			if (orderData.type === 'Доставка') {
 				const deliveryPrice = 300
-				totalAmount += deliveryPrice
+				// Добавляем информацию о доставке в чек
+				receiptItems.push({
+					description: 'Доставка',
+					quantity: 1,
+					payment_subject: 'service',
+					payment_mode: 'full_prepayment',
+					amount: {
+						value: deliveryPrice.toFixed(2).toString(), // Убедитесь, что это число
+						currency: 'RUB'
+					},
+					vat_code: 1,
+					measure: 'piece'
+				})
+				totalAmount += deliveryPrice // Добавляем стоимость доставки к общей сумме
 			}
 
 			const newOrder = await this.prisma.order.create({
@@ -180,7 +190,7 @@ export class OrderService {
 
 			const returnUrl = `https://грильмиксер.рф/${orderData.shopTag}/thanks/${newOrder.id}`
 			const payment = await yookassa.createPayment({
-				amount: { value: totalAmount.toFixed(2).toString(), currency: 'RUB' },
+				amount: { value: parseFloat(totalAmount.toFixed(2)), currency: 'RUB' }, // Убедитесь, что это число
 				confirmation: {
 					type: 'redirect',
 					locale: 'ru_RU',
@@ -194,14 +204,14 @@ export class OrderService {
 					customer: {
 						email: orderData.email
 					},
-					items: receiptItems
+					items: receiptItems // Здесь теперь один массив объектов
 				}
 			})
 
 			return [newOrder, payment]
 		} catch (error) {
 			throw new HttpException(
-				'Ошибка создания заказа: ' + error,
+				'Ошибка создания заказа: ' + JSON.stringify(error), // Для более информативного вывода
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
 		}

@@ -71,7 +71,6 @@ export class OrderDto {
 	@IsString()
 	deliveryAddress?: string
 
-	@IsOptional()
 	@IsEmail()
 	email?: string
 
