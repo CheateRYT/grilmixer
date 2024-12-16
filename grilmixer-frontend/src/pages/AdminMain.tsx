@@ -17,11 +17,10 @@ const AdminMain: React.FC<AdminMainProps> = ({ refreshFunction }) => {
 			},
 		})
 
-		const paymentSuccessSound = new Audio('/paymentSuccessSound.mp3')
-
 		socket.on('orderPaymentSuccess', (msg: { content: string }) => {
+			const paymentSuccessSound = new Audio('./paymentSuccessSound.mp3')
 			paymentSuccessSound.play()
-			window.location.reload()
+			navigate('/admin/paymentOrders')
 			alert('Клиентом оплачен заказ с номером ' + msg.content)
 		})
 
