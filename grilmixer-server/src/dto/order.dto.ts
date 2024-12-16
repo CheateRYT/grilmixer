@@ -2,7 +2,6 @@ import { Type } from 'class-transformer'
 import {
 	ArrayMinSize,
 	IsDate,
-	IsEmail,
 	IsNumber,
 	IsOptional,
 	IsPhoneNumber,
@@ -71,7 +70,7 @@ export class OrderDto {
 	@IsString()
 	deliveryAddress?: string
 
-	@IsEmail()
+	@IsString()
 	email?: string
 
 	@IsOptional()

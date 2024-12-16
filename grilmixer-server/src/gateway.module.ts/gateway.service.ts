@@ -33,6 +33,7 @@ export class GatewayService implements OnModuleInit {
 		this.server.emit('orderCreated', { msg: 'Новый заказ', content: orderData })
 	}
 	async sendOrderPaymentSuccess(orderData: number) {
+		console.log(`Заказ оплачен ${orderData}`)
 		this.server.emit('orderPaymentSuccess', {
 			msg: 'Заказ оплачен',
 			content: orderData

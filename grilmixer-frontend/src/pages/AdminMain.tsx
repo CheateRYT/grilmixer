@@ -3,7 +3,11 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import io from 'socket.io-client'
 
-const AdminMain = () => {
+interface AdminMainProps {
+	refreshFunction?: () => void // Необязательный пропс для функции обновления
+}
+
+const AdminMain: React.FC<AdminMainProps> = ({ refreshFunction }) => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -12,25 +16,33 @@ const AdminMain = () => {
 				token: Cookies.get('admin-token'),
 			},
 		})
-		const paymentSuccessSound = new Audio(
-			'../../public/paymentSuccessSound.mp3'
-		)
-		socket.on('orderPaymentSuccess', msg => {
+
+		const paymentSuccessSound = new Audio('/paymentSuccessSound.mp3')
+
+		socket.on('orderPaymentSuccess', (msg: { content: string }) => {
 			paymentSuccessSound.play()
 			window.location.reload()
 			alert('Клиентом оплачен заказ с номером ' + msg.content)
 		})
+
+		const intervalId = setInterval(() => {
+			if (refreshFunction) {
+				refreshFunction() // Вызываем переданную функцию, если она существует
+			}
+		}, 30000)
+
 		return () => {
+			clearInterval(intervalId)
 			socket.disconnect()
 		}
-	}, [])
+	}, [refreshFunction])
 
-	const handleComponentClick = component => {
+	const handleComponentClick = (component: string) => {
 		navigate('/admin/' + component)
 	}
 
 	return (
-		<div className='flex items-center justify-around bg-slate-800 '>
+		<div className='flex items-center justify-around bg-slate-800'>
 			<div className='flex flex-wrap justify-center items-center pt-4 bg-slate-800 w-full md:w-1/2 gap-5'>
 				<button
 					className='bg-blue-500 text-white rounded-full py-2 px-4 font-bold mr-4'

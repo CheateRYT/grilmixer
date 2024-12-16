@@ -28,6 +28,7 @@ const AdminOrders: React.FC = () => {
 		'Приготовлен',
 		'В пути',
 		'Доставлен',
+		'Скрыто',
 	]
 	const [orders, setOrders] = useState<Order[]>([])
 	const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
@@ -52,20 +53,11 @@ const AdminOrders: React.FC = () => {
 				},
 			})
 			setOrders(response.data.orders)
-			console.log(response.data.orders)
 			setTotalOrders(response.data.totalOrders)
 			await fetchProductsData(response.data.orders)
 		} catch (error) {
 			console.error('Error fetching orders:', error)
 		}
-	}
-
-	const getNextStatus = (currentStatus: string) => {
-		const currentIndex = orderStatuses.indexOf(currentStatus)
-		if (currentIndex < orderStatuses.length - 1) {
-			return orderStatuses[currentIndex + 1]
-		}
-		return currentStatus // Если это последний статус, возвращаем текущий
 	}
 
 	const fetchProductsData = async (orders: Order[]) => {
@@ -97,20 +89,12 @@ const AdminOrders: React.FC = () => {
 		setProductsData(productsMap)
 	}
 
-	const fetchExtraIngredientsNames = async (
-		extraIngredientsOrder: [],
-		productId: number
-	) => {
-		const extraIngredientsIds = extraIngredientsOrder
-			.filter(orderItem => orderItem.productId === productId)
-			.flatMap(orderItem =>
-				orderItem.extraIngredients.split(',').map(id => parseInt(id, 10))
-			)
-
-		const extraIngredientsNames = await Promise.all(
-			extraIngredientsIds.map(id => fetchExtraIngredient(id))
-		)
-		return extraIngredientsNames.filter(name => name).join(', ')
+	const getNextStatus = (currentStatus: string) => {
+		const currentIndex = orderStatuses.indexOf(currentStatus)
+		if (currentIndex < orderStatuses.length - 1) {
+			return orderStatuses[currentIndex + 1]
+		}
+		return currentStatus // Если это последний статус, возвращаем текущий
 	}
 
 	const handleNextStatus = async (orderId: number) => {
@@ -198,7 +182,7 @@ const AdminOrders: React.FC = () => {
 		}
 	}
 
-	const handleChangePage = (newPage: number) => {
+	const handleChangePage = (event: unknown, newPage: number) => {
 		setPage(newPage)
 	}
 
@@ -215,26 +199,28 @@ const AdminOrders: React.FC = () => {
 			const response = await axios.get<ExtraIngredient>(
 				`${backendApiUrl}admin/extraIngredient/${id}`
 			)
-
 			return response.data.name // Возвращаем имя дополнительного ингредиента
 		} catch (error) {
-			console.error('Ошибка при получении дополнительного ингридиента:', error)
+			console.error('Ошибка при получении дополнительного ингредиента:', error)
 			return ''
 		}
 	}
 
-	const fetchProductCategory = async (productId: number) => {
-		try {
-			const response = await axios.get(
-				`${backendApiUrl}admin/getProducts/${productId}`
+	const fetchExtraIngredientsNames = async (
+		extraIngredientsOrder: [],
+		productId: number
+	) => {
+		const extraIngredientsIds = extraIngredientsOrder
+			.filter(orderItem => orderItem.productId === productId)
+			.flatMap(orderItem =>
+				orderItem.extraIngredients.split(',').map(id => parseInt(id, 10))
 			)
-			return response.data.category // Предполагается, что категория находится в этом поле
-		} catch (error) {
-			console.error('Ошибка при получении категории продукта:', error)
-			return null
-		}
+		const extraIngredientsNames = await Promise.all(
+			extraIngredientsIds.map(id => fetchExtraIngredient(id))
+		)
+		return extraIngredientsNames.filter(name => name).join(', ')
 	}
-
+	const filteredOrders = orders.filter(order => order.status !== 'Скрыто')
 	return (
 		<div>
 			<AdminMain />
@@ -247,7 +233,6 @@ const AdminOrders: React.FC = () => {
 							<TableCell>Имя клиента</TableCell>
 							<TableCell>Телефон</TableCell>
 							<TableCell>Адрес</TableCell>
-
 							<TableCell>Стоимость</TableCell>
 							<TableCell>Тип</TableCell>
 							<TableCell>Персон</TableCell>
@@ -258,7 +243,7 @@ const AdminOrders: React.FC = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{orders.map(order => (
+						{filteredOrders.map(order => (
 							<TableRow key={order.id}>
 								<TableCell>{order.id}</TableCell>
 								<TableCell>
@@ -275,8 +260,7 @@ const AdminOrders: React.FC = () => {
 								<TableCell>{`${order.type} - ${order.paymentType}`}</TableCell>
 								<TableCell>{order.personCount}</TableCell>
 								<TableCell>
-									{formatDate(order.createdTime, order.deliveryAddress)}{' '}
-									{/* Передаем комментарий */}
+									{formatDate(order.createdTime, order.deliveryAddress)}
 								</TableCell>
 								<TableCell className='border-2 border-red-700'>
 									{order.status}
@@ -300,8 +284,7 @@ const AdminOrders: React.FC = () => {
 										onClick={() => handleNextStatus(order.id)}
 										className='ml-2'
 									>
-										{getNextStatus(order.status)}{' '}
-										{/* Отображаем следующий статус */}
+										{getNextStatus(order.status)}
 									</Button>
 								</TableCell>
 							</TableRow>
@@ -309,7 +292,7 @@ const AdminOrders: React.FC = () => {
 					</TableBody>
 				</Table>
 				<TablePagination
-					rowsPerPageOptions={[10]}
+					rowsPerPageOptions={[5, 10, 25]}
 					component='div'
 					count={totalOrders}
 					rowsPerPage={rowsPerPage}
@@ -332,7 +315,7 @@ const AdminOrders: React.FC = () => {
 										updatedOrderData.clientName || selectedOrder.clientName
 									}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 								/>
 							</label>
 							<label>
@@ -342,7 +325,7 @@ const AdminOrders: React.FC = () => {
 									name='amount'
 									value={updatedOrderData.amount || selectedOrder.amount}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 								/>
 							</label>
 							<label>
@@ -355,7 +338,7 @@ const AdminOrders: React.FC = () => {
 											: selectedOrder.status
 									}
 									onChange={handleModalInputChange}
-									className='block w-full border-gray-300 rounded-md shadow-sm mt-1  bg-slate-700'
+									className='block w-full border-gray-300 rounded-md shadow-sm mt-1 bg-slate-700'
 								>
 									{orderStatuses.map(status => (
 										<option key={status} value={status}>

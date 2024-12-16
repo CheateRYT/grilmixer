@@ -24,7 +24,7 @@ const orderStatuses = [
 	'Готовится',
 	'Приготовлен',
 	'В пути',
-	'Доставлен',
+	'Скрыто',
 ]
 
 const AdminPaymentOrders = () => {
@@ -35,25 +35,24 @@ const AdminPaymentOrders = () => {
 	const [productsData, setProductsData] = useState<{ [key: number]: string }>(
 		{}
 	)
-
-	useEffect(() => {
-		const fetchPaymentOrders = async () => {
-			try {
-				const token = Cookies.get('admin-token')
-				const response = await axios.get(
-					`${backendApiUrl}admin/getPaymentOrders/`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				)
-				setPaymentOrders(response.data)
-				await fetchProductsData(response.data)
-			} catch (error) {
-				console.error('Error fetching payment orders:', error)
-			}
+	const fetchPaymentOrders = async () => {
+		try {
+			const token = Cookies.get('admin-token')
+			const response = await axios.get(
+				`${backendApiUrl}admin/getPaymentOrders/`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			setPaymentOrders(response.data)
+			await fetchProductsData(response.data)
+		} catch (error) {
+			console.error('Error fetching payment orders:', error)
 		}
+	}
+	useEffect(() => {
 		fetchPaymentOrders()
 	}, [])
 
@@ -208,7 +207,7 @@ const AdminPaymentOrders = () => {
 	}
 	return (
 		<div>
-			<AdminMain />
+			<AdminMain refreshFunction={fetchPaymentOrders} />
 			<TableContainer component={Paper}>
 				<Table>
 					<TableHead>
@@ -231,7 +230,10 @@ const AdminPaymentOrders = () => {
 					</TableHead>
 					<TableBody>
 						{paymentOrders
-							.filter(order => order.status !== 'Доставлен') // Фильтрация заказов
+							.filter(
+								order =>
+									order.status !== 'Доставлен' && order.status !== 'Скрыто'
+							) // Фильтрация заказов
 							.map(order => (
 								<TableRow key={order.id}>
 									<TableCell>{order.id}</TableCell>
