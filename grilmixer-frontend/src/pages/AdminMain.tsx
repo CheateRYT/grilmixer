@@ -1,3 +1,4 @@
+import { Howl } from 'howler' // Импортируем Howl из библиотеки howler
 import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -18,8 +19,13 @@ const AdminMain: React.FC<AdminMainProps> = ({ refreshFunction }) => {
 		})
 
 		socket.on('orderPaymentSuccess', (msg: { content: string }) => {
-			const paymentSuccessSound = new Audio('./paymentSuccessSound.mp3')
-			paymentSuccessSound.play()
+			// Создаем новый экземпляр Howl
+			const paymentSuccessSound = new Howl({
+				src: ['./paymentSuccessSound.mp3'], // Убедитесь, что путь к файлу правильный
+				html5: true, // Используем html5 для предотвращения блокировки
+			})
+
+			paymentSuccessSound.play() // Проигрываем звук
 			navigate('/admin/paymentOrders')
 			alert('Клиентом оплачен заказ с номером ' + msg.content)
 		})
@@ -34,7 +40,7 @@ const AdminMain: React.FC<AdminMainProps> = ({ refreshFunction }) => {
 			clearInterval(intervalId)
 			socket.disconnect()
 		}
-	}, [refreshFunction])
+	}, [refreshFunction, navigate])
 
 	const handleComponentClick = (component: string) => {
 		navigate('/admin/' + component)
