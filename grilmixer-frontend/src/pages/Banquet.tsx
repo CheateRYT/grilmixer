@@ -17,14 +17,13 @@ interface Dishes {
 
 const Banquet = () => {
   const navigate = useNavigate();
-  const [dishes, setDishes] = useState<Dishes>({}); // Состояние для хранения блюд
-  const [loading, setLoading] = useState(true); // Состояние загрузки
+  const [dishes, setDishes] = useState<Dishes>({});
+  const [loading, setLoading] = useState(true);
 
   const handleClickTitle = () => {
     navigate("/");
   };
 
-  // Настройки слайдера
   const CustomPrevArrow = (props) => {
     const { className, onClick } = props;
     return (
@@ -54,7 +53,6 @@ const Banquet = () => {
     nextArrow: <CustomNextArrow />,
   };
 
-  // Функция для получения блюд
   const fetchDishes = async () => {
     try {
       const response = await fetch(
@@ -64,20 +62,35 @@ const Banquet = () => {
         throw new Error("Ошибка при получении данных");
       }
       const data = await response.json();
-      setDishes(data); // Устанавливаем полученные данные в состояние
+
+      // Группировка блюд по категориям
+      const groupedDishes: Dishes = data.reduce((acc: Dishes, dish: any) => {
+        const category = dish.category;
+        if (!acc[category]) {
+          acc[category] = [];
+        }
+        acc[category].push({
+          name: dish.name,
+          weight: dish.weight,
+          price: dish.price,
+        });
+        return acc;
+      }, {});
+
+      setDishes(groupedDishes);
     } catch (error) {
       console.error("Ошибка:", error);
     } finally {
-      setLoading(false); // Завершаем загрузку
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchDishes(); // Получаем блюда при монтировании компонента
+    fetchDishes();
   }, []);
 
   if (loading) {
-    return <div>Загрузка...</div>; // Показываем загрузку, пока данные не загружены
+    return <div>Загрузка...</div>;
   }
 
   return (
@@ -87,9 +100,9 @@ const Banquet = () => {
           Банкетное меню
         </h1>
       </header>
-      {/* Слайдер для изображений */}
       <section className={styles.gallery}>
         <Slider {...settings}>
+          {/* Слайды изображений */}
           <div>
             <img
               src="/banquet/table1.jpg"
@@ -97,34 +110,7 @@ const Banquet = () => {
               className={`${styles.sliderImage} w-full h-auto`}
             />
           </div>
-          <div>
-            <img
-              src="/banquet/room1.jpg"
-              alt="Зона"
-              className={`${styles.sliderImage} w-full h-auto`}
-            />
-          </div>
-          <div>
-            <img
-              src="/banquet/food1.jpg"
-              alt="Блюда"
-              className={`${styles.sliderImage} w-full h-auto`}
-            />
-          </div>
-          <div>
-            <img
-              src="/banquet/table2.jpg"
-              alt="Стол 2"
-              className={`${styles.sliderImage} w-full h-auto`}
-            />
-          </div>
-          <div>
-            <img
-              src="/banquet/food2.jpg"
-              alt="Блюда 2"
-              className={`${styles.sliderImage} w-full h-auto`}
-            />
-          </div>
+          {/* Другие изображения */}
         </Slider>
       </section>
       <section className={styles.menu}>
