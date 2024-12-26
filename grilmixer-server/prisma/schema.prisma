@@ -92,7 +92,7 @@ model ExtraIngredientOrder {
 }
 
 model OtherCafeProduct {
-  id Int @default(autoincrement())
+  id               Int     @id @default(autoincrement())
   shopName String //banquet pominki
   name String
   category String

@@ -6,7 +6,6 @@ import { AppService } from './app.service'
 import { EventModule } from './event/event.module'
 import { GatewayModule } from './gateway.module.ts/gateway.module'
 import { OrderModule } from './order/order.module'
-import { OtherCafeModule } from './other-cafe/other-cafe.module';
 
 @Module({
 	imports: [
@@ -14,8 +13,7 @@ import { OtherCafeModule } from './other-cafe/other-cafe.module';
 		GatewayModule,
 		AdminModule,
 		EventModule,
-		OrderModule,
-		OtherCafeModule
+		OrderModule
 	],
 	controllers: [AppController],
 	providers: [AppService]

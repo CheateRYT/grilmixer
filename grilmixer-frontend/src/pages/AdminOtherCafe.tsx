@@ -37,52 +37,45 @@ const AdminOtherCafe: React.FC = () => {
   const handleCreateProduct = async () => {
     try {
       const token = Cookies.get("admin-token");
-      const endpoint =
-        selectedMenu === "banquet"
-          ? "createBanquetProduct"
-          : "createPominkiProduct";
-      await axios.post(
-        `${backendApiUrl}otherCafe/${endpoint}`,
-        newProductData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // Очистить данные после успешного создания
+      const endpoint = "createOtherCafeProduct";
+      const payload = {
+        ...newProductData,
+        shopName: selectedMenu, // Устанавливаем shopName в зависимости от выбранного меню
+      };
+
+      await axios.post(`${backendApiUrl}admin/${endpoint}`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       setNewProductData({
         name: "",
         weight: "",
         price: "",
         category: "",
       });
-      alert("Продукт успешно создан!");
+      alert("Товар успешно создан!");
     } catch (error) {
-      console.error("Ошибка при создании продукта:", error);
+      console.error("Ошибка при создании товара:", error);
     }
   };
 
   const handleDeleteProduct = async () => {
     try {
       const token = Cookies.get("admin-token");
-      const endpoint =
-        selectedMenu === "banquet"
-          ? "deleteBanquetProduct"
-          : "deletePominkiProduct";
-      await axios.delete(`${backendApiUrl}otherCafe/${endpoint}`, {
+      const endpoint = "deleteOtherCafeProduct/" + productNameToDelete; // Указываем имя товара для удаления
+
+      await axios.delete(`${backendApiUrl}admin/${endpoint}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        data: {
-          name: productNameToDelete,
-        },
       });
-      // Очистить данные после успешного удаления
+
       setProductNameToDelete("");
-      alert("Продукт успешно удален!");
+      alert("Товар успешно удален!");
     } catch (error) {
-      console.error("Ошибка при удалении продукта:", error);
+      console.error("Ошибка при удалении товара:", error);
     }
   };
 
@@ -142,7 +135,6 @@ const AdminOtherCafe: React.FC = () => {
             Создать
           </button>
         </div>
-
         <h2 className="text-xl font-bold mb-4">Удаление товара</h2>
         <input
           type="text"

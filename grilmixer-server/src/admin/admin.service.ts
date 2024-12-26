@@ -19,6 +19,173 @@ export class AdminService {
 		private gatewayService: GatewayService
 	) {}
 
+	async onModuleInit() {
+		await this.createInitialProductsForBanquet()
+		await this.createInitialProductsForPominki()
+	}
+
+	private async createInitialProductsForBanquet() {
+		const dishes = {
+			'Холодные закуски': [
+				{ name: 'Асс. мясное', weight: '400 г', price: '950 руб' },
+				{ name: 'Асс. овощное', weight: '400 г', price: '550 руб' },
+				{ name: 'Асс. сырное', weight: '400 г', price: '1200 руб' },
+				{ name: 'Асс. фруктовое', weight: '400 г', price: '600 руб' },
+				{ name: 'Асс. соленья', weight: '500 г', price: '550 руб' },
+				{ name: 'Асс. рыбное', weight: '300 г', price: '1400 руб' },
+				{ name: 'Гастрономия', weight: '300 г', price: '1300 руб' },
+				{ name: 'Брынза', weight: '100 г', price: '200 руб' },
+				{ name: 'Маринованные грибы', weight: '150 г', price: '300 руб' },
+				{ name: 'Зелень', weight: '100 г', price: '200 руб' },
+				{ name: 'Оливки, маслины', weight: '100 г', price: '200 руб' },
+				{ name: 'Лимон', weight: '100 г', price: '80 руб' }
+			],
+			'Сеты роллы': [
+				{
+					name: 'Сет Филадельфия (32 шт)',
+					weight: '1300 г',
+					price: '1800 руб'
+				},
+				{ name: 'Сет Калифорния (32 шт)', weight: '1100 г', price: '1500 руб' },
+				{
+					name: 'Сет ГрильМикСер (32 шт)',
+					weight: '1250 г',
+					price: '1600 руб'
+				},
+				{ name: 'Сет Популярный (40 шт)', weight: '1550 г', price: '2000 руб' }
+			],
+			'Горячие закуски': [
+				{ name: 'Запечённые мидии', weight: '250 г', price: '600 руб' },
+				{ name: 'Тарталетки', weight: '20 г', price: '60-100 руб' },
+				{ name: 'Профитроли', weight: '20 г', price: '60-100 руб' },
+				{ name: 'Сырные палочки', weight: '200 г', price: '300 руб' },
+				{
+					name: 'Креветки в сливочном соусе',
+					weight: '250 г',
+					price: '700 руб'
+				},
+				{
+					name: 'Жульен грибной с курицей',
+					weight: '150 г',
+					price: '250-380 руб'
+				},
+				{ name: 'Рулеты с баклажаном', weight: '100 г', price: '150 руб' }
+			],
+			Салаты: [
+				{ name: 'МикСер', weight: '250 г', price: '500 руб' },
+				{ name: 'Лукошко', weight: '250 г', price: '500 руб' },
+				{ name: 'Салат с сёмгой', weight: '250 г', price: '670 руб' },
+				{ name: 'Язык с орехами', weight: '250 г', price: '550 руб' },
+				{ name: 'Мясная горка', weight: '250 г', price: '640 руб' },
+				{ name: 'Цезарь с курицей', weight: '250 г', price: '450 руб' },
+				{ name: 'Цезарь с сёмгой', weight: '250 г', price: '620 руб' },
+				{ name: 'Цезарь с креветкой', weight: '250 г', price: '620 руб' },
+				{ name: 'Цезарь царский', weight: '250 г', price: '620 руб' },
+				{ name: 'Салат морской', weight: '250 г', price: '480 руб' },
+				{ name: 'Салат греческий', weight: '250 г', price: '420 руб' }
+			],
+			Гарниры: [
+				{ name: 'Картофель фри', weight: '100 г', price: '200 руб' },
+				{ name: 'Картофель по-деревенски', weight: '100 г', price: '200 руб' }
+			],
+			Шашлык: [
+				{
+					name: 'Шашлык из свинины (домашняя)',
+					weight: '1 кг',
+					price: '2000 руб'
+				},
+				{
+					name: 'Шашлык из свинины (фермерская)',
+					weight: '1 кг',
+					price: '1600 руб'
+				},
+				{ name: 'Шашлык из говядины', weight: '1 кг', price: '4200 руб' },
+				{ name: 'Шашлык из курицы', weight: '1 кг', price: '1400 руб' },
+				{
+					name: 'Шашлык из печени со свиной сеткой',
+					weight: '1 кг',
+					price: '1800 руб'
+				},
+				{ name: 'Шашлык из Сёмги', weight: '1 кг', price: '4500 руб' },
+				{ name: 'Люля-кебаб свино-говяжий', weight: '1 кг', price: '1400 руб' },
+				{ name: 'Люля-кебаб куриный', weight: '1 кг', price: '1200 руб' },
+				{ name: 'Баранина (мякоть)', weight: '1 кг', price: '4200 руб' },
+				{
+					name: 'Картофель с беконом на шампуре',
+					weight: '1 кг',
+					price: '400 руб'
+				},
+				{
+					name: 'Грибы шампиньоны на шампуре',
+					weight: '1 кг',
+					price: '1000 руб'
+				},
+				{ name: 'Икра на мангале', weight: '1 кг', price: '1500 руб' },
+				{ name: 'Овощи на мангале', weight: '1 кг', price: '1000 руб' },
+				{ name: 'Лепёшка', weight: '1 шт', price: '100 руб' },
+				{ name: 'Лаваш', weight: '1 шт', price: '50 руб' }
+			],
+			Соусы: [
+				{
+					name: 'Соус красный / Соус белый',
+					weight: '100 г',
+					price: '50/100 руб'
+				},
+				{ name: 'Лук маринованный', weight: '150 г', price: '30 руб' },
+				{ name: 'Компот', weight: '1 л', price: '300 руб' }
+			]
+		}
+
+		for (const category in dishes) {
+			for (const dish of dishes[category]) {
+				await this.createOtherCafeProduct({
+					shopName: 'banquet',
+					category: category,
+					...dish
+				})
+			}
+		}
+	}
+
+	private async createInitialProductsForPominki() {
+		const dishes = {
+			'Меню Стандарт': [
+				{ name: 'Лапша', weight: '300 г', price: '150 руб' },
+				{ name: 'Борщ', weight: '300 г', price: '150 руб' },
+				{ name: 'Люля-кебаб говяжье', weight: '100 г', price: '100 руб' },
+				{ name: 'Пюре', weight: '200 г', price: '100 руб' },
+				{ name: 'Гуляш', weight: '100 г', price: '170 руб' },
+				{ name: 'Нарезка "Гастрономическая"', weight: '40 г', price: '50 руб' },
+				{ name: 'Овощная нарезка', weight: '60 г', price: '40 руб' },
+				{ name: 'Селёдка', weight: '40 г', price: '40 руб' },
+				{ name: 'Салат "Оливье"', weight: '50 г', price: '50 руб' },
+				{ name: 'Соленья', weight: '50 г', price: '50 руб' },
+				{ name: 'Булочка Поминальная', weight: '100 г', price: '50 руб' },
+				{ name: 'Компот', weight: '200 г', price: '50 руб' },
+				{ name: 'Хлеб', weight: '1 кусок', price: '3 руб' }
+			],
+			Дополнительное: [
+				{ name: 'Рыба в кляре', weight: '100 г', price: '150 руб' },
+				{ name: 'Бёдра запечённые', weight: '100 г', price: '100 руб' },
+				{ name: 'Винегрет', weight: '300 г', price: '300 руб' },
+				{ name: 'Салат с капустой', weight: '300 г', price: '150 руб' },
+				{ name: 'Блинчики с мясом', weight: '100 г', price: '100 руб' },
+				{ name: 'Рыбные котлеты', weight: '100 г', price: '130 руб' },
+				{ name: 'Котлеты говяжьи', weight: '100 г', price: '100 руб' },
+				{ name: 'Колево', weight: '300 г', price: '300 руб' }
+			]
+		}
+
+		for (const category in dishes) {
+			for (const dish of dishes[category]) {
+				await this.createOtherCafeProduct({
+					shopName: 'pominki',
+					category: category,
+					...dish
+				})
+			}
+		}
+	}
 	async login(dto: AdminLoginDto): Promise<string> {
 		const admin = await this.prisma.admin.findUnique({
 			where: { login: dto.login }
@@ -589,5 +756,45 @@ export class AdminService {
 			0
 		)
 		return totalRevenue.toFixed(2) + ' руб.'
+	}
+
+	// admin.service.ts
+	async createOtherCafeProduct(
+		dto: OtherCafeProductDto
+	): Promise<OtherCafeProduct> {
+		try {
+			return await this.prisma.otherCafeProduct.create({ data: dto })
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при создании товара: ${error.message}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	async deleteOtherCafeProduct(name: string): Promise<void> {
+		try {
+			await this.prisma.otherCafeProduct.deleteMany({
+				where: { name }
+			})
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при удалении товара: ${error.message}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	async getOtherCafeProducts(shopName: string): Promise<OtherCafeProduct[]> {
+		try {
+			return await this.prisma.otherCafeProduct.findMany({
+				where: { shopName }
+			})
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при получении товаров: ${error.message}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
 	}
 }

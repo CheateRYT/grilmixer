@@ -22,6 +22,7 @@ import { EventDto } from './dto/event.dto'
 import { ExtraIngredientDto } from './dto/extraIngredients.dto'
 import { PaymentStatusDto } from './dto/payment-status.dto'
 import { ProductDto } from './dto/product.dto'
+import { OtherCafeProductDto } from './dto/other-products.dto'
 
 @Controller('admin')
 export class AdminController {
@@ -499,6 +500,57 @@ export class AdminController {
 		} catch (error) {
 			throw new HttpException(
 				'Ошибка при получении дополнительного ингредиента' + error,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	// admin.controller.ts
+	@UsePipes(new ValidationPipe())
+	@HttpCode(201)
+	@Post('createOtherCafeProduct')
+	async createOtherCafeProduct(
+		@Headers('authorization') authorization: string,
+		@Body() dto: OtherCafeProductDto
+	) {
+		try {
+			await this.isAdmin(authorization)
+			await this.adminService.createOtherCafeProduct(dto)
+			return { message: 'Товар успешно создан' }
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при создании товара: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Delete('deleteOtherCafeProduct/:name')
+	async deleteOtherCafeProduct(
+		@Headers('authorization') authorization: string,
+		@Param('name') name: string
+	) {
+		try {
+			await this.isAdmin(authorization)
+			await this.adminService.deleteOtherCafeProduct(name)
+			return { message: 'Товар успешно удален' }
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при удалении товара: ${error}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
+	}
+
+	@HttpCode(200)
+	@Get('getOtherCafeProducts/:shopName')
+	async getOtherCafeProducts(@Param('shopName') shopName: string) {
+		try {
+			return await this.adminService.getOtherCafeProducts(shopName)
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при получении товаров: ${error}`,
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
 		}
