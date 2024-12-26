@@ -90,3 +90,12 @@ model ExtraIngredientOrder {
   extraIngredients String
   order            Order[] @relation("ExtraIngredientOrderToOrder")
 }
+
+model OtherCafeProduct {
+  id Int @default(autoincrement())
+  shopName String //banquet pominki
+  name String
+  category String
+  weight    String
+  price       String
+}

@@ -102,6 +102,12 @@ const AdminMain: React.FC<AdminMainProps> = ({ refreshFunction }) => {
         </button>
         <button
           className="bg-blue-500 text-white rounded-full py-2 px-4 font-bold"
+          onClick={() => handleComponentClick("otherCafe")}
+        >
+          Другие магазины
+        </button>
+        <button
+          className="bg-blue-500 text-white rounded-full py-2 px-4 font-bold"
           onClick={() => handleComponentClick("revenue")}
         >
           Выручка

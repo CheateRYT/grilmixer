@@ -40,6 +40,7 @@ import Pominki from "./pages/Pominki";
 import store from "./store/store";
 import PrivateRouter from "./utils/PrivateRouter";
 import { OrderAlertProvider } from "./components/OrderAlertProvider";
+import AdminOtherCafe from "./pages/AdminOtherCafe";
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <OrderAlertProvider>
@@ -91,6 +92,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route
             path="/admin/notifications"
             element={<PrivateRouter Page={AdminNotifications} />}
+          />
+          <Route
+            path="/admin/otherCafe"
+            element={<PrivateRouter Page={AdminOtherCafe} />}
           />
           <Route
             path="/admin/revenue"
