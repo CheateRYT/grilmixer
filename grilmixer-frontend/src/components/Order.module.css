@@ -1,189 +1,190 @@
 .order {
-	display: flex;
-	flex-direction: column;
-	max-width: 1000px;
-	margin: 0 auto;
-	color: white;
-	padding: 20px;
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: white;
+  padding: 20px;
 }
 
 .orderForm {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 .orderTitle {
-	color: #b20522;
-	font-weight: bold;
-	margin-bottom: 20px;
-	text-align: center;
+  color: #b20522;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .labelRow {
-	color: #b20522;
-	font-weight: bold;
-	font-size: 20px;
+  color: #b20522;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .mustHave {
-	color: #b20522;
+  color: #b20522;
 }
 
 .row {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 15px;
-	flex-wrap: wrap; /* Позволяет переносить элементы на новую строку */
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  gap: 10px;
+  flex-wrap: wrap; /* Позволяет переносить элементы на новую строку */
 }
 
 .label {
-	color: white;
-	margin-right: 10px;
-	flex: 1; /* Занимает равное пространство */
+  color: white;
+  margin-right: 10px;
+  flex: 1; /* Занимает равное пространство */
 }
 .selectedTimeOption {
-	color: white;
-	background-color: #1a1a1a;
+  color: white;
+  background-color: #1a1a1a;
 }
 .input {
-	border: 1px solid #a1a1a1;
-	border-radius: 8px;
-	padding: 10px;
-	margin-left: 10px;
-	background-color: transparent;
-	color: white;
-	font-size: 16px;
-	flex: 2; /* Занимает больше пространства */
+  border: 1px solid #a1a1a1;
+  border-radius: 8px;
+  padding: 10px;
+  margin-left: 10px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  flex: 2; /* Занимает больше пространства */
 }
 
 .input:focus {
-	outline: none;
-	border-color: #b20522;
+  outline: none;
+  border-color: #b20522;
 }
 
 .deliveryOptions,
 .paymentOptions {
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .button {
-	display: inline-flex;
-	align-items: center;
-	cursor: pointer;
-	background-color: transparent;
-	border: 2px solid #a1a1a1;
-	border-radius: 8px;
-	padding: 10px 20px;
-	margin: 5px 0;
-	color: white;
-	transition: background-color 0.3s, border-color 0.3s;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: transparent;
+  border: 2px solid #a1a1a1;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin: 5px 0;
+  color: white;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 .button input {
-	display: none; /* Скрыть стандартную радиокнопку */
+  display: none; /* Скрыть стандартную радиокнопку */
 }
 
 .button:hover {
-	background-color: #a1a1a1;
+  background-color: #a1a1a1;
 }
 
 .selected {
-	border-color: #b20522; /* Цвет границы для выбранного способа */
+  border-color: #b20522; /* Цвет границы для выбранного способа */
 }
 
 .submitButton {
-	background-color: #b20522;
-	color: white;
-	border: none;
-	border-radius: 8px;
-	padding: 10px 20px;
-	cursor: pointer;
-	font-size: 16px;
-	margin-top: 20px; /* Отступ сверху для кнопки */
+  background-color: #b20522;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px; /* Отступ сверху для кнопки */
 }
 
 .submitButton:hover {
-	background-color: #a1a1a1;
+  background-color: #a1a1a1;
 }
 
 /* Медиа-запросы для адаптации под мобильные устройства */
 @media (max-width: 768px) {
-	.row {
-		flex-direction: column; /* Переносим элементы на новую строку */
-	}
+  .row {
+    flex-direction: column; /* Переносим элементы на новую строку */
+  }
 
-	.label {
-		margin-right: 0; /* Убираем отступ справа */
-		margin-bottom: 5px; /* Добавляем отступ снизу */
-	}
+  .label {
+    margin-right: 0; /* Убираем отступ справа */
+    margin-bottom: 5px; /* Добавляем отступ снизу */
+  }
 
-	.input {
-		margin-left: 0; /* Убираем отступ слева */
-		width: 100%; /* Делаем инпуты на всю ширину */
-	}
-	.input,
-	.select {
-		border: 1px solid #a1a1a1;
-		border-radius: 8px;
-		padding: 10px;
-		margin-left: 10px;
-		background-color: transparent;
-		color: white;
-		font-size: 16px;
-		flex: 2; /* Занимает больше пространства */
-	}
+  .input {
+    margin-left: 0; /* Убираем отступ слева */
+    width: 100%; /* Делаем инпуты на всю ширину */
+  }
+  .input,
+  .select {
+    border: 1px solid #a1a1a1;
+    border-radius: 8px;
+    padding: 10px;
+    margin-left: 10px;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    flex: 2; /* Занимает больше пространства */
+  }
 
-	.select {
-		-webkit-appearance: none; /* Убираем стандартный стиль браузера для select */
-		-moz-appearance: none;
-		appearance: none;
-		background-color: transparent;
-		background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><polygon points="0,0 5,5 10,0" fill="white"/></svg>'); /* Указание стрелки вниз */
-		background-repeat: no-repeat;
-		background-position: right 10px center; /* Позиция стрелки */
-		background-size: 10px; /* Размер стрелки */
-	}
-	.input.error {
-		border-color: red; /* Красный цвет для границы */
+  .select {
+    -webkit-appearance: none; /* Убираем стандартный стиль браузера для select */
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><polygon points="0,0 5,5 10,0" fill="white"/></svg>'); /* Указание стрелки вниз */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Позиция стрелки */
+    background-size: 10px; /* Размер стрелки */
+  }
+  .input.error {
+    border-color: red; /* Красный цвет для границы */
 
-		animation: shake 0.5s; /* Анимация тряски */
-	}
+    animation: shake 0.5s; /* Анимация тряски */
+  }
 
-	@keyframes shake {
-		0% {
-			transform: translateX(0);
-		}
-		25% {
-			transform: translateX(-5px);
-		}
-		50% {
-			transform: translateX(5px);
-		}
-		75% {
-			transform: translateX(-5px);
-		}
-		100% {
-			transform: translateX(0);
-		}
-	}
-	.select:focus {
-		outline: none;
-		border-color: #b20522; /* Цвет границы при фокусе */
-	}
-	.select option {
-		color: white;
-		background-color: #1a1a1a;
-	}
-	.orderTitle {
-		font-size: 24px; /* Уменьшаем размер заголовка */
-	}
+  @keyframes shake {
+    0% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-5px);
+    }
+    50% {
+      transform: translateX(5px);
+    }
+    75% {
+      transform: translateX(-5px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .select:focus {
+    outline: none;
+    border-color: #b20522; /* Цвет границы при фокусе */
+  }
+  .select option {
+    color: white;
+    background-color: #1a1a1a;
+  }
+  .orderTitle {
+    font-size: 24px; /* Уменьшаем размер заголовка */
+  }
 
-	.labelRow {
-		font-size: 18px; /* Уменьшаем размер текста для обязательных полей */
-	}
+  .labelRow {
+    font-size: 18px; /* Уменьшаем размер текста для обязательных полей */
+  }
 
-	.submitButton {
-		font-size: 14px; /* Уменьшаем размер текста для кнопки */
-		padding: 8px 16px; /* Уменьшаем отступы для кнопки */
-	}
+  .submitButton {
+    font-size: 14px; /* Уменьшаем размер текста для кнопки */
+    padding: 8px 16px; /* Уменьшаем отступы для кнопки */
+  }
 }

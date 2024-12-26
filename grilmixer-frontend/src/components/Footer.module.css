@@ -1,183 +1,183 @@
 .footer {
-	color: #b20522;
-	font-weight: bold;
-	display: flex;
-	font-size: 18px;
-	justify-content: space-between;
-	align-items: center;
-	padding: 20px;
-	margin-top: auto;
-	background-color: #131313; /* Цвет фона */
+  color: #b20522;
+  font-weight: bold;
+  display: flex;
+  font-size: 18px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  margin-top: auto;
+  background-color: #131313; /* Цвет фона */
 }
-.footer ::before {
+/* .footer ::before {
 	content: '';
 	position: absolute;
 	bottom: 110px;
 	left: 0;
 	width: 100%;
 	margin-bottom: 30px;
-	height: 2px; /* Адаптивная толщина линии */
+	height: 2px; 
 	background-color: #b20522;
-}
+} */
 .footer-content {
-	display: flex;
-	cursor: pointer;
+  display: flex;
+  cursor: pointer;
 
-	flex-direction: column;
-	align-items: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .linkContainer {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 
-	text-align: center;
-	cursor: pointer;
-	gap: 15px; /* Уменьшаем расстояние между ссылками */
+  text-align: center;
+  cursor: pointer;
+  gap: 15px; /* Уменьшаем расстояние между ссылками */
 }
 
 .link {
-	cursor: pointer; /* Добавлено для указателя курсора на текст ссылок */
-	font-size: 18px !important;
+  cursor: pointer; /* Добавлено для указателя курсора на текст ссылок */
+  font-size: 18px !important;
 }
 
 /* Иконки платежных систем */
 .footerIcons {
-	display: flex; /* Изменено для горизонтального расположения */
-	justify-content: center; /* Центрируем иконки */
-	gap: 10px; /* Расстояние между иконками */
+  display: flex; /* Изменено для горизонтального расположения */
+  justify-content: center; /* Центрируем иконки */
+  gap: 10px; /* Расстояние между иконками */
 }
 
 .social {
-	align-items: center;
-	display: flex;
-	flex-direction: column;
-	margin-top: 20px; /* Увеличиваем отступ сверху для блока социальных сетей */
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px; /* Увеличиваем отступ сверху для блока социальных сетей */
 }
 
 .socialTitle {
-	align-items: center;
-	font-size: 18px;
-	margin-bottom: 10px; /* Добавляем отступ снизу для заголовка социальных сетей */
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 10px; /* Добавляем отступ снизу для заголовка социальных сетей */
 }
 
 /* Иконка ВКонтакте */
 .vkIcon {
-	align-items: center;
+  align-items: center;
 }
 
 .icon {
-	width: 90.75px; /* Ширина иконок */
-	height: 60px; /* Автоматическая высота */
-	color: red;
+  width: 90.75px; /* Ширина иконок */
+  height: 60px; /* Автоматическая высота */
+  color: red;
 }
 
 .social-icon {
-	width: 100px; /* Ширина иконки ВКонтакте */
-	height: auto; /* Автоматическая высота */
+  width: 100px; /* Ширина иконки ВКонтакте */
+  height: auto; /* Автоматическая высота */
 }
 
 /* Медиа-запросы для адаптивности */
 
 /* Для мобильных устройств (до 480px) */
 @media (max-width: 480px) {
-	.footer ::before {
-		content: '';
-		position: absolute;
-		bottom: 290px !important;
-		left: 0;
-		width: 100%;
-		height: 2px; /* Адаптивная толщина линии */
-		background-color: #b20522;
-	}
-	.footer {
-		flex-direction: column; /* Вертикальное расположение */
-		padding: 10px; /* Уменьшаем отступы */
-	}
-	.linkContainer {
-		gap: 8px; /* Уменьшаем расстояние между ссылками */
-	}
-	.link {
-		font-size: 17px; /* Уменьшаем размер текста */
-	}
-	.footerIcons {
-		gap: 5px; /* Уменьшаем расстояние между иконками */
-	}
+  .footer ::before {
+    content: "";
+    position: absolute;
+    bottom: 290px !important;
+    left: 0;
+    width: 100%;
+    height: 2px; /* Адаптивная толщина линии */
+    background-color: #b20522;
+  }
+  .footer {
+    flex-direction: column; /* Вертикальное расположение */
+    padding: 10px; /* Уменьшаем отступы */
+  }
+  .linkContainer {
+    gap: 8px; /* Уменьшаем расстояние между ссылками */
+  }
+  .link {
+    font-size: 17px; /* Уменьшаем размер текста */
+  }
+  .footerIcons {
+    gap: 5px; /* Уменьшаем расстояние между иконками */
+  }
 
-	.social-icon {
-		width: 80px; /* Уменьшаем размер иконки ВКонтакте */
-	}
-	.socialTitle {
-		font-size: 16px; /* Уменьшаем размер текста заголовка */
-	}
+  .social-icon {
+    width: 80px; /* Уменьшаем размер иконки ВКонтакте */
+  }
+  .socialTitle {
+    font-size: 16px; /* Уменьшаем размер текста заголовка */
+  }
 }
 
 /* Для планшетов (от 481px до 768px) */
 @media (min-width: 481px) and (max-width: 768px) {
-	.footer ::before {
-		content: '';
-		position: absolute;
-		bottom: 300px !important;
-		left: 0;
-		width: 100%;
-		height: 2px; /* Адаптивная толщина линии */
-		background-color: #b20522;
-	}
-	.footer {
-		padding: 15px; /* Уменьшаем отступы */
-	}
-	.linkContainer {
-		gap: 12px; /* Уменьшаем расстояние между ссылками */
-	}
-	.link {
-		font-size: 16px; /* Уменьшаем размер текста */
-	}
-	.footerIcons {
-		gap: 8px; /* Уменьшаем расстояние между иконками */
-	}
+  .footer ::before {
+    content: "";
+    position: absolute;
+    bottom: 300px !important;
+    left: 0;
+    width: 100%;
+    height: 2px; /* Адаптивная толщина линии */
+    background-color: #b20522;
+  }
+  .footer {
+    padding: 15px; /* Уменьшаем отступы */
+  }
+  .linkContainer {
+    gap: 12px; /* Уменьшаем расстояние между ссылками */
+  }
+  .link {
+    font-size: 16px; /* Уменьшаем размер текста */
+  }
+  .footerIcons {
+    gap: 8px; /* Уменьшаем расстояние между иконками */
+  }
 
-	.social-icon {
-		width: 90px; /* Уменьшаем размер иконки ВКонтакте */
-	}
-	.socialTitle {
-		font-size: 18px; /* Уменьшаем размер текста заголовка */
-	}
+  .social-icon {
+    width: 90px; /* Уменьшаем размер иконки ВКонтакте */
+  }
+  .socialTitle {
+    font-size: 18px; /* Уменьшаем размер текста заголовка */
+  }
 }
 
 /* Для экранов до 1100px */
 @media (max-width: 1100px) {
-	.footer ::before {
-		display: none;
-	}
-	.footer {
-		flex-direction: column; /* Вертикальное расположение */
-		align-items: center; /* Центруем содержимое */
-	}
-	.linkContainer {
-		flex-direction: column; /* Вертикальное расположение ссылок */
-		gap: 5px; /* Уменьшаем расстояние между ссылками */
-	}
+  .footer ::before {
+    display: none;
+  }
+  .footer {
+    flex-direction: column; /* Вертикальное расположение */
+    align-items: center; /* Центруем содержимое */
+  }
+  .linkContainer {
+    flex-direction: column; /* Вертикальное расположение ссылок */
+    gap: 5px; /* Уменьшаем расстояние между ссылками */
+  }
 }
 
 /* Для десктопов (от 1101px и выше) */
 @media (min-width: 1101px) {
-	.footer {
-		padding: 20px; /* Стандартные отступы */
-	}
-	.linkContainer {
-		/* Уменьшаем расстояние между ссылками */
-	}
-	.link {
-		font-size: 18px; /* Стандартный размер текста */
-	}
-	.footerIcons {
-		/* Стандартное расстояние между иконками */
-	}
+  .footer {
+    padding: 20px; /* Стандартные отступы */
+  }
+  .linkContainer {
+    /* Уменьшаем расстояние между ссылками */
+  }
+  .link {
+    font-size: 18px; /* Стандартный размер текста */
+  }
+  .footerIcons {
+    /* Стандартное расстояние между иконками */
+  }
 
-	.social-icon {
-		width: 100px; /* Стандартный размер иконки ВКонтакте */
-	}
-	.socialTitle {
-		font-size: 20px; /* Стандартный размер текста заголовка */
-	}
+  .social-icon {
+    width: 100px; /* Стандартный размер иконки ВКонтакте */
+  }
+  .socialTitle {
+    font-size: 20px; /* Стандартный размер текста заголовка */
+  }
 }
