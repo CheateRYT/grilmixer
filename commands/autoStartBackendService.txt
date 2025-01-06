@@ -1,0 +1,14 @@
+//sudo nano /etc/systemd/system/grilmixer.service
+
+[Unit]
+   Description=Запуск Grilmixer сервера и Prisma ORM
+   After=network.target
+
+   [Service]
+   ExecStart=/bin/bash /путь/к/вашему/start_server.sh
+   WorkingDirectory=/путь/к/вашему
+   Restart=always
+   User=ваш_пользователь
+
+   [Install]
+   WantedBy=multi-user.target
