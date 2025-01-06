@@ -64,14 +64,14 @@ export class AdminService {
 					weight: '250 г',
 					price: '750 руб'
 				},
-					{
+				{
 					name: 'Креветки в панировке ( 5 шт )',
 					weight: '200 г',
 					price: '350 руб'
 				},
-					{ name: 'Картофель фри', weight: '100 г', price: '200 руб' },
+				{ name: 'Картофель фри', weight: '100 г', price: '200 руб' },
 				{ name: 'Картофель по-деревенски', weight: '100 г', price: '200 руб' },
-					{ name: 'Сырные шарики', weight: '120 г', price: '350 руб' },
+				{ name: 'Сырные шарики', weight: '120 г', price: '350 руб' },
 				{
 					name: 'Жульен грибной с курицей',
 					weight: '150 г',
@@ -81,7 +81,11 @@ export class AdminService {
 			],
 			Салаты: [
 				//{ name: 'МикСер', weight: '250 г', price: '500 руб' },
-				{ name: 'Лукошко ( курица, грибы )', weight: '250 г', price: '500 руб' },
+				{
+					name: 'Лукошко ( курица, грибы )',
+					weight: '250 г',
+					price: '500 руб'
+				},
 				{ name: 'Салат с сёмгой', weight: '250 г', price: '670 руб' },
 				{ name: 'Язык с орехами', weight: '250 г', price: '550 руб' },
 				{ name: 'Мясная горка', weight: '250 г', price: '640 руб' },
@@ -777,20 +781,19 @@ export class AdminService {
 	}
 
 	async deleteOtherCafeProduct(shopName: string, name: string): Promise<void> {
-	try {
-		await this.prisma.otherCafeProduct.deleteMany({
-			where: { 
-				name, 
-				shopName 
-			}
-		})
-	} catch (error) {
-		throw new HttpException(
-			`Ошибка при удалении товара: ${error.message}`,
-			HttpStatus.INTERNAL_SERVER_ERROR
-		)
-	}
-}
+		try {
+			await this.prisma.otherCafeProduct.deleteMany({
+				where: {
+					name,
+					shopName
+				}
+			})
+		} catch (error) {
+			throw new HttpException(
+				`Ошибка при удалении товара: ${error.message}`,
+				HttpStatus.INTERNAL_SERVER_ERROR
+			)
+		}
 	}
 
 	async getOtherCafeProducts(shopName: string): Promise<OtherCafeProduct[]> {
