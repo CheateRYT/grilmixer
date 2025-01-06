@@ -776,17 +776,21 @@ export class AdminService {
 		}
 	}
 
-	async deleteOtherCafeProduct(name: string): Promise<void> {
-		try {
-			await this.prisma.otherCafeProduct.deleteMany({
-				where: { name }
-			})
-		} catch (error) {
-			throw new HttpException(
-				`Ошибка при удалении товара: ${error.message}`,
-				HttpStatus.INTERNAL_SERVER_ERROR
-			)
-		}
+	async deleteOtherCafeProduct(shopName: string, name: string): Promise<void> {
+	try {
+		await this.prisma.otherCafeProduct.deleteMany({
+			where: { 
+				name, 
+				shopName 
+			}
+		})
+	} catch (error) {
+		throw new HttpException(
+			`Ошибка при удалении товара: ${error.message}`,
+			HttpStatus.INTERNAL_SERVER_ERROR
+		)
+	}
+}
 	}
 
 	async getOtherCafeProducts(shopName: string): Promise<OtherCafeProduct[]> {

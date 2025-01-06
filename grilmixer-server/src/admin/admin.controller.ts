@@ -20,9 +20,9 @@ import { CategoryDto } from './dto/category.dto'
 import { CreatePasswordDto } from './dto/create-password.dto'
 import { EventDto } from './dto/event.dto'
 import { ExtraIngredientDto } from './dto/extraIngredients.dto'
+import { OtherCafeProductDto } from './dto/other-products.dto'
 import { PaymentStatusDto } from './dto/payment-status.dto'
 import { ProductDto } from './dto/product.dto'
-import { OtherCafeProductDto } from './dto/other-products.dto'
 
 @Controller('admin')
 export class AdminController {
@@ -526,14 +526,15 @@ export class AdminController {
 	}
 
 	@HttpCode(200)
-	@Delete('deleteOtherCafeProduct/:name')
+	@Delete('deleteOtherCafeProduct/:shopName/:name')
 	async deleteOtherCafeProduct(
 		@Headers('authorization') authorization: string,
+		@Param('shopName') shopName: string,
 		@Param('name') name: string
 	) {
 		try {
 			await this.isAdmin(authorization)
-			await this.adminService.deleteOtherCafeProduct(name)
+			await this.adminService.deleteOtherCafeProduct(shopName, name)
 			return { message: 'Товар успешно удален' }
 		} catch (error) {
 			throw new HttpException(

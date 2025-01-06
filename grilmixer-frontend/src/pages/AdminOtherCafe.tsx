@@ -15,9 +15,14 @@ const AdminOtherCafe: React.FC = () => {
 		category: '',
 	})
 	const [productNameToDelete, setProductNameToDelete] = useState('')
+	const [deleteMenu, setDeleteMenu] = useState<'banquet' | 'pominki'>('banquet') // Новое состояние для выбора меню при удалении
 
 	const handleMenuChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectedMenu(e.target.value as 'banquet' | 'pominki')
+	}
+
+	const handleDeleteMenuChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setDeleteMenu(e.target.value as 'banquet' | 'pominki') // Обработка изменения меню для удаления
 	}
 
 	const handleInputChange = (
@@ -42,13 +47,11 @@ const AdminOtherCafe: React.FC = () => {
 				...newProductData,
 				shopName: selectedMenu, // Устанавливаем shopName в зависимости от выбранного меню
 			}
-
 			await axios.post(`${backendApiUrl}admin/${endpoint}`, payload, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-
 			setNewProductData({
 				name: '',
 				weight: '',
@@ -64,14 +67,12 @@ const AdminOtherCafe: React.FC = () => {
 	const handleDeleteProduct = async () => {
 		try {
 			const token = Cookies.get('admin-token')
-			const endpoint = 'deleteOtherCafeProduct/' + productNameToDelete // Указываем имя товара для удаления
-
+			const endpoint = `deleteOtherCafeProduct/${deleteMenu}/${productNameToDelete}` // Указываем меню и имя товара для удаления
 			await axios.delete(`${backendApiUrl}admin/${endpoint}`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
 			})
-
 			setProductNameToDelete('')
 			alert('Товар успешно удален!')
 		} catch (error) {
@@ -83,13 +84,13 @@ const AdminOtherCafe: React.FC = () => {
 		<div className='bg-slate-700'>
 			<AdminMain />
 			<div className='container mx-auto p-4'>
-				<h1 className='text-2xl text-black font-bold mb-4'>Создание товара</h1>
+				<h1 className='text-2xl text-blue font-bold mb-4'>Создание товара</h1>
 				<label className='block mb-2 text-black'>
 					Выберите меню:
 					<select
 						value={selectedMenu}
 						onChange={handleMenuChange}
-						className='block w-full border text-black border-gray-300 rounded p-2'
+						className='block w-full border bg-white text-black border-gray-300 rounded p-2'
 					>
 						<option value='banquet'>Банкет</option>
 						<option value='pominki'>Поминки</option>
@@ -102,7 +103,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.name}
 						onChange={handleInputChange}
 						placeholder='Название товара'
-						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
+						className='block w-full border bg-white text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -110,7 +111,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.weight}
 						onChange={handleInputChange}
 						placeholder='Вес'
-						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
+						className='block w-full border bg-white text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -118,7 +119,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.price}
 						onChange={handleInputChange}
 						placeholder='Цена'
-						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
+						className='block w-full border bg-white text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -126,7 +127,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.category}
 						onChange={handleInputChange}
 						placeholder='Категория'
-						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
+						className='block w-full bg-white border text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<button
 						onClick={handleCreateProduct}
@@ -135,13 +136,24 @@ const AdminOtherCafe: React.FC = () => {
 						Создать
 					</button>
 				</div>
-				<h2 className='text-xl font-bold mb-4 text-black'>Удаление товара</h2>
+				<h2 className='text-xl font-bold mb-4 text-blue'>Удаление товара</h2>
+				<label className='block mb-2 text-black'>
+					Выберите меню для удаления:
+					<select
+						value={deleteMenu}
+						onChange={handleDeleteMenuChange}
+						className='block w-full border bg-white text-black border-gray-300 rounded p-2 mb-2'
+					>
+						<option value='banquet'>Банкет</option>
+						<option value='pominki'>Поминки</option>
+					</select>
+				</label>
 				<input
 					type='text'
 					value={productNameToDelete}
 					onChange={handleDeleteInputChange}
 					placeholder='Имя товара для удаления'
-					className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
+					className='block w-full border bg-white text-black border-gray-300 rounded p-2 mb-2'
 				/>
 				<button
 					onClick={handleDeleteProduct}
