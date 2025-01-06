@@ -83,13 +83,13 @@ const AdminOtherCafe: React.FC = () => {
 		<div className='bg-slate-700'>
 			<AdminMain />
 			<div className='container mx-auto p-4'>
-				<h1 className='text-2xl text-white font-bold mb-4'>Создание товара</h1>
-				<label className='block mb-2 text-white'>
+				<h1 className='text-2xl text-black font-bold mb-4'>Создание товара</h1>
+				<label className='block mb-2 text-black'>
 					Выберите меню:
 					<select
 						value={selectedMenu}
 						onChange={handleMenuChange}
-						className='block w-full border text-white border-gray-300 rounded p-2'
+						className='block w-full border text-black border-gray-300 rounded p-2'
 					>
 						<option value='banquet'>Банкет</option>
 						<option value='pominki'>Поминки</option>
@@ -102,7 +102,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.name}
 						onChange={handleInputChange}
 						placeholder='Название товара'
-						className='block w-full border border-gray-300 rounded p-2 mb-2'
+						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -110,7 +110,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.weight}
 						onChange={handleInputChange}
 						placeholder='Вес'
-						className='block w-full border border-gray-300 rounded p-2 mb-2'
+						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -118,7 +118,7 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.price}
 						onChange={handleInputChange}
 						placeholder='Цена'
-						className='block w-full border border-gray-300 rounded p-2 mb-2'
+						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<input
 						type='text'
@@ -126,26 +126,26 @@ const AdminOtherCafe: React.FC = () => {
 						value={newProductData.category}
 						onChange={handleInputChange}
 						placeholder='Категория'
-						className='block w-full border border-gray-300 rounded p-2 mb-2'
+						className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
 					/>
 					<button
 						onClick={handleCreateProduct}
-						className='bg-blue-500 text-white rounded p-2 hover:bg-blue-600'
+						className='bg-blue-500 text-black rounded p-2 hover:bg-blue-600'
 					>
 						Создать
 					</button>
 				</div>
-				<h2 className='text-xl font-bold mb-4 text-white'>Удаление товара</h2>
+				<h2 className='text-xl font-bold mb-4 text-black'>Удаление товара</h2>
 				<input
 					type='text'
 					value={productNameToDelete}
 					onChange={handleDeleteInputChange}
 					placeholder='Имя товара для удаления'
-					className='block w-full border text-white border-gray-300 rounded p-2 mb-2'
+					className='block w-full border text-black border-gray-300 rounded p-2 mb-2'
 				/>
 				<button
 					onClick={handleDeleteProduct}
-					className='bg-red-500 text-white rounded p-2 hover:bg-red-600'
+					className='bg-red-500 text-black rounded p-2 hover:bg-red-600'
 				>
 					Удалить
 				</button>
