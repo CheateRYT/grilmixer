@@ -20,8 +20,8 @@ export class AdminService {
 	) {}
 
 	async onModuleInit() {
-		await this.createInitialProductsForBanquet()
-		await this.createInitialProductsForPominki()
+		// await this.createInitialProductsForBanquet()
+		// await this.createInitialProductsForPominki()
 	}
 
 	private async createInitialProductsForBanquet() {
