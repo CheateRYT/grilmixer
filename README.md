@@ -44,10 +44,6 @@
 
 Этот проект является коммерческим и предназначен для использования в кафе "Гриль-МикСер" и "Фарш". Все права защищены.
 
-## Автор
-
-Проект разработан одним человеком - мной).
-
 ---
 
 # Grill-MixSer - Food Ordering Website
@@ -86,5 +82,3 @@ The website is intended for users who wish to order food from the "Grill-MixSer"
 ## License
 This project is commercial and intended for use in the "Grill-MixSer" and "Farsh" cafes. All rights reserved.
 
-## Author
-The project was developed by one person - me).
